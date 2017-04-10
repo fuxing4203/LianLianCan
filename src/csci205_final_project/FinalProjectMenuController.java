@@ -17,6 +17,7 @@ package csci205_final_project;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -76,7 +77,7 @@ public class FinalProjectMenuController implements Initializable {
 
     @FXML
     void Exit() {
-
+        Platform.exit();
     }
 
 }
