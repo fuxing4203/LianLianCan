@@ -13,7 +13,7 @@
 *
 * ****************************************
  */
-package csci205_final_project;
+package csci205_final_project.Menu;
 
 import java.net.URL;
 import java.util.ResourceBundle;
