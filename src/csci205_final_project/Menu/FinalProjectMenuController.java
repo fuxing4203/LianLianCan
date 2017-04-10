@@ -15,12 +15,17 @@
  */
 package csci205_final_project.Menu;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -51,8 +56,16 @@ public class FinalProjectMenuController implements Initializable {
     }
 
     @FXML
-    void startNewGame() {
+    void startNewGame() throws IOException {
+        Stage stage;
+        Parent root;
+        stage = (Stage) btnStart.getScene().getWindow();
+        root = FXMLLoader.load(getClass().getResource(
+                "../Game/finalProjectGameScene.fxml"));
 
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
@@ -66,8 +79,16 @@ public class FinalProjectMenuController implements Initializable {
     }
 
     @FXML
-    void openOptions() {
+    void openOptions() throws IOException {
+        Stage stage;
+        Parent root;
+        stage = (Stage) btnStart.getScene().getWindow();
+        root = FXMLLoader.load(getClass().getResource(
+                "../Option/option.fxml"));
 
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
