@@ -32,8 +32,6 @@ import javafx.scene.control.TitledPane;
 public class OptionController implements Initializable {
 
     @FXML
-    private TitledPane optionPane;
-    @FXML
     private Slider volumeSlider;
     @FXML
     private ComboBox<?> dropdownComboBox;
