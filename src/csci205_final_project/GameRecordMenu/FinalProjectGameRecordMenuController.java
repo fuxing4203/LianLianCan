@@ -13,7 +13,7 @@
 *
 * ****************************************
  */
-package GameRecordMenu;
+package csci205_final_project.GameRecordMenu;
 
 import java.net.URL;
 import java.util.ResourceBundle;
