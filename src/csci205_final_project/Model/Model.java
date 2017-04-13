@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class Model implements Serializable {
 
     private Level level;
-    private final int turn = 2;
+    private final int turn = 3;
     protected static ArrayList<ArrayList<Tile>> data;
     private int totalSize;
     private int shuffleChance = 2;
@@ -76,18 +76,19 @@ public class Model implements Serializable {
             return false;
         }
         else {
-            InLine row = new InLine(ax, ay);
-            InLine col = new InLine(ax, ay);
-            if (row.checkRow(ax, ay, bx, by)) {
+            InLine up = new InLine(ax, ay);
+            InLine down = new InLine(ax, ay);
+            InLine left = new InLine(ax, ay);
+            InLine right = new InLine(ax, ay);
+            if (up.checkUp(ax, ay, bx, by) || down.checkDown(ax, ay, bx, by) || left.checkLeft(
+                    ax, ay, bx, by) || right.checkRight(ax, ay, bx, by)) {
                 return true;
             }
-            if (col.checkCol(ax, ay, bx, by)) {
-                return true;
-            }
-            System.out.println("row: " + row.getX() + " " + row.getY());
-            System.out.println("col: " + col.getX() + " " + col.getY());
-            return checkPath(row.getX(), row.getY(), bx, by, numTurn + 1) || checkPath(
-                    col.getX(), col.getY(), bx, by, numTurn + 1);
+
+            return checkPath(up.getX(), up.getY(), bx, by, numTurn + 1) || checkPath(
+                    down.getX(), down.getY(), bx, by, numTurn + 1) || checkPath(
+                    left.getX(), left.getY(), bx, by, numTurn + 1) || checkPath(
+                    right.getX(), right.getY(), bx, by, numTurn + 1);
         }
     }
 }

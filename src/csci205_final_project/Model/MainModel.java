@@ -28,7 +28,7 @@ public class MainModel {
      */
     public static void main(String[] args) {
         Model md = new Model(EASY);
-        md.data.get(1).get(2).setImgName("b");
+        md.data.get(3).get(2).setImgName("b");
         md.data.get(4).get(4).setImgName("b");
         for (int i = 2; i < 4; i++) {
             md.data.get(i).set(4, null);
@@ -43,8 +43,9 @@ public class MainModel {
         }*/
         md.data.get(1).set(3, null);
         md.data.get(1).set(4, null);
-        //md.data.get(1).set(2, null);
-        boolean result = md.cancelTile(md.data.get(1).get(2),
+        md.data.get(1).set(2, null);
+        md.data.get(2).set(2, null);
+        boolean result = md.cancelTile(md.data.get(3).get(2),
                                        md.data.get(4).get(4));
         System.out.println(result);
     }
