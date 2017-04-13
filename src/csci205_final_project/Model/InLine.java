@@ -21,68 +21,130 @@ package csci205_final_project.Model;
  */
 public class InLine {
 
-    private int ax;
-    private int ay;
-    private int bx;
-    private int by;
+    private int x;
+    private int y;
     private boolean inLine = false;
-
-    InLine(int ax, int ay, int bx, int by) {
-        this.ax = ax;
-        this.ay = ay;
-        this.bx = bx;
-        this.by = by;
-    }
 
     public boolean isInLine() {
         return inLine;
     }
 
-    public void checkLine() {
-        boolean x = ax == bx;
-        boolean y = ay == by;
-        if (x || y) {
+    public int getX() {
+        return x;
+    }
 
-            if (x) {
-                if (ay > by) {
-                    ay -= 1;
-                    while (Model.data.get(ay).getRow().get(ax).isIsCancelled() && (ay >= 0)) {
-                        ay -= 1;
-                        if (by == ay) {
-                            this.inLine = true;
-                        }
+    public int getY() {
+        return y;
+    }
+
+    InLine(int ax, int ay) {
+        this.x = ax;
+        this.y = ay;
+    }
+
+    public boolean checkRow(int ax, int ay, int bx, int by) {
+        if (ay == by) {
+            if (ax < bx) {
+                for (int i = ax + 1; i < bx; i++) {
+//                    System.out.println("For loop" + i);
+//                    System.out.println(ax + " " + bx);
+//                    System.out.println(Model.data.get(ay).get(i) == null);
+                    if (Model.data.get(ay).get(i) != null) {
+                        this.x = i;
+                        this.y = ay;
+                        System.out.println("Out of the loop");
+                        return false;
                     }
                 }
-                else {
-                    by -= 1;
-                    while (Model.data.get(by).getRow().get(bx).isIsCancelled() && (by >= 0)) {
-                        by -= 1;
-                        if (by == ay) {
-                            this.inLine = true;
-                        }
-                    }
-                }
+                return true;
             }
             else {
-                if (ax > bx) {
-                    ax -= 1;
-                    while (Model.data.get(ay).getRow().get(ax).isIsCancelled() && (ax >= 0)) {
-                        ax -= 1;
-                        if (ax == bx) {
-                            this.inLine = true;
-                        }
+                for (int i = ax + 1; i < bx; i--) {
+                    if (Model.data.get(ay).get(i) != null) {
+                        this.x = i;
+                        this.y = ay;
+                        return false;
                     }
                 }
-                else {
-                    bx -= 1;
-                    while (Model.data.get(by).getRow().get(bx).isIsCancelled() && (bx >= 0)) {
-                        bx -= 1;
-                        if (bx == ax) {
-                            this.inLine = true;
-                        }
-                    }
-                }
+                return true;
             }
         }
+        else if (ax < bx) {
+            System.out.println("ax < bx");
+            if (Model.data.get(ay).get(ax + 1) == null) {
+                System.out.println("ax < bx: " + ax);
+                ax += 1;
+                while ((Model.data.get(ay).get(ax) == null) && (ax < Model.data.get(
+                                                                0).size())) {
+                    ax += 1;
+                }
+            }
+            this.x = ax;
+            return false;
+        }
+        /*
+        else if (ax == bx) {
+            return checkCol(ax, ay, bx, by);
+        }*/
+        else {
+            if (Model.data.get(ay).get(ax - 1) == null) {
+                ax -= 1;
+                while ((Model.data.get(ay).get(ax) == null) && (ax < Model.data.get(
+                                                                0).size())) {
+                    ax -= 1;
+                }
+            }
+            this.x = ax;
+            return false;
+        }
     }
+
+    public boolean checkCol(int ax, int ay, int bx, int by) {
+        if (ax == bx) {
+            if (ay < by) {
+                for (int i = ay + 1; i < by; i++) {
+                    if (Model.data.get(i).get(ax) != null) {
+                        this.x = ax;
+                        this.y = i;
+                        return false;
+                    }
+                }
+                return true;
+            }
+            else {
+                for (int i = ay + 1; i < by; i--) {
+                    if (Model.data.get(i).get(ax) != null) {
+                        this.x = ax;
+                        this.y = i;
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
+        else if (ay > by) {
+            if (Model.data.get(ay - 1).get(ax) == null) {
+                ay -= 1;
+                while ((Model.data.get(ay).get(ax) == null) && (ay < Model.data.size())) {
+                    ay -= 1;
+                }
+            }
+            this.y = ay;
+            return false;
+        }
+        else {
+            if (Model.data.get(ay + 1).get(ax) == null) {
+                ay += 1;
+                while ((Model.data.get(ay).get(ax) == null) && (ay < Model.data.size())) {
+                    ay += 1;
+                }
+            }
+            this.y = ay;
+            return false;
+        }
+
+        //return false;
+    }
+
 }
