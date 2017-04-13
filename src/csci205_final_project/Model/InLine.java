@@ -54,7 +54,7 @@ public class InLine {
             }
             return true;
         }
-        else {
+        else if (ay < Model.data.size() - 1) {
             while ((Model.data.get(ay + 1).get(ax) == null) && (ay < Model.data.size())) {
                 ay += 1;
             }
@@ -62,6 +62,7 @@ public class InLine {
             this.y = ay;
             return false;
         }
+        return false;
     }
 
     public boolean checkDown(int ax, int ay, int bx, int by) {
@@ -76,13 +77,14 @@ public class InLine {
             }
             return true;
         }
-        else {
+        else if (ay > 0) {
             while ((Model.data.get(ay - 1).get(ax) == null) && (ay < Model.data.size())) {
                 ay -= 1;
             }
             this.y = ay;
             return false;
         }
+        return false;
     }
 
     public boolean checkRight(int ax, int ay, int bx, int by) {
@@ -101,7 +103,7 @@ public class InLine {
             }
             return true;
         }
-        else {
+        else if (ax < Model.data.get(0).size() - 1) {
 //                System.out.println("Should go here");
             while ((Model.data.get(ay).get(ax + 1) == null) && (ax < Model.data.get(
                                                                 0).size())) {
@@ -110,6 +112,7 @@ public class InLine {
             this.x = ax;
             return false;
         }
+        return false;
     }
 
     public boolean checkLeft(int ax, int ay, int bx, int by) {
@@ -123,7 +126,7 @@ public class InLine {
             }
             return true;
         }
-        else {
+        else if (ax > 0) {
             while ((Model.data.get(ay).get(ax - 1) == null) && (ax < Model.data.get(
                                                                 0).size())) {
                 ax -= 1;
@@ -131,6 +134,6 @@ public class InLine {
             this.x = ax;
             return false;
         }
-
+        return false;
     }
 }
