@@ -15,14 +15,19 @@
  */
 package csci205_final_project.Game;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -51,7 +56,16 @@ public class FinalProjectGameSceneController implements Initializable {
     }
 
     @FXML
-    private void btnPause(ActionEvent event) {
+    private void btnPause(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "../PauseMenu/finalProjectPauseMenu.fxml"));
+        VBox pause = (VBox) loader.load();
+        Scene scene = new Scene(pause);
+        Stage stage;
+        stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+
     }
 
     @FXML

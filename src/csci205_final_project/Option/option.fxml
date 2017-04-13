@@ -24,7 +24,7 @@
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Themes" />
       <ComboBox fx:id="dropdownComboBox" prefWidth="150.0" />
       <Region VBox.vgrow="ALWAYS" />
-      <Button fx:id="returnBtn" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" text="Return" />
+      <Button fx:id="returnBtn" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#resume" text="Return" />
       <Region VBox.vgrow="ALWAYS" />
    </children>
    <padding>

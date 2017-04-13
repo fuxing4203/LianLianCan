@@ -15,14 +15,19 @@
  */
 package csci205_final_project.Option;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TitledPane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -44,6 +49,20 @@ public class OptionController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+    }
+
+    @FXML
+    private void resume(ActionEvent event) throws IOException {
+
+        Stage stage;
+        Parent root;
+        stage = (Stage) returnBtn.getScene().getWindow();
+        root = FXMLLoader.load(getClass().getResource(
+                "../Menu/finalProjectMenu.fxml"));
+
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
 }

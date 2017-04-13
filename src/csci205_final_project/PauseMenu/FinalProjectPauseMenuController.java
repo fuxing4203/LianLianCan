@@ -17,10 +17,12 @@ package csci205_final_project.PauseMenu;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -44,6 +46,20 @@ public class FinalProjectPauseMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+    }
+
+    @FXML
+    private void resumeGame(ActionEvent event) {
+        Stage stage = (Stage) this.resumeBtn.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void saveGame(ActionEvent event) {
+    }
+
+    @FXML
+    private void loadGame(ActionEvent event) {
     }
 
 }
