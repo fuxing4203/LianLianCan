@@ -17,7 +17,6 @@ package csci205_final_project.Model;
 
 import java.util.Objects;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
@@ -29,14 +28,30 @@ public class Tile extends Rectangle {
 
     private Image img;
     private ImagePattern imgPtn;
-    private boolean isCancelled = false;
+    private int x;
+    private int y;
+    private String imgName;
 
-    Tile(Image img) {
+    Tile(int x, int y, Image img) {
+        this.x = x;
+        this.y = y;
         this.img = img;
         this.imgPtn = new ImagePattern(this.img);
     }
 
-    Tile() {
+    Tile(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    Tile(int x, int y, String imgName) {
+        this.x = x;
+        this.y = y;
+        this.imgName = imgName;
+    }
+
+    public void setImgName(String imgName) {
+        this.imgName = imgName;
     }
 
     public void setImg(Image img) {
@@ -53,15 +68,7 @@ public class Tile extends Rectangle {
         this.setFill(this.imgPtn);
     }
 
-    public void cancel() {
-        this.isCancelled = true;
-        this.setFill(Color.BLACK);
-    }
-
-    public boolean isIsCancelled() {
-        return isCancelled;
-    }
-
+    /*
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -76,12 +83,43 @@ public class Tile extends Rectangle {
         }
         return false;
     }
+     */
+    @Override
+    public boolean equals(Object obj) {
+        //System.out.println("Equals in Tile");
+        if (obj == null) {
+            //System.out.println("NULL!");
+            return false;
+        }
+        if (obj.getClass() != Tile.class) {
+            //System.out.println("Class Not Equal");
+            return false;
+        }
+        final Tile other = (Tile) obj;
+        if (other.getImgName().equals(this.imgName)) {
+            return true;
+        }
+        //System.out.println("Name not equal!");
+        return false;
+    }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 67 * hash + Objects.hashCode(this.img);
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.imgName);
         return hash;
+    }
+
+    public int getPosX() {
+        return x;
+    }
+
+    public int getPosY() {
+        return y;
+    }
+
+    public String getImgName() {
+        return imgName;
     }
 
 }

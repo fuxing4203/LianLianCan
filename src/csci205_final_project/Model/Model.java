@@ -17,7 +17,6 @@ package csci205_final_project.Model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  *
@@ -26,8 +25,8 @@ import java.util.Collections;
 public class Model implements Serializable {
 
     private Level level;
-    private final int turn = 2;
-    protected static ArrayList<Row> data;
+    private final int turn = 3;
+    protected static ArrayList<ArrayList<Tile>> data;
     private int totalSize;
     private int shuffleChance = 2;
 
@@ -36,39 +35,30 @@ public class Model implements Serializable {
         this.totalSize = this.level.getHeight() * this.level.getWidth();
         data = new ArrayList();
         for (int i = 0; i < this.level.getHeight(); i++) {
-            data.add(new Row(i, this.level.getWidth()));
-        }
-    }
-
-    public boolean shuffle() {
-        if (this.totalSize > 0 && this.shuffleChance > 0) {
-            for (int i = 0; i < data.size(); i++) {
-                shuffleRow(data.get(i));
+            ArrayList<Tile> row = new ArrayList();
+            for (int j = 0; j < this.level.getWidth(); j++) {
+                row.add(new Tile(j, i, "a"));
             }
-            Collections.shuffle(data);
-            this.shuffleChance -= 1;
-            return true;
+            data.add(row);
         }
-        return false;
     }
 
-    public void shuffleRow(Row row) {
-        Collections.shuffle(row.getRow());
-    }
-
-    public boolean cancelTile(int ax, int ay, int bx, int by) {
-        if (data.get(ay).getRow().get(ax) != data.get(by).getRow().get(
-                bx)) {
+    public boolean cancelTile(Tile a, Tile b) {
+        if (!a.equals(b)) {
+            //System.out.println("Not Equal!");
             return false;
         }
-        else if (data.get(ay).getRow().get(ax).isIsCancelled() || data.get(
-                by).getRow().get(bx).isIsCancelled()) {
+        else if ((data.get(a.getPosY()).get(a.getPosX()) == null) || (data.get(
+                                                                      b.getPosY()).get(
+                                                                      b.getPosX()) == null)) {
             return false;
         }
         else {
-            if (checkPath(ax, ay, bx, by)) {
-                data.get(ay).getRow().get(ax).cancel();
-                data.get(by).getRow().get(bx).cancel();
+            int numTurn = 0;
+            if (checkPath(a.getPosX(), a.getPosY(), b.getPosX(), b.getPosY(),
+                          numTurn)) {
+                data.get(a.getPosY()).set(a.getPosX(), null);
+                data.get(b.getPosY()).set(b.getPosX(), null);
                 this.totalSize -= 2;
                 return true;
             }
@@ -76,21 +66,29 @@ public class Model implements Serializable {
         }
     }
 
-    public boolean checkPath(int ax, int ay, int bx, int by) {
-        int numTurn = 0;
-        boolean result = false;
-        InLine inLine = new InLine(ax, ay, bx, by);
+    public boolean checkPath(int ax, int ay, int bx, int by, int numTurn) {
+        System.out.println(ax + " " + ay + " " + bx + " " + by);
         if ((ax == bx) && (ay == by)) {
             return false;
         }
+        else if (numTurn > this.turn) {
+            System.out.println("Exceeds max turn");
+            return false;
+        }
         else {
-            while ((numTurn <= this.turn) && (!result)) {
-                inLine.checkLine();
-                result = result || inLine.isInLine();
-                numTurn += 1;
+            InLine up = new InLine(ax, ay);
+            InLine down = new InLine(ax, ay);
+            InLine left = new InLine(ax, ay);
+            InLine right = new InLine(ax, ay);
+            if (up.checkUp(ax, ay, bx, by) || down.checkDown(ax, ay, bx, by) || left.checkLeft(
+                    ax, ay, bx, by) || right.checkRight(ax, ay, bx, by)) {
+                return true;
             }
-            return result;
+
+            return checkPath(up.getX(), up.getY(), bx, by, numTurn + 1) || checkPath(
+                    down.getX(), down.getY(), bx, by, numTurn + 1) || checkPath(
+                    left.getX(), left.getY(), bx, by, numTurn + 1) || checkPath(
+                    right.getX(), right.getY(), bx, by, numTurn + 1);
         }
     }
-
 }
