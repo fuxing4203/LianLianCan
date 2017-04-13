@@ -20,8 +20,18 @@ package csci205_final_project.Model;
  * @author Iris
  */
 public enum Level {
+
+    /**
+     * Easy level for the game which is a 6 by 6 square board
+     */
     EASY(6, 6),
+    /**
+     * Medium level for the game which is a 8 by 8 square board
+     */
     MEDIUM(8, 8),
+    /**
+     * Hard level for the game which is a 10 by 10 square board
+     */
     HARD(10, 10);
 
     Level(int height, int width) {
@@ -31,11 +41,21 @@ public enum Level {
     private int height;
     private int width;
 
+    /**
+     * Get the width of the board
+     *
+     * @return this.width
+     */
     public int getWidth() {
-        return this.height;
+        return this.width;
     }
 
+    /**
+     * Get the height of the board
+     *
+     * @return this.height
+     */
     public int getHeight() {
-        return this.width;
+        return this.height;
     }
 }

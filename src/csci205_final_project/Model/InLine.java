@@ -23,16 +23,21 @@ public class InLine {
 
     private int x;
     private int y;
-    private boolean inLine = false;
 
-    public boolean isInLine() {
-        return inLine;
-    }
-
+    /**
+     * Updated position of ax
+     *
+     * @return x
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Updated position of ay
+     *
+     * @return y
+     */
     public int getY() {
         return y;
     }
@@ -42,6 +47,16 @@ public class InLine {
         this.y = ay;
     }
 
+    /**
+     * Go as far up as possible, return true if two tiles are in the same column
+     * and a is under b
+     *
+     * @param ax - posX for a
+     * @param ay - posY for a
+     * @param bx - posX for b
+     * @param by - posY for b
+     * @return boolean
+     */
     public boolean checkUp(int ax, int ay, int bx, int by) {
 
         if (ax == bx && ay < by) {
@@ -65,6 +80,16 @@ public class InLine {
         return false;
     }
 
+    /**
+     * Go as far down as possible, return true if two tiles are in the same
+     * column and a is above b
+     *
+     * @param ax - posX for a
+     * @param ay - posY for a
+     * @param bx - posX for b
+     * @param by - posY for b
+     * @return boolean
+     */
     public boolean checkDown(int ax, int ay, int bx, int by) {
 
         if (ax == bx && ay > by) {
@@ -87,6 +112,16 @@ public class InLine {
         return false;
     }
 
+    /**
+     * Go as far right as possible, return true if two tiles are in the same
+     * row, a is at the left of b
+     *
+     * @param ax - posX of a
+     * @param ay - posY of a
+     * @param bx - posX of b
+     * @param by - posY of b
+     * @return boolean
+     */
     public boolean checkRight(int ax, int ay, int bx, int by) {
 
         if (ay == by && ax < bx) {
@@ -115,6 +150,16 @@ public class InLine {
         return false;
     }
 
+    /**
+     * Go as far left as possible, return true if two tiles are in the same row
+     * and a is to the right of b
+     *
+     * @param ax - posX of a
+     * @param ay - posY of a
+     * @param bx - posX of b
+     * @param by - posY of b
+     * @return boolean
+     */
     public boolean checkLeft(int ax, int ay, int bx, int by) {
         if (ay == by && ax > bx) {
             for (int i = ax + 1; i < bx; i--) {

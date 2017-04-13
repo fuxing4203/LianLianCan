@@ -27,10 +27,10 @@ import javafx.scene.shape.Rectangle;
 public class Tile extends Rectangle {
 
     private Image img;
-    private ImagePattern imgPtn;
-    private int x;
-    private int y;
-    private String imgName;
+    private ImagePattern imgPtn;  //imgPtn for fill
+    private int x; // Relative pos x of the tile
+    private int y; // Relative pos y of the tile
+    private String imgName; // String representation of the content of the tile
 
     Tile(int x, int y, Image img) {
         this.x = x;
@@ -50,57 +50,70 @@ public class Tile extends Rectangle {
         this.imgName = imgName;
     }
 
+    /**
+     * Set the path of image
+     *
+     * @param imgName
+     */
     public void setImgName(String imgName) {
         this.imgName = imgName;
     }
 
+    /**
+     * Set the image
+     *
+     * @param img
+     */
     public void setImg(Image img) {
         this.img = img;
         updateImg();
     }
 
-    public Image getImg() {
-        return img;
-    }
-
+    /**
+     * Update the image
+     */
     public void updateImg() {
         this.imgPtn = new ImagePattern(this.img);
         this.setFill(this.imgPtn);
     }
 
-    /*
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (obj.getClass() != Tile.class) {
-            return false;
-        }
-        final Tile other = (Tile) obj;
-        if (other.getImg() == this.img) {
-            return true;
-        }
-        return false;
-    }
+    /**
+     * Compare if two tiles are equal based on imgName
+     *
+     * @param obj
+     * @return boolean
      */
     @Override
     public boolean equals(Object obj) {
-        //System.out.println("Equals in Tile");
         if (obj == null) {
-            //System.out.println("NULL!");
             return false;
         }
         if (obj.getClass() != Tile.class) {
-            //System.out.println("Class Not Equal");
             return false;
         }
         final Tile other = (Tile) obj;
         if (other.getImgName().equals(this.imgName)) {
             return true;
         }
-        //System.out.println("Name not equal!");
         return false;
+    }
+
+    /**
+     * Set the new posX for the tile
+     *
+     * @param x
+     */
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    /**
+     * Set the new posY for the tile
+     *
+     * @param y
+     */
+    public void setY(int y) {
+        this.y = y;
     }
 
     @Override
@@ -110,14 +123,29 @@ public class Tile extends Rectangle {
         return hash;
     }
 
+    /**
+     * Getter for PosX
+     *
+     * @return x
+     */
     public int getPosX() {
         return x;
     }
 
+    /**
+     * Getter for posY
+     *
+     * @return y
+     */
     public int getPosY() {
         return y;
     }
 
+    /**
+     * Getter for imgName
+     *
+     * @return imgName - String
+     */
     public String getImgName() {
         return imgName;
     }
