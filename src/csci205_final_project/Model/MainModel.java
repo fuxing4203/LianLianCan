@@ -28,11 +28,11 @@ public class MainModel {
      */
     public static void main(String[] args) {
         Model md = new Model(EASY);
-        md.data.get(4).get(0).setImgName("b");
-        md.data.get(4).get(4).setImgName("b");
-        for (int i = 1; i < 4; i++) {
-            md.data.get(i).set(4, null);
-        }
+        md.data.get(1).get(5).setImgName("b");
+        md.data.get(3).get(5).setImgName("b");
+//        for (int i = 1; i < 4; i++) {
+//            md.data.get(i).set(4, null);
+//        }
         /*
         for (int i = 0; i < md.data.size(); i++) {
             String s = "";
@@ -45,8 +45,8 @@ public class MainModel {
 //        md.data.get(1).set(4, null);
 //        md.data.get(1).set(2, null);
 //        md.data.get(2).set(2, null);
-        boolean result = md.cancelTile(md.data.get(4).get(0),
-                                       md.data.get(4).get(4));
+        boolean result = md.cancelTile(md.data.get(1).get(5),
+                                       md.data.get(3).get(5));
         System.out.println(result);
     }
 

@@ -55,8 +55,35 @@ public class Model implements Serializable {
         }
         else {
             int numTurn = 0;
-            if (checkPath(a.getPosX(), a.getPosY(), b.getPosX(), b.getPosY(),
-                          numTurn)) {
+            if (a.getPosX() == 0 && b.getPosX() == 0) {
+                data.get(a.getPosY()).set(a.getPosX(), null);
+                data.get(b.getPosY()).set(b.getPosX(), null);
+                this.totalSize -= 2;
+                return true;
+            }
+            else if (a.getPosX() == Model.data.size() && b.getPosX() == Model.data.size()) {
+                data.get(a.getPosY()).set(a.getPosX(), null);
+                data.get(b.getPosY()).set(b.getPosX(), null);
+                this.totalSize -= 2;
+                return true;
+            }
+            else if (a.getPosY() == 0 && b.getPosY() == 0) {
+                data.get(a.getPosY()).set(a.getPosX(), null);
+                data.get(b.getPosY()).set(b.getPosX(), null);
+                this.totalSize -= 2;
+                return true;
+            }
+            else if (a.getPosY() == Model.data.get(0).size() && b.getPosY() == Model.data.get(
+                    0).size()) {
+                data.get(a.getPosY()).set(a.getPosX(), null);
+                data.get(b.getPosY()).set(b.getPosX(), null);
+                this.totalSize -= 2;
+                return true;
+            }
+
+            else if (checkPath(a.getPosX(), a.getPosY(), b.getPosX(),
+                               b.getPosY(),
+                               numTurn)) {
                 data.get(a.getPosY()).set(a.getPosX(), null);
                 data.get(b.getPosY()).set(b.getPosX(), null);
                 this.totalSize -= 2;
@@ -67,12 +94,12 @@ public class Model implements Serializable {
     }
 
     public boolean checkPath(int ax, int ay, int bx, int by, int numTurn) {
-        System.out.println(ax + " " + ay + " " + bx + " " + by);
+//        System.out.println(ax + " " + ay + " " + bx + " " + by);
         if ((ax == bx) && (ay == by)) {
             return false;
         }
         else if (numTurn > this.turn) {
-            System.out.println("Exceeds max turn");
+//            System.out.println("Exceeds max turn");
             return false;
         }
         else {
