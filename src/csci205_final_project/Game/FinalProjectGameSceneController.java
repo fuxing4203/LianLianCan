@@ -26,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -46,13 +47,14 @@ public class FinalProjectGameSceneController implements Initializable {
     private Label labelScore;
     @FXML
     private Label labelLevel;
+    @FXML
+    private Pane tilePane;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }
 
     @FXML
@@ -70,6 +72,7 @@ public class FinalProjectGameSceneController implements Initializable {
 
     @FXML
     private void btnShuffle(ActionEvent event) {
+        // theModel = new Model();
     }
 
     @FXML
