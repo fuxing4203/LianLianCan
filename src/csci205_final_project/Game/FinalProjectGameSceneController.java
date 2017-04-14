@@ -15,6 +15,7 @@
  */
 package csci205_final_project.Game;
 
+import csci205_final_project.Model.Model;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -46,6 +47,8 @@ public class FinalProjectGameSceneController implements Initializable {
     private Label labelScore;
     @FXML
     private Label labelLevel;
+
+    private Model theModel;
 
     /**
      * Initializes the controller class.
