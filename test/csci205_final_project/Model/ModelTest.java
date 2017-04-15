@@ -63,9 +63,12 @@ public class ModelTest {
                                md.data.get(3).get(5));
         assertTrue(result);
 
-        md.data.get(2).set(5, new Tile(2, 5, "a"));
+        md.data.get(2).set(5, new Tile(5, 2, "a"));
         md.data.get(4).get(5).setImgName("a");
-        md.data.get(3).set(5, new Tile(3, 5, "b"));
+        md.data.get(3).set(5, new Tile(5, 3, "b"));
+        md.data.get(2).get(5).setImgName("b");
+        md.data.get(3).get(5).setImgName("b");
+        md.data.get(4).get(5).setImgName("b");
         result = md.cancelTile(md.data.get(2).get(5),
                                md.data.get(4).get(5));
         assertFalse(result);
@@ -75,9 +78,9 @@ public class ModelTest {
                                md.data.get(4).get(5));
         assertTrue(result);
 
-        md.data.get(3).set(5, new Tile(3, 5, "b"));
-        md.data.get(2).set(5, new Tile(2, 5, "a"));
-        md.data.get(4).set(5, new Tile(4, 5, "a"));
+        md.data.get(3).set(5, new Tile(5, 3, "b"));
+        md.data.get(2).set(5, new Tile(5, 2, "a"));
+        md.data.get(4).set(5, new Tile(5, 4, "a"));
         md.data.get(2).set(6, null);
         md.data.get(3).set(6, null);
         md.data.get(4).set(6, null);
@@ -85,15 +88,15 @@ public class ModelTest {
                                md.data.get(4).get(5));
         assertTrue(result);
 
-        md.data.get(2).set(5, new Tile(2, 5, "a"));
-        md.data.get(4).set(5, new Tile(4, 5, "a"));
+        md.data.get(2).set(5, new Tile(5, 2, "a"));
+        md.data.get(4).set(5, new Tile(5, 4, "a"));
         md.data.get(4).get(7).setImgName("a");
         result = md.cancelTile(md.data.get(2).get(5),
                                md.data.get(4).get(7));
         assertTrue(result);
 
-        md.data.get(2).set(5, new Tile(2, 5, "a"));
-        md.data.get(4).set(5, new Tile(4, 7, "a"));
+        md.data.get(2).set(5, new Tile(5, 2, "a"));
+        md.data.get(4).set(5, new Tile(7, 4, "a"));
         md.data.get(5).get(6).setImgName("a");
         result = md.cancelTile(md.data.get(2).get(5),
                                md.data.get(5).get(6));
