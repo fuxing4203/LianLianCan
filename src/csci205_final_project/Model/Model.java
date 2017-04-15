@@ -104,7 +104,7 @@ public class Model implements Serializable {
 //        System.out.println(ax + " " + ay + " " + bx + " " + by);
         if ((ax == bx) && (ay == by)) {
             // If two tiles are at the same position, return false
-            return false;
+            return true;
         }
         else if (numTurn > this.turn) {
 //            System.out.println("Exceeds max turn");

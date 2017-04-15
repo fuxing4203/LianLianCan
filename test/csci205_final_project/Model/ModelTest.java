@@ -44,25 +44,22 @@ public class ModelTest {
      */
     @Test
     public void testCancelTile() {
-        System.out.println("cancelTile");
         Model md = new Model(EASY);
+
+        System.out.println("cancelTileDiffName");
         md.data.get(2).get(5).setImgName("a");
         md.data.get(3).get(5).setImgName("b");
-//        md.data.get(2).set(3, null);
-//        md.data.get(3).set(3, null);
-//        md.data.get(4).set(3, null);
-//        md.data.get(4).set(4, null);
-//        md.data.get(4).set(5, null);
-//        md.data.get(4).set(6, null);
         boolean result = md.cancelTile(md.data.get(2).get(5),
                                        md.data.get(3).get(5));
         assertFalse(result);
 
+        System.out.println("cancelTileNextToEachOther");
         md.data.get(3).get(5).setImgName("a");
         result = md.cancelTile(md.data.get(2).get(5),
                                md.data.get(3).get(5));
         assertTrue(result);
 
+        System.out.println("cancelTileOneApart");
         md.data.get(2).set(5, new Tile(5, 2, "a"));
         md.data.get(4).get(5).setImgName("a");
         md.data.get(3).set(5, new Tile(5, 3, "b"));
@@ -72,12 +69,12 @@ public class ModelTest {
         result = md.cancelTile(md.data.get(2).get(5),
                                md.data.get(4).get(5));
         assertFalse(result);
-
         md.data.get(3).set(5, null);
         result = md.cancelTile(md.data.get(2).get(5),
                                md.data.get(4).get(5));
         assertTrue(result);
 
+        System.out.println("cancelTileTwoTurns");
         md.data.get(3).set(5, new Tile(5, 3, "b"));
         md.data.get(2).set(5, new Tile(5, 2, "a"));
         md.data.get(4).set(5, new Tile(5, 4, "a"));
@@ -88,6 +85,7 @@ public class ModelTest {
                                md.data.get(4).get(5));
         assertTrue(result);
 
+        System.out.println("cancelTileOneApart");
         md.data.get(2).set(5, new Tile(5, 2, "a"));
         md.data.get(4).set(5, new Tile(5, 4, "a"));
         md.data.get(4).get(7).setImgName("a");
