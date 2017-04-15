@@ -15,7 +15,10 @@
  */
 package csci205_final_project.Model;
 
+import static csci205_final_project.Model.Level.EASY;
 import org.junit.After;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,47 +45,59 @@ public class ModelTest {
     @Test
     public void testCancelTile() {
         System.out.println("cancelTile");
-        Tile a = null;
-        Tile b = null;
-        Model instance = null;
-        boolean expResult = false;
-        boolean result = instance.cancelTile(a, b);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        Model md = new Model(EASY);
+        md.data.get(2).get(5).setImgName("a");
+        md.data.get(3).get(5).setImgName("b");
+//        md.data.get(2).set(3, null);
+//        md.data.get(3).set(3, null);
+//        md.data.get(4).set(3, null);
+//        md.data.get(4).set(4, null);
+//        md.data.get(4).set(5, null);
+//        md.data.get(4).set(6, null);
+        boolean result = md.cancelTile(md.data.get(2).get(5),
+                                       md.data.get(3).get(5));
+        assertFalse(result);
 
-    /**
-     * Test of checkPath method, of class Model.
-     */
-    @Test
-    public void testCheckPath() {
-        System.out.println("checkPath");
-        int ax = 0;
-        int ay = 0;
-        int bx = 0;
-        int by = 0;
-        int numTurn = 0;
-        Model instance = null;
-        boolean expResult = false;
-        boolean result = instance.checkPath(ax, ay, bx, by, numTurn);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        md.data.get(3).get(5).setImgName("a");
+        result = md.cancelTile(md.data.get(2).get(5),
+                               md.data.get(3).get(5));
+        assertTrue(result);
 
-    /**
-     * Test of shuffle method, of class Model.
-     */
-    @Test
-    public void testShuffle() {
-        System.out.println("shuffle");
-        Model instance = null;
-        boolean expResult = false;
-        boolean result = instance.shuffle();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        md.data.get(2).set(5, new Tile(2, 5, "a"));
+        md.data.get(4).get(5).setImgName("a");
+        md.data.get(3).set(5, new Tile(3, 5, "b"));
+        result = md.cancelTile(md.data.get(2).get(5),
+                               md.data.get(4).get(5));
+        assertFalse(result);
+
+        md.data.get(3).set(5, null);
+        result = md.cancelTile(md.data.get(2).get(5),
+                               md.data.get(4).get(5));
+        assertTrue(result);
+
+        md.data.get(3).set(5, new Tile(3, 5, "b"));
+        md.data.get(2).set(5, new Tile(2, 5, "a"));
+        md.data.get(4).set(5, new Tile(4, 5, "a"));
+        md.data.get(2).set(6, null);
+        md.data.get(3).set(6, null);
+        md.data.get(4).set(6, null);
+        result = md.cancelTile(md.data.get(2).get(5),
+                               md.data.get(4).get(5));
+        assertTrue(result);
+
+        md.data.get(2).set(5, new Tile(2, 5, "a"));
+        md.data.get(4).set(5, new Tile(4, 5, "a"));
+        md.data.get(4).get(7).setImgName("a");
+        result = md.cancelTile(md.data.get(2).get(5),
+                               md.data.get(4).get(7));
+        assertTrue(result);
+
+        md.data.get(2).set(5, new Tile(2, 5, "a"));
+        md.data.get(4).set(5, new Tile(4, 7, "a"));
+        md.data.get(5).get(6).setImgName("a");
+        result = md.cancelTile(md.data.get(2).get(5),
+                               md.data.get(5).get(6));
+        assertTrue(result);
     }
 
 }
