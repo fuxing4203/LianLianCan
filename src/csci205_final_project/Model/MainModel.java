@@ -28,8 +28,13 @@ public class MainModel {
      */
     public static void main(String[] args) {
         Model md = new Model(EASY);
-        md.data.get(2).get(5).setImgName("b");
-        md.data.get(4).get(5).setImgName("b");
+        md.data.get(2).set(5, null);
+        md.data.get(3).set(5, null);
+        md.data.get(4).set(5, null);
+        md.data.get(2).get(4).setImgName("b");
+        md.data.get(4).get(6).setImgName("b");
+        boolean result = md.cancelTile(md.data.get(2).get(4),
+                                       md.data.get(4).get(6));
 //        for (int i = 4; i < 6; i++) {
 //            md.data.get(4).set(i, null);
 //        }
@@ -50,8 +55,7 @@ public class MainModel {
 //        md.data.get(4).set(4, null);
 //        md.data.get(4).set(5, null);
 //        md.data.get(4).set(6, null);
-        boolean result = md.cancelTile(md.data.get(2).get(5),
-                                       md.data.get(4).get(5));
+
         System.out.println(result);
     }
 }
