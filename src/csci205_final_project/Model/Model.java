@@ -35,7 +35,7 @@ public class Model implements Serializable {
     private int totalSize = 0; // records the total number of tiles
     private int shuffleChance = 2; // records the number of chances for shuffle
 
-    Model(Level level) {
+    public Model(Level level) {
         this.level = level;
         this.totalSize = this.level.getHeight() * this.level.getWidth();
         data = new ArrayList();
