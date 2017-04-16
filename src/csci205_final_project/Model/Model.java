@@ -75,9 +75,10 @@ public class Model implements Serializable {
      * @return boolean
      */
     public boolean isTileCancelable(Tile a, Tile b) {
-
-        return true;
-        if (!a.equals(b)) {
+        if (a == null || b == null) {
+            return false;
+        }
+        else if (!a.isEqualTo(b)) {
             //System.out.println("Not Equal!");
             return false;
         }
@@ -113,9 +114,7 @@ public class Model implements Serializable {
      */
     public boolean checkPath(int ax, int ay, int bx, int by, int numTurn) {
 
-        System.out.println(ax + " " + ay + " " + bx + " " + by);
-        return true;
-
+//        System.out.println(ax + " " + ay + " " + bx + " " + by);
         if ((ax == bx) && (ay == by)) {
             // If two tiles are at the same position, return false
             return true;
@@ -127,17 +126,15 @@ public class Model implements Serializable {
         }
         else {
 
-        // each InLine checks one direction
-
-
-            InLine aup = new InLine(ax, ay);
-            InLine adown = new InLine(ax, ay);
-            InLine aleft = new InLine(ax, ay);
-            InLine aright = new InLine(ax, ay);
-            InLine bup = new InLine(bx, by);
-            InLine bdown = new InLine(bx, by);
-            InLine bleft = new InLine(bx, by);
-            InLine bright = new InLine(bx, by);
+            // each InLine checks one direction
+            InLine aup = new InLine(ax, ay, data);
+            InLine adown = new InLine(ax, ay, data);
+            InLine aleft = new InLine(ax, ay, data);
+            InLine aright = new InLine(ax, ay, data);
+            InLine bup = new InLine(bx, by, data);
+            InLine bdown = new InLine(bx, by, data);
+            InLine bleft = new InLine(bx, by, data);
+            InLine bright = new InLine(bx, by, data);
 
             int oneright = ax;
             int oneleft = ax;
@@ -159,8 +156,7 @@ public class Model implements Serializable {
 
             InLine one = new InLine();
 
-        // call checkPath with updated position
-
+            // call checkPath with updated position
             if (aup.checkUp(ax, ay, bx, by) || adown.checkDown(ax, ay, bx, by) || aleft.checkLeft(
                     ax, ay, bx, by) || aright.checkRight(ax, ay, bx, by)) {
                 return true;
@@ -192,8 +188,7 @@ public class Model implements Serializable {
                     numTurn + 2) || checkPath(
                             aright.getX(), aright.getY(), bleft.getX(),
                             bleft.getY(), numTurn + 2);
-
-        return false;
+        }
     }
 
     /**
