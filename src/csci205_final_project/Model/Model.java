@@ -205,4 +205,9 @@ public class Model implements Serializable {
             return true;
         }
     }
+
+    public static ArrayList<ArrayList<Tile>> getData() {
+        return data;
+    }
+
 }
