@@ -40,6 +40,8 @@ public class FinalProjectPauseMenuController implements Initializable {
     @FXML
     private Button loadBtn;
 
+    private Thread myThread;
+
     /**
      * Initializes the controller class.
      */
@@ -48,9 +50,15 @@ public class FinalProjectPauseMenuController implements Initializable {
         // TODO
     }
 
+    public void initData(Thread t) {
+        myThread = t;
+    }
+
     @FXML
     private void resumeGame(ActionEvent event) {
         Stage stage = (Stage) this.resumeBtn.getScene().getWindow();
+        //TODO
+        myThread.resume();
         stage.close();
     }
 
