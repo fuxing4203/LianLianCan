@@ -268,6 +268,7 @@ public class Model implements Serializable {
                         if (isPath) {
                             cancelTile(selectedTile, aTile);
                         }
+                        numOfSelections++;
 
                     }
                 });
@@ -283,6 +284,15 @@ public class Model implements Serializable {
         aTile.setOpacity(0);
         data.get(selectedTile.getPosX()).set(selectedTile.getPosX(), null);
         data.get(aTile.getPosX()).set(aTile.getPosX(), null);
+    }
+
+    @Override
+    public String toString() {
+        String currentLevel = this.level.toString();
+        int currentSize = this.totalSize;
+        return String.format("--Level:%s --Remaining Tiles:%3d--", currentLevel,
+                             currentSize);
+
     }
 
 }

@@ -16,6 +16,7 @@
 package csci205_final_project.Game;
 
 import csci205_final_project.Model.*;
+import csci205_final_project.PauseMenu.FinalProjectPauseMenuController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -50,19 +51,20 @@ public class FinalProjectGameSceneController implements Initializable {
     @FXML
     private Label labelLevel;
 
-    private Model theModel;
     @FXML
     private TilePane tilePane;
     @FXML
     private BorderPane parentPane;
+
+    private Model theModel;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        theModel = new Model(Level.EASY, tilePane);
-        theModel.generateGameWithMode(tilePane, Level.EASY);
+        theModel = new Model(Level.MEDIUM, tilePane);
+        theModel.generateGameWithMode(tilePane, Level.MEDIUM);
 
     }
 
@@ -71,6 +73,8 @@ public class FinalProjectGameSceneController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "../PauseMenu/finalProjectPauseMenu.fxml"));
         VBox pause = (VBox) loader.load();
+        FinalProjectPauseMenuController finalProjectPauseMenuController = loader.<FinalProjectPauseMenuController>getController();
+        finalProjectPauseMenuController.initData(theModel);
         Scene scene = new Scene(pause);
         Stage stage;
         stage = new Stage();

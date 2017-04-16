@@ -15,6 +15,7 @@
  */
 package csci205_final_project.Model;
 
+import java.io.Serializable;
 import java.util.Objects;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -24,7 +25,7 @@ import javafx.scene.shape.Rectangle;
  *
  * @author Iris
  */
-public class Tile extends Rectangle {
+public class Tile extends Rectangle implements Serializable {
 
     private Image img;
     private ImagePattern imgPtn;  //imgPtn for fill

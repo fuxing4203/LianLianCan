@@ -15,11 +15,13 @@
  */
 package csci205_final_project.Model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Iris
  */
-public enum Level {
+public enum Level implements Serializable {
 
     /**
      * Easy level for the game which is a 6 by 6 square board
