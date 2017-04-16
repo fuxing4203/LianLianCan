@@ -16,11 +16,13 @@
 package csci205_final_project.Game;
 
 import csci205_final_project.Model.*;
+import csci205_final_project.PauseMenu.FinalProjectPauseMenuController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +30,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
@@ -53,10 +56,14 @@ public class FinalProjectGameSceneController implements Initializable {
     private Label labelLevel;
 
     private Model theModel;
+    private int seconds;
+    private Thread th;
     @FXML
     private TilePane tilePane;
     @FXML
     private BorderPane parentPane;
+    @FXML
+    private ProgressBar timeBar;
 
     /**
      * Initializes the controller class.
@@ -65,6 +72,27 @@ public class FinalProjectGameSceneController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         theModel = new Model(Level.EASY, tilePane);
         theModel.generateGameWithMode(tilePane, Level.EASY);
+
+        Task<Void> task = new Task<Void>() {
+            @Override
+            public Void call() {
+                for (int i = 0; i < 400; i++) {
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        Thread.interrupted();
+                        break;
+                    }
+                    updateProgress(i + 1, 400);
+                }
+                return null;
+            }
+        };
+
+        timeBar.progressProperty().bind(task.progressProperty());
+        th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
 
     }
 
@@ -102,15 +130,23 @@ public class FinalProjectGameSceneController implements Initializable {
     }
 
     @FXML
-    private void btnPause(ActionEvent event) throws IOException {
+
+    private void btnPause(ActionEvent event) throws IOException, InterruptedException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "../PauseMenu/finalProjectPauseMenu.fxml"));
+
         VBox pause = (VBox) loader.load();
         Scene scene = new Scene(pause);
+        FinalProjectPauseMenuController ctr = loader.<FinalProjectPauseMenuController>getController();
+        ctr.initData(th);
         Stage stage;
         stage = new Stage();
         stage.setScene(scene);
+
         stage.show();
+
+        //TODO
+        th.suspend();
 
     }
 
