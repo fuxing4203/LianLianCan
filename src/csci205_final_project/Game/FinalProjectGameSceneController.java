@@ -15,7 +15,7 @@
  */
 package csci205_final_project.Game;
 
-import csci205_final_project.Model.Model;
+import csci205_final_project.Model.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,6 +27,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -49,13 +51,19 @@ public class FinalProjectGameSceneController implements Initializable {
     private Label labelLevel;
 
     private Model theModel;
+    @FXML
+    private TilePane tilePane;
+    @FXML
+    private BorderPane parentPane;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        theModel = new Model(Level.EASY, tilePane);
+        theModel.generateGameWithMode(tilePane, Level.EASY);
+
     }
 
     @FXML
@@ -73,6 +81,7 @@ public class FinalProjectGameSceneController implements Initializable {
 
     @FXML
     private void btnShuffle(ActionEvent event) {
+        // theModel = new Model();
     }
 
     @FXML
