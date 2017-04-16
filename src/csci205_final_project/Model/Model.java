@@ -285,4 +285,8 @@ public class Model implements Serializable {
         data.get(aTile.getPosX()).set(aTile.getPosX(), null);
     }
 
+    public Level getLevel() {
+        return level;
+    }
+
 }

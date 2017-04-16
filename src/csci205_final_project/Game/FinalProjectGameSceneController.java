@@ -18,6 +18,8 @@ package csci205_final_project.Game;
 import csci205_final_project.Model.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -64,6 +66,39 @@ public class FinalProjectGameSceneController implements Initializable {
         theModel = new Model(Level.EASY, tilePane);
         theModel.generateGameWithMode(tilePane, Level.EASY);
 
+    }
+
+    private ArrayList<String> imgNameProducer(String theme) {
+        ArrayList<String> sResult = new ArrayList<String>();
+        ArrayList<Integer> iResult = new ArrayList<Integer>();
+        int width = theModel.getLevel().getWidth();
+        int height = theModel.getLevel().getHeight();
+        int numTiles = width * height;
+        int numImgs = numTiles / 4;
+        Random rnd = new Random();
+        int n;
+        for (int i = 0; i < numImgs; i++) {
+            while (true) {
+                n = rnd.nextInt(numImgs);
+                if (numContained(iResult, n) < 4) {
+                    iResult.add(n);
+                    sResult.add(theme + "/" + n);
+                    break;
+                }
+            }
+        }
+        return sResult;
+    }
+
+    private int numContained(ArrayList<Integer> input, int x) {
+        int i;
+        int result = 0;
+        for (i = 0; i < input.size(); i++) {
+            if (input.get(i) == x) {
+                result += 1;
+            }
+        }
+        return result;
     }
 
     @FXML
