@@ -32,19 +32,19 @@ public class Tile extends Rectangle {
     private int y; // Relative pos y of the tile
     private String imgName; // String representation of the content of the tile
 
-    Tile(int x, int y, Image img) {
+    public Tile(int x, int y, Image img) {
         this.x = x;
         this.y = y;
         this.img = img;
         this.imgPtn = new ImagePattern(this.img);
     }
 
-    Tile(int x, int y) {
+    public Tile(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    Tile(int x, int y, String imgName) {
+    public Tile(int x, int y, String imgName) {
         this.x = x;
         this.y = y;
         this.imgName = imgName;
