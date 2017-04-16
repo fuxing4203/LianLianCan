@@ -33,6 +33,7 @@ public class Tile extends Rectangle {
     private String imgName; // String representation of the content of the tile
 
     public Tile(int x, int y, Image img) {
+
         this.x = x;
         this.y = y;
         this.img = img;
@@ -45,6 +46,8 @@ public class Tile extends Rectangle {
     }
 
     public Tile(int x, int y, String imgName) {
+
+        super(50, 50);
         this.x = x;
         this.y = y;
         this.imgName = imgName;
@@ -83,6 +86,7 @@ public class Tile extends Rectangle {
      * @param obj
      * @return boolean
      */
+    /*
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -97,7 +101,7 @@ public class Tile extends Rectangle {
         }
         return false;
     }
-
+     */
     /**
      * Set the new posX for the tile
      *
