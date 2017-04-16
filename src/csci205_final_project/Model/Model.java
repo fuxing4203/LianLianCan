@@ -101,13 +101,13 @@ public class Model implements Serializable {
      * @return boolean
      */
     public boolean checkPath(int ax, int ay, int bx, int by, int numTurn) {
-        System.out.println(ax + " " + ay + " " + bx + " " + by);
+//        System.out.println(ax + " " + ay + " " + bx + " " + by);
         if ((ax == bx) && (ay == by)) {
             // If two tiles are at the same position, return false
             return true;
         }
         else if (numTurn > this.turn) {
-            System.out.println("Exceeds max turn");
+//            System.out.println("Exceeds max turn");
             // If the number of turns reach this.turn, return false
             return false;
         }
