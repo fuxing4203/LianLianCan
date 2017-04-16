@@ -15,6 +15,8 @@
  */
 package csci205_final_project.Model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Iris
@@ -23,6 +25,7 @@ public class InLine {
 
     private int x;
     private int y;
+    private ArrayList<ArrayList<Tile>> data;
 
     /**
      * Updated position of ax
@@ -42,9 +45,10 @@ public class InLine {
         return y;
     }
 
-    InLine(int ax, int ay) {
+    InLine(int ax, int ay, ArrayList<ArrayList<Tile>> data) {
         this.x = ax;
         this.y = ay;
+        this.data = data;
     }
 
     InLine() {
@@ -65,7 +69,7 @@ public class InLine {
 
         if (ax == bx && ay < by) {
             for (int i = ay; i < by - 1; i++) {
-                if (Model.data.get(i + 1).get(ax) != null) {
+                if (this.data.get(i + 1).get(ax) != null) {
                     this.x = ax;
                     this.y = i;
                     return false;
@@ -73,9 +77,9 @@ public class InLine {
             }
             return true;
         }
-        else if (ay < Model.data.size() - 1) {
-            while ((ay < Model.data.size() - 1) && (Model.data.get(ay + 1).get(
-                                                    ax) == null)) {
+        else if (ay < this.data.size() - 1) {
+            while ((ay < this.data.size() - 1) && (this.data.get(ay + 1).get(
+                                                   ax) == null)) {
                 ay += 1;
             }
 
@@ -98,7 +102,7 @@ public class InLine {
     public boolean checkDown(int ax, int ay, int bx, int by) {
         if (ax == bx && ay > by) {
             for (int i = ay; i > by + 1; i--) {
-                if (Model.data.get(i - 1).get(ax) != null) {
+                if (this.data.get(i - 1).get(ax) != null) {
                     this.x = ax;
                     this.y = i;
                     return false;
@@ -107,7 +111,7 @@ public class InLine {
             return true;
         }
         else if (ay > 0) {
-            while ((ay > 0) && (Model.data.get(ay - 1).get(ax) == null)) {
+            while ((ay > 0) && (this.data.get(ay - 1).get(ax) == null)) {
                 ay -= 1;
             }
             this.y = ay;
@@ -133,7 +137,7 @@ public class InLine {
 //                    System.out.println("For loop" + i);
 //                    System.out.println(ax + " " + bx);
 //                    System.out.println(Model.data.get(ay).get(i) == null);
-                if (Model.data.get(ay).get(i + 1) != null) {
+                if (this.data.get(ay).get(i + 1) != null) {
                     this.x = i;
                     this.y = ay;
 //                        System.out.println("Out of the loop");
@@ -142,10 +146,10 @@ public class InLine {
             }
             return true;
         }
-        else if (ax < Model.data.get(0).size() - 1) {
+        else if (ax < this.data.get(0).size() - 1) {
 //                System.out.println("Should go here");
-            while ((ax < Model.data.get(0).size() - 1) && (Model.data.get(ay).get(
-                                                           ax + 1) == null)) {
+            while ((ax < this.data.get(0).size() - 1) && (this.data.get(ay).get(
+                                                          ax + 1) == null)) {
                 ax += 1;
             }
             this.x = ax;
@@ -167,7 +171,7 @@ public class InLine {
     public boolean checkLeft(int ax, int ay, int bx, int by) {
         if (ay == by && ax > bx) {
             for (int i = ax; i > bx + 1; i--) {
-                if (Model.data.get(ay).get(i - 1) != null) {
+                if (this.data.get(ay).get(i - 1) != null) {
                     this.x = i;
                     this.y = ay;
                     return false;
@@ -176,7 +180,7 @@ public class InLine {
             return true;
         }
         else if (ax > 0) {
-            while ((ax > 0) && (Model.data.get(ay).get(ax - 1) == null)) {
+            while ((ax > 0) && (this.data.get(ay).get(ax - 1) == null)) {
                 ax -= 1;
             }
             this.x = ax;

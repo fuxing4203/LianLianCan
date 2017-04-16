@@ -86,9 +86,7 @@ public class Tile extends Rectangle {
      * @param obj
      * @return boolean
      */
-    /*
-    @Override
-    public boolean equals(Object obj) {
+    public boolean isEqualTo(Object obj) {
         if (obj == null) {
             return false;
         }
@@ -101,7 +99,7 @@ public class Tile extends Rectangle {
         }
         return false;
     }
-     */
+
     /**
      * Set the new posX for the tile
      *
