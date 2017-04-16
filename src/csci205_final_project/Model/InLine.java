@@ -47,6 +47,10 @@ public class InLine {
         this.y = ay;
     }
 
+    InLine() {
+
+    }
+
     /**
      * Go as far up as possible, return true if two tiles are in the same column
      * and a is under b
@@ -60,7 +64,7 @@ public class InLine {
     public boolean checkUp(int ax, int ay, int bx, int by) {
 
         if (ax == bx && ay < by) {
-            for (int i = ay + 1; i < by; i++) {
+            for (int i = ay; i < by - 1; i++) {
                 if (Model.data.get(i + 1).get(ax) != null) {
                     this.x = ax;
                     this.y = i;
@@ -70,7 +74,8 @@ public class InLine {
             return true;
         }
         else if (ay < Model.data.size() - 1) {
-            while ((Model.data.get(ay + 1).get(ax) == null) && (ay < Model.data.size())) {
+            while ((ay < Model.data.size() - 1) && (Model.data.get(ay + 1).get(
+                                                    ax) == null)) {
                 ay += 1;
             }
 
@@ -91,9 +96,8 @@ public class InLine {
      * @return boolean
      */
     public boolean checkDown(int ax, int ay, int bx, int by) {
-
         if (ax == bx && ay > by) {
-            for (int i = ay + 1; i < by; i--) {
+            for (int i = ay; i > by + 1; i--) {
                 if (Model.data.get(i - 1).get(ax) != null) {
                     this.x = ax;
                     this.y = i;
@@ -103,7 +107,7 @@ public class InLine {
             return true;
         }
         else if (ay > 0) {
-            while ((Model.data.get(ay - 1).get(ax) == null) && (ay < Model.data.size())) {
+            while ((ay > 0) && (Model.data.get(ay - 1).get(ax) == null)) {
                 ay -= 1;
             }
             this.y = ay;
@@ -125,7 +129,7 @@ public class InLine {
     public boolean checkRight(int ax, int ay, int bx, int by) {
 
         if (ay == by && ax < bx) {
-            for (int i = ax + 1; i < bx; i++) {
+            for (int i = ax; i < bx - 1; i++) {
 //                    System.out.println("For loop" + i);
 //                    System.out.println(ax + " " + bx);
 //                    System.out.println(Model.data.get(ay).get(i) == null);
@@ -140,8 +144,8 @@ public class InLine {
         }
         else if (ax < Model.data.get(0).size() - 1) {
 //                System.out.println("Should go here");
-            while ((Model.data.get(ay).get(ax + 1) == null) && (ax < Model.data.get(
-                                                                0).size())) {
+            while ((ax < Model.data.get(0).size() - 1) && (Model.data.get(ay).get(
+                                                           ax + 1) == null)) {
                 ax += 1;
             }
             this.x = ax;
@@ -162,7 +166,7 @@ public class InLine {
      */
     public boolean checkLeft(int ax, int ay, int bx, int by) {
         if (ay == by && ax > bx) {
-            for (int i = ax + 1; i < bx; i--) {
+            for (int i = ax; i > bx + 1; i--) {
                 if (Model.data.get(ay).get(i - 1) != null) {
                     this.x = i;
                     this.y = ay;
@@ -172,8 +176,7 @@ public class InLine {
             return true;
         }
         else if (ax > 0) {
-            while ((Model.data.get(ay).get(ax - 1) == null) && (ax < Model.data.get(
-                                                                0).size())) {
+            while ((ax > 0) && (Model.data.get(ay).get(ax - 1) == null)) {
                 ax -= 1;
             }
             this.x = ax;

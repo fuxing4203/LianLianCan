@@ -28,10 +28,18 @@ public class MainModel {
      */
     public static void main(String[] args) {
         Model md = new Model(EASY);
-        md.data.get(1).get(5).setImgName("b");
-        md.data.get(3).get(5).setImgName("b");
-//        for (int i = 1; i < 4; i++) {
-//            md.data.get(i).set(4, null);
+        md.data.get(2).set(5, null);
+        md.data.get(3).set(5, null);
+        md.data.get(4).set(5, null);
+        md.data.get(2).get(4).setImgName("b");
+        md.data.get(4).get(6).setImgName("b");
+        boolean result = md.cancelTile(md.data.get(2).get(4),
+                                       md.data.get(4).get(6));
+//        for (int i = 4; i < 6; i++) {
+//            md.data.get(4).set(i, null);
+//        }
+//        for (int i = 2; i < 5; i++) {
+//            md.data.get(i).set(5, null);
 //        }
         /*
         for (int i = 0; i < md.data.size(); i++) {
@@ -41,13 +49,13 @@ public class MainModel {
             }
             System.out.println(s);
         }*/
-//        md.data.get(1).set(3, null);
-//        md.data.get(1).set(4, null);
-//        md.data.get(1).set(2, null);
-//        md.data.get(2).set(2, null);
-        boolean result = md.cancelTile(md.data.get(1).get(5),
-                                       md.data.get(3).get(5));
+//        md.data.get(2).set(3, null);
+//        md.data.get(3).set(3, null);
+//        md.data.get(4).set(3, null);
+//        md.data.get(4).set(4, null);
+//        md.data.get(4).set(5, null);
+//        md.data.get(4).set(6, null);
+
         System.out.println(result);
     }
-
 }
