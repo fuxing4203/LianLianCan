@@ -51,10 +51,10 @@ public class FinalProjectGameSceneController implements Initializable {
     private Label labelScore;
     @FXML
     private Label labelLevel;
-
-    private Model theModel;
     @FXML
     private Pane tilePane;
+
+    private Model theModel;
 
     /**
      * Initializes the controller class.
@@ -98,6 +98,7 @@ public class FinalProjectGameSceneController implements Initializable {
 
     @FXML
     private void btnShuffle(ActionEvent event) {
+        // theModel = new Model();
     }
 
     @FXML

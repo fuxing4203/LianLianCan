@@ -64,7 +64,7 @@ public class InLine {
     public boolean checkUp(int ax, int ay, int bx, int by) {
 
         if (ax == bx && ay < by) {
-            for (int i = ay + 1; i < by; i++) {
+            for (int i = ay; i < by - 1; i++) {
                 if (Model.data.get(i + 1).get(ax) != null) {
                     this.x = ax;
                     this.y = i;
@@ -97,7 +97,7 @@ public class InLine {
      */
     public boolean checkDown(int ax, int ay, int bx, int by) {
         if (ax == bx && ay > by) {
-            for (int i = ay + 1; i < by; i--) {
+            for (int i = ay; i > by + 1; i--) {
                 if (Model.data.get(i - 1).get(ax) != null) {
                     this.x = ax;
                     this.y = i;
@@ -129,7 +129,7 @@ public class InLine {
     public boolean checkRight(int ax, int ay, int bx, int by) {
 
         if (ay == by && ax < bx) {
-            for (int i = ax + 1; i < bx; i++) {
+            for (int i = ax; i < bx - 1; i++) {
 //                    System.out.println("For loop" + i);
 //                    System.out.println(ax + " " + bx);
 //                    System.out.println(Model.data.get(ay).get(i) == null);
@@ -166,7 +166,7 @@ public class InLine {
      */
     public boolean checkLeft(int ax, int ay, int bx, int by) {
         if (ay == by && ax > bx) {
-            for (int i = ax + 1; i < bx; i--) {
+            for (int i = ax; i > bx + 1; i--) {
                 if (Model.data.get(ay).get(i - 1) != null) {
                     this.x = i;
                     this.y = ay;

@@ -101,13 +101,13 @@ public class Model implements Serializable {
      * @return boolean
      */
     public boolean checkPath(int ax, int ay, int bx, int by, int numTurn) {
-//        System.out.println(ax + " " + ay + " " + bx + " " + by);
+        System.out.println(ax + " " + ay + " " + bx + " " + by);
         if ((ax == bx) && (ay == by)) {
             // If two tiles are at the same position, return false
-            return false;
+            return true;
         }
         else if (numTurn > this.turn) {
-//            System.out.println("Exceeds max turn");
+            System.out.println("Exceeds max turn");
             // If the number of turns reach this.turn, return false
             return false;
         }
@@ -165,7 +165,15 @@ public class Model implements Serializable {
                             adown.getX(), adown.getY(), bx, by, numTurn + 1) || checkPath(
                     aleft.getX(), aleft.getY(), bx, by,
                     numTurn + 1) || checkPath(
-                            aright.getX(), aright.getY(), bx, by, numTurn + 1);
+                            aright.getX(), aright.getY(), bx, by, numTurn + 1) || checkPath(
+                    aup.getX(), aup.getY(), bdown.getX(), bdown.getY(),
+                    numTurn + 2) || checkPath(
+                            adown.getX(), adown.getY(), bup.getX(),
+                            bup.getY(), numTurn + 2) || checkPath(
+                    aleft.getX(), aleft.getY(), bright.getX(), bright.getY(),
+                    numTurn + 2) || checkPath(
+                            aright.getX(), aright.getY(), bleft.getX(),
+                            bleft.getY(), numTurn + 2);
         }
     }
 
