@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.TilePane;
@@ -42,11 +43,12 @@ public class Model implements Serializable {
     private int numOfSelections = 0;
     private TilePane tilePane;
 
-    public Model(Level level, TilePane tp) {
+    public Model(Level level, TilePane tp, String theme) {
         tilePane = tp;
         this.level = level;
         this.totalSize = this.level.getHeight() * this.level.getWidth();
         data = new ArrayList();
+        ArrayList<String> imgSeq = imgNameProducer(theme);
         for (int i = 0; i < this.level.getHeight() + 2; i++) {
             ArrayList<Tile> row = new ArrayList();
             for (int j = 0; j < this.level.getWidth() + 2; j++) {
@@ -54,7 +56,7 @@ public class Model implements Serializable {
                     row.add(null);
                 }
                 else {
-                    Tile tile = new Tile(j, i, "a");
+                    Tile tile = new Tile(j, i, imgSeq.get(this.totalSize));
                     row.add(tile);
                     this.totalSize += 1;
                 }
@@ -280,6 +282,39 @@ public class Model implements Serializable {
 
     public Level getLevel() {
         return level;
+    }
+
+    private ArrayList<String> imgNameProducer(String theme) {
+        ArrayList<String> sResult = new ArrayList<String>();
+        ArrayList<Integer> iResult = new ArrayList<Integer>();
+        int width = this.level.getWidth();
+        int height = this.level.getHeight();
+        int numTiles = width * height;
+        int numImgs = numTiles / 4;
+        Random rnd = new Random();
+        int n;
+        for (int i = 0; i < numImgs; i++) {
+            while (true) {
+                n = rnd.nextInt(numImgs);
+                if (numContained(iResult, n) < 4) {
+                    iResult.add(n);
+                    sResult.add(theme + "/" + n);
+                    break;
+                }
+            }
+        }
+        return sResult;
+    }
+
+    private int numContained(ArrayList<Integer> input, int x) {
+        int i;
+        int result = 0;
+        for (i = 0; i < input.size(); i++) {
+            if (input.get(i) == x) {
+                result += 1;
+            }
+        }
+        return result;
     }
 
 }
