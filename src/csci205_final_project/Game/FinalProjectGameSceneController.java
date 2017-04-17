@@ -19,8 +19,6 @@ import csci205_final_project.Model.*;
 import csci205_final_project.PauseMenu.FinalProjectPauseMenuController;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -70,7 +68,7 @@ public class FinalProjectGameSceneController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        theModel = new Model(Level.EASY, tilePane);
+        theModel = new Model(Level.EASY, tilePane, "pokeman");
         theModel.generateGameWithMode(tilePane, Level.EASY);
 
         Task<Void> task = new Task<Void>() {
@@ -95,7 +93,6 @@ public class FinalProjectGameSceneController implements Initializable {
         th.start();
 
     }
-
 
     @FXML
 

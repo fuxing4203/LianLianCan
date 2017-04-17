@@ -42,13 +42,13 @@ public class Model implements Serializable {
     private Tile selectedTile;
     private int numOfSelections = 0;
     private TilePane tilePane;
+    private String theme;
 
     public Model(Level level, TilePane tp, String theme) {
         tilePane = tp;
         this.level = level;
-        this.totalSize = this.level.getHeight() * this.level.getWidth();
+        this.theme = theme;
         data = new ArrayList();
-        ArrayList<String> imgSeq = imgNameProducer(theme);
         for (int i = 0; i < this.level.getHeight() + 2; i++) {
             ArrayList<Tile> row = new ArrayList();
             for (int j = 0; j < this.level.getWidth() + 2; j++) {
@@ -56,7 +56,7 @@ public class Model implements Serializable {
                     row.add(null);
                 }
                 else {
-                    Tile tile = new Tile(j, i, imgSeq.get(this.totalSize));
+                    Tile tile = new Tile(j, i, "a");
                     row.add(tile);
                     this.totalSize += 1;
                 }
@@ -241,14 +241,17 @@ public class Model implements Serializable {
         tp.setPrefWidth(50 * level.getWidth());
         tp.setPrefHeight(50 * level.getHeight());
         tp.setMaxSize(50 * level.getWidth(), 50 * level.getHeight());
+        ArrayList<String> imgSeq = imgNameProducer(theme);
         int i;
         int j;
+        int index = 0;
         for (i = 1; i < level.getWidth() + 1; i++) {
             for (j = 1; j < level.getHeight() + 1; j++) {
                 Tile aTile = data.get(i).get(j);
                 //                aTile.setX(perWidth * j);
                 //                aTile.setY(perHeight * i);
-                File file = new File("a.jpg");
+                File file = new File(imgSeq.get(index));
+                index += 1;
                 Image img = new Image(file.toURI().toString());
                 aTile.setFill(new ImagePattern(img));
                 aTile.setOnMouseClicked((MouseEvent event) -> {
@@ -293,12 +296,12 @@ public class Model implements Serializable {
         int numImgs = numTiles / 4;
         Random rnd = new Random();
         int n;
-        for (int i = 0; i < numImgs; i++) {
+        for (int i = 0; i < numTiles; i++) {
             while (true) {
                 n = rnd.nextInt(numImgs);
                 if (numContained(iResult, n) < 4) {
                     iResult.add(n);
-                    sResult.add(theme + "/" + n);
+                    sResult.add(theme + "/" + n + ".jpg");
                     break;
                 }
             }
