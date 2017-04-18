@@ -35,10 +35,12 @@ public class Model implements Serializable {
     private int totalSize = 0; // records the total number of tiles
     private int shuffleChance = 2; // records the number of chances for shuffle
     private String theme;
+    private ArrayList<String> imgSeq;
 
     public Model(Level level, String theme) {
         this.level = level;
         this.theme = theme;
+        this.imgSeq = imgNameProducer(theme);
         data = new ArrayList();
         for (int i = 0; i < this.level.getHeight() + 2; i++) {
             ArrayList<Tile> row = new ArrayList();
@@ -47,7 +49,7 @@ public class Model implements Serializable {
                     row.add(null);
                 }
                 else {
-                    Tile tile = new Tile(j, i, "a");
+                    Tile tile = new Tile(j, i, imgSeq.get(this.totalSize));
                     row.add(tile);
                     this.totalSize += 1;
                 }
@@ -81,17 +83,6 @@ public class Model implements Serializable {
                                                                       b.getPosX()) == null)) {
             System.out.println(
                     "Null Tile" + a.getPosY() + " " + a.getPosX() + " " + b.getPosY() + " " + b.getPosX());
-            System.out.println(data);
-            System.out.println(this.totalSize);
-            int nulPic = 0;
-            for (int i = 0; i < this.data.size(); i++) {
-                for (int j = 0; j < this.data.get(0).size(); j++) {
-                    if (this.data.get(i).get(j) != null) {
-                        nulPic += 1;
-                    }
-                }
-            }
-            System.out.println(nulPic);
             return false;
         }
         else {
@@ -108,6 +99,10 @@ public class Model implements Serializable {
             System.out.println(false);
             return false;
         }
+    }
+
+    public ArrayList<String> getImgSeq() {
+        return imgSeq;
     }
 
     /**
@@ -134,70 +129,68 @@ public class Model implements Serializable {
             return false;
         }
         else {
-
-            // each InLine checks one direction
-            InLine aup = new InLine(ax, ay, data);
-            InLine adown = new InLine(ax, ay, data);
-            InLine aleft = new InLine(ax, ay, data);
-            InLine aright = new InLine(ax, ay, data);
-            InLine bup = new InLine(bx, by, data);
-            InLine bdown = new InLine(bx, by, data);
-            InLine bleft = new InLine(bx, by, data);
-            InLine bright = new InLine(bx, by, data);
-
-            int oneright = ax;
-            int oneleft = ax;
-            int oneup = ay;
-            int onedown = ay;
-
-            if (ax < data.get(0).size() - 1) {
-                oneright += 1;
-            }
-            if (ax > 0) {
-                oneleft -= 1;
-            }
-            if (ay < data.size() - 1) {
-                onedown += 1;
-            }
-            if (ay > 0) {
-                oneup -= 1;
-            }
-
-            InLine one = new InLine();
-
-            // call checkPath with updated position
-            if (aup.checkUp(ax, ay, bx, by) || adown.checkDown(ax, ay, bx, by) || aleft.checkLeft(
-                    ax, ay, bx, by) || aright.checkRight(ax, ay, bx, by)) {
-                return true;
-            }
-            bup.checkUp(bx, by, ax, ay);
-            bdown.checkDown(bx, by, ax, ay);
-            bleft.checkLeft(bx, by, ax, ay);
-            bright.checkRight(bx, by, ax, ay);
-            return checkPath(aup.getX(), aup.getY(), bup.getX(), bup.getY(),
-                             numTurn + 2) || checkPath(
-                            adown.getX(), adown.getY(), bdown.getX(),
-                            bdown.getY(), numTurn + 2) || checkPath(
-                    aleft.getX(), aleft.getY(), bleft.getX(), bleft.getY(),
-                    numTurn + 2) || checkPath(
-                            aright.getX(), aright.getY(), bright.getX(),
-                            bright.getY(), numTurn + 2) || checkPath(aup.getX(),
-                                                                     aup.getY(),
-                                                                     bx, by,
-                                                                     numTurn + 1) || checkPath(
-                            adown.getX(), adown.getY(), bx, by, numTurn + 1) || checkPath(
-                    aleft.getX(), aleft.getY(), bx, by,
-                    numTurn + 1) || checkPath(
-                            aright.getX(), aright.getY(), bx, by, numTurn + 1) || checkPath(
-                    aup.getX(), aup.getY(), bdown.getX(), bdown.getY(),
-                    numTurn + 2) || checkPath(
-                            adown.getX(), adown.getY(), bup.getX(),
-                            bup.getY(), numTurn + 2) || checkPath(
-                    aleft.getX(), aleft.getY(), bright.getX(), bright.getY(),
-                    numTurn + 2) || checkPath(
-                            aright.getX(), aright.getY(), bleft.getX(),
-                            bleft.getY(), numTurn + 2);
+            return checkHorizontal(ax, ay, bx, by) || checkVertical(ax, ay, bx,
+                                                                    by) || checkOneTurn(
+                            ax, ay, bx, by) || checkTwoTurn(ax, ay, bx, by);
         }
+    }
+
+    public boolean checkHorizontal(int ax, int ay, int bx, int by) {
+        if (ay != by) {
+            return false;
+        }
+        else {
+            int x0 = Math.min(ax, bx);
+            int x1 = Math.max(ax, bx);
+            for (int i = x0; i < x1 - 1; i++) {
+                if (this.data.get(ay).get(i + 1) != null) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    public boolean checkVertical(int ax, int ay, int bx, int by) {
+        if (ax != bx) {
+            return false;
+        }
+        else {
+            int y0 = Math.min(ay, by);
+            int y1 = Math.max(ay, by);
+            for (int i = y0; i < y1 - 1; i++) {
+                if (this.data.get(i + 1).get(ax) != null) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    public boolean checkOneTurn(int ax, int ay, int bx, int by) {
+        boolean path1 = checkVertical(ax, ay, ax, by) && checkHorizontal(ax, by,
+                                                                         bx, by) && data.get(
+                        by).get(ax) == null;
+        boolean path2 = checkVertical(bx, ay, bx, by) && checkHorizontal(
+                ax, ay, bx, ay) && data.get(ay).get(bx) == null;
+        return path1 || path2;
+    }
+
+    public boolean checkTwoTurn(int ax, int ay, int bx, int by) {
+        boolean pathH = false;
+        boolean pathV = false;
+        for (int i = 0; i < data.size(); i++) {
+            pathH = pathH || (checkOneTurn(ax, i, bx, by) && checkVertical(ax, i,
+                                                                           ax,
+                                                                           ay) && data.get(
+                              i).get(ax) == null);
+            pathV = pathV || (checkOneTurn(i, ay, bx, by) && checkHorizontal(i,
+                                                                             ay,
+                                                                             ax,
+                                                                             ay) && data.get(
+                              ay).get(i) == null);
+        }
+        return pathH || pathV;
     }
 
     /**
