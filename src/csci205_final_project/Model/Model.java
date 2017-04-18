@@ -268,6 +268,15 @@ public class Model implements Serializable {
     }
 
     /**
+     * Setter for data. Only used during testing
+     *
+     * @param data
+     */
+    public void setData(ArrayList<ArrayList<Tile>> data) {
+        this.data = data;
+    }
+
+    /**
      * Getter for the image paths
      *
      * @return imgSeq

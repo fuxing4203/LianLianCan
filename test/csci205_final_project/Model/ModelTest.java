@@ -16,6 +16,7 @@
 package csci205_final_project.Model;
 
 import static csci205_final_project.Model.Level.EASY;
+import java.util.ArrayList;
 import org.junit.After;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -44,63 +45,71 @@ public class ModelTest {
      */
     @Test
     public void testCancelTile() {
-        Model md = new Model(EASY);
-
+        Model md = new Model(EASY, "pokeman");
+        ArrayList<ArrayList<Tile>> data = md.getData();
         System.out.println("cancelTileDiffName");
-        md.data.get(2).get(5).setImgName("a");
-        md.data.get(3).get(5).setImgName("b");
-        boolean result = md.cancelTile(md.data.get(2).get(5),
-                                       md.data.get(3).get(5));
+        data.get(2).get(5).setImgName("a");
+        data.get(3).get(5).setImgName("b");
+        md.setData(data);
+        boolean result = md.isTileCancelable(data.get(2).get(5),
+                                             data.get(3).get(5));
         assertFalse(result);
 
         System.out.println("cancelTileNextToEachOther");
-        md.data.get(3).get(5).setImgName("a");
-        result = md.cancelTile(md.data.get(2).get(5),
-                               md.data.get(3).get(5));
+        data.get(3).get(5).setImgName("a");
+        md.setData(data);
+        result = md.isTileCancelable(data.get(2).get(5),
+                                     data.get(3).get(5));
         assertTrue(result);
 
         System.out.println("cancelTileOneApart");
-        md.data.get(2).set(5, new Tile(5, 2, "a"));
-        md.data.get(4).get(5).setImgName("a");
-        md.data.get(3).set(5, new Tile(5, 3, "b"));
-        md.data.get(2).get(5).setImgName("b");
-        md.data.get(3).get(5).setImgName("b");
-        md.data.get(4).get(5).setImgName("b");
-        result = md.cancelTile(md.data.get(2).get(5),
-                               md.data.get(4).get(5));
+        data.get(2).set(5, new Tile(5, 2, "a"));
+        data.get(4).get(5).setImgName("a");
+        data.get(3).set(5, new Tile(5, 3, "b"));
+        data.get(2).get(5).setImgName("b");
+        data.get(3).get(5).setImgName("b");
+        data.get(4).get(5).setImgName("b");
+        md.setData(data);
+        result = md.isTileCancelable(data.get(2).get(5),
+                                     data.get(4).get(5));
         assertFalse(result);
-        md.data.get(3).set(5, null);
-        result = md.cancelTile(md.data.get(2).get(5),
-                               md.data.get(4).get(5));
+        data.get(3).set(5, null);
+        md.setData(data);
+        result = md.isTileCancelable(data.get(2).get(5),
+                                     data.get(4).get(5));
         assertTrue(result);
 
         System.out.println("cancelTileTwoTurns");
-        md.data.get(3).set(5, new Tile(5, 3, "b"));
-        md.data.get(2).set(5, new Tile(5, 2, "a"));
-        md.data.get(4).set(5, new Tile(5, 4, "a"));
-        md.data.get(2).set(6, null);
-        md.data.get(3).set(6, null);
-        md.data.get(4).set(6, null);
-        result = md.cancelTile(md.data.get(2).get(5),
-                               md.data.get(4).get(5));
+        data.get(3).set(5, new Tile(5, 3, "b"));
+        data.get(2).set(5, new Tile(5, 2, "a"));
+        data.get(4).set(5, new Tile(5, 4, "a"));
+        data.get(2).set(6, null);
+        data.get(3).set(6, null);
+        data.get(4).set(6, null);
+        md.setData(data);
+        result = md.isTileCancelable(data.get(2).get(5),
+                                     data.get(4).get(5));
         assertTrue(result);
 
         System.out.println("cancelTileTwoTurnsZ");
-        md = new Model(EASY);
-        md.data.get(2).set(5, null);
-        md.data.get(3).set(5, null);
-        md.data.get(4).set(5, null);
-        md.data.get(2).get(4).setImgName("b");
-        md.data.get(4).get(6).setImgName("b");
-        result = md.cancelTile(md.data.get(2).get(4),
-                               md.data.get(4).get(6));
+        md = new Model(EASY, "pokeman");
+        data = md.getData();
+        data.get(2).set(5, null);
+        data.get(3).set(5, null);
+        data.get(4).set(5, null);
+        data.get(2).get(4).setImgName("b");
+        data.get(4).get(6).setImgName("b");
+        md.setData(data);
+        result = md.isTileCancelable(data.get(2).get(4),
+                                     data.get(4).get(6));
         assertTrue(result);
 
         System.out.println("cancelTileThreeTurns");
-        md.data.get(1).get(4).setImgName("b");
-        md.data.get(5).get(6).setImgName("b");
-        result = md.cancelTile(md.data.get(1).get(4),
-                               md.data.get(5).get(6));
+        data.get(1).get(4).setImgName("b");
+        data.get(5).get(6).setImgName("b");
+        md.setData(data);
+        result = md.isTileCancelable(data.get(1).get(4),
+                                     data.get(5).get(6));
         assertFalse(result);
     }
 
