@@ -27,16 +27,17 @@ import java.util.Random;
 public class Model implements Serializable {
 
     private Level level; // determines the dimension of the board
-    private final int turn = 2; // maximum number of turns for the inner tiles to be cancelled
-    /**
-     *
-     */
     private ArrayList<ArrayList<Tile>> data; // stores the tiles
     private int totalSize = 0; // records the total number of tiles
     private int shuffleChance = 2; // records the number of chances for shuffle
-    private String theme;
-    private ArrayList<String> imgSeq;
+    private String theme; // theme of the images
+    private ArrayList<String> imgSeq; // sequence for loading the image
 
+    /**
+     *
+     * @param level
+     * @param theme
+     */
     public Model(Level level, String theme) {
         this.level = level;
         this.theme = theme;
@@ -54,11 +55,8 @@ public class Model implements Serializable {
                     this.totalSize += 1;
                 }
             }
-//            System.out.println(row);
             data.add(row);
         }
-//        System.out.println("row: " + data.size());
-//        System.out.println("col: " + data.get(0).size());
     }
 
     /**
@@ -71,39 +69,34 @@ public class Model implements Serializable {
      */
     public boolean isTileCancelable(Tile a, Tile b) {
         if (a == null || b == null) {
-//            System.out.println("Null tile");
             return false;
         }
         else if (!a.isEqualTo(b)) {
-//            System.out.println("Not Equal!");
             return false;
         }
         else if ((data.get(a.getPosY()).get(a.getPosX()) == null) || (data.get(
                                                                       b.getPosY()).get(
                                                                       b.getPosX()) == null)) {
-            //            System.out.println(
-            "Null Tile" + a.getPosY() + " " + a.getPosX() + " " + b.getPosY() + " " + b.getPosX()
-            );
             return false;
         }
         else {
-            int numTurn = 0;
-            if (checkPath(a.getPosX(), a.getPosY(), b.getPosX(),
-                          b.getPosY(),
-                          numTurn)) {
-                data.get(a.getPosY()).set(a.getPosX(), null);
-                data.get(b.getPosY()).set(b.getPosX(), null);
-                this.totalSize -= 2;
-                System.out.println(true);
+            if (checkPath(a.getPosX(), a.getPosY(), b.getPosX(), b.getPosY())) {
                 return true;
             }
-            System.out.println(false);
             return false;
         }
     }
 
-    public ArrayList<String> getImgSeq() {
-        return imgSeq;
+    /**
+     * Remove Tiles
+     *
+     * @param selectedTile - first tile
+     * @param aTile - second tile
+     */
+    public void removeTile(Tile selectedTile, Tile aTile) {
+        data.get(selectedTile.getPosY()).set(selectedTile.getPosX(), null);
+        data.get(aTile.getPosY()).set(aTile.getPosX(), null);
+        this.totalSize -= 2;
     }
 
     /**
@@ -114,19 +107,13 @@ public class Model implements Serializable {
      * @param ay - posY for a
      * @param bx - posX for b
      * @param by - posY for b
-     * @param numTurn - number of turns that has been turned already
      * @return boolean
      */
-    public boolean checkPath(int ax, int ay, int bx, int by, int numTurn) {
+    public boolean checkPath(int ax, int ay, int bx, int by) {
 
 //        System.out.println(ax + " " + ay + " " + bx + " " + by);
         if ((ax == bx) && (ay == by)) {
             // If two tiles are at the same position, return false
-            return false;
-        }
-        else if (numTurn > this.turn) {
-//            System.out.println("Exceeds max turn");
-            // If the number of turns reach this.turn, return false
             return false;
         }
         else {
@@ -136,6 +123,16 @@ public class Model implements Serializable {
         }
     }
 
+    /**
+     * Check if two tiles are able to connect directly horizontal. Return true
+     * if able to, false otherwise.
+     *
+     * @param ax - posX for a
+     * @param ay - posY for a
+     * @param bx - posX for b
+     * @param by - posY for b
+     * @return
+     */
     public boolean checkHorizontal(int ax, int ay, int bx, int by) {
         if (ay != by) {
             return false;
@@ -152,6 +149,16 @@ public class Model implements Serializable {
         }
     }
 
+    /**
+     * Check if two tiles are able to connect directly vertical. Return true if
+     * able to, false otherwise.
+     *
+     * @param ax - posX for a
+     * @param ay - posY for a
+     * @param bx - posX for b
+     * @param by - posY for b
+     * @return
+     */
     public boolean checkVertical(int ax, int ay, int bx, int by) {
         if (ax != bx) {
             return false;
@@ -168,6 +175,16 @@ public class Model implements Serializable {
         }
     }
 
+    /**
+     * Check if two tiles are able to connect via one turn. Return true if able
+     * to, false otherwise.
+     *
+     * @param ax - posX for a
+     * @param ay - posY for a
+     * @param bx - posX for b
+     * @param by - posY for b
+     * @return
+     */
     public boolean checkOneTurn(int ax, int ay, int bx, int by) {
         boolean path1 = checkVertical(ax, ay, ax, by) && checkHorizontal(ax, by,
                                                                          bx, by) && data.get(
@@ -177,6 +194,16 @@ public class Model implements Serializable {
         return path1 || path2;
     }
 
+    /**
+     * Check if two tiles are able to connect via two turns. Return true if able
+     * to, false otherwise.
+     *
+     * @param ax - posX for a
+     * @param ay - posY for a
+     * @param bx - posX for b
+     * @param by - posY for b
+     * @return
+     */
     public boolean checkTwoTurn(int ax, int ay, int bx, int by) {
         boolean pathH = false;
         boolean pathV = false;
@@ -231,20 +258,88 @@ public class Model implements Serializable {
         }
     }
 
+    /**
+     * Getter for tiles
+     *
+     * @return data
+     */
     public ArrayList<ArrayList<Tile>> getData() {
         return data;
     }
 
-    public void removeTile(Tile selectedTile, Tile aTile) {
-        data.get(selectedTile.getPosY()).set(selectedTile.getPosX(), null);
-        data.get(aTile.getPosY()).set(aTile.getPosX(), null);
+    /**
+     * Getter for the image paths
+     *
+     * @return imgSeq
+     */
+    public ArrayList<String> getImgSeq() {
+        return imgSeq;
     }
 
+    /**
+     * Getter for Level
+     *
+     * @return level
+     */
     public Level getLevel() {
         return level;
     }
 
-    public ArrayList<String> imgNameProducer(String theme) {
+    /**
+     * Getter for totalSize of the tiles remaining
+     *
+     * @return totalSize
+     */
+    public int getTotalSize() {
+        return totalSize;
+    }
+
+    /**
+     * Getter for shuffle chance remaining
+     *
+     * @return shuffleChance
+     */
+    public int getShuffleChance() {
+        return shuffleChance;
+    }
+
+    /**
+     * Getter for current theme
+     *
+     * @return theme
+     */
+    public String getTheme() {
+        return theme;
+    }
+
+    /**
+     * Representation of the model
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return String.format("-- Theme: %5s -- Level: %s-- ", this.getTheme(),
+                             this.level.toString());
+
+    }
+
+    /**
+     * Setter for shuffleChance
+     *
+     * @param shuffleChance
+     */
+    public void setShuffleChance(int shuffleChance) {
+        this.shuffleChance = shuffleChance;
+    }
+
+    /**
+     * Generates an ArrayList of path of images
+     *
+     * @param theme - the folder that stores the pictures
+     * @return sResult
+     */
+    private ArrayList<String> imgNameProducer(String theme) {
         ArrayList<String> sResult = new ArrayList<String>();
         ArrayList<Integer> iResult = new ArrayList<Integer>();
         int width = this.level.getWidth();
@@ -266,22 +361,9 @@ public class Model implements Serializable {
         return sResult;
     }
 
-    public int getTurn() {
-        return turn;
-    }
-
-    public int getTotalSize() {
-        return totalSize;
-    }
-
-    public int getShuffleChance() {
-        return shuffleChance;
-    }
-
-    public String getTheme() {
-        return theme;
-    }
-
+    /**
+     * Helper function for imgNameProducer
+     */
     private int numContained(ArrayList<Integer> input, int x) {
         int i;
         int result = 0;
@@ -291,33 +373,6 @@ public class Model implements Serializable {
             }
         }
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("-- Theme: %5s -- Level: %s-- ", this.getTheme(),
-                             this.level.toString());
-
-    }
-
-    public void setLevel(Level level) {
-        this.level = level;
-    }
-
-    public void setData(ArrayList<ArrayList<Tile>> data) {
-        this.data = data;
-    }
-
-    public void setTotalSize(int totalSize) {
-        this.totalSize = totalSize;
-    }
-
-    public void setShuffleChance(int shuffleChance) {
-        this.shuffleChance = shuffleChance;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
     }
 
 }

@@ -16,8 +16,6 @@
 package csci205_final_project.Model;
 
 import java.io.Serializable;
-import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
 
 /**
  *
@@ -25,19 +23,9 @@ import javafx.scene.paint.ImagePattern;
  */
 public class Tile implements Serializable {
 
-    private Image img;
-    private ImagePattern imgPtn;  //imgPtn for fill
     private int x; // Relative pos x of the tile
     private int y; // Relative pos y of the tile
     private String imgName; // String representation of the content of the tile
-
-    public Tile(int x, int y, Image img) {
-
-        this.x = x;
-        this.y = y;
-        this.img = img;
-        this.imgPtn = new ImagePattern(this.img);
-    }
 
     public Tile(int x, int y) {
         this.x = x;
@@ -60,26 +48,6 @@ public class Tile implements Serializable {
         this.imgName = imgName;
     }
 
-    /**
-     * Set the image
-     *
-     * @param img
-     */
-    /*
-    public void setImg(Image img) {
-        this.img = img;
-        updateImg();
-    }
-     */
-    /**
-     * Update the image
-     */
-    /*
-    public void updateImg() {
-        this.imgPtn = new ImagePattern(this.img);
-        this.setFill(this.imgPtn);
-    }
-     */
     /**
      * Compare if two tiles are equal based on imgName
      *
