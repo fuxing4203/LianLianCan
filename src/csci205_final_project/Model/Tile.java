@@ -19,13 +19,12 @@ import java.io.Serializable;
 import java.util.Objects;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
 
 /**
  *
  * @author Iris
  */
-public class Tile extends Rectangle implements Serializable {
+public class Tile implements Serializable {
 
     private Image img;
     private ImagePattern imgPtn;  //imgPtn for fill
@@ -48,7 +47,6 @@ public class Tile extends Rectangle implements Serializable {
 
     public Tile(int x, int y, String imgName) {
 
-        super(50, 50);
         this.x = x;
         this.y = y;
         this.imgName = imgName;
@@ -68,28 +66,28 @@ public class Tile extends Rectangle implements Serializable {
      *
      * @param img
      */
+    /*
     public void setImg(Image img) {
         this.img = img;
         updateImg();
     }
-
+     */
     /**
      * Update the image
      */
+    /*
     public void updateImg() {
         this.imgPtn = new ImagePattern(this.img);
         this.setFill(this.imgPtn);
     }
-
+     */
     /**
      * Compare if two tiles are equal based on imgName
      *
      * @param obj
      * @return boolean
      */
-    /*
-    @Override
-    public boolean equals(Object obj) {
+    public boolean isEqualTo(Object obj) {
         if (obj == null) {
             return false;
         }
@@ -102,7 +100,7 @@ public class Tile extends Rectangle implements Serializable {
         }
         return false;
     }
-     */
+
     /**
      * Set the new posX for the tile
      *

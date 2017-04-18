@@ -1,18 +1,3 @@
-/* *****************************************
-* CSCI205 - Software Engineering and Design
-* Spring 2017
-*
-* Name: Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
-* Date: Apr 16, 2017
-* Time: 3:34:02 PM
-*
-* Project: csci205_final_project
-* Package: csci205_final_project.Model.GameSaveMenu
-* File: GameSaveMenuController
-* Description:
-*
-* ****************************************
- */
 package csci205_final_project.GameSaveMenu;
 
 import Util.SaveAndLoadModelUtil;
@@ -20,8 +5,6 @@ import csci205_final_project.Model.Model;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -44,36 +27,26 @@ public class GameSaveMenuController implements Initializable {
     @FXML
     private Button resume;
 
-    private Model save1;
-    private Model save2;
-    private Model save3;
+    private Model myModel;
 
     /**
      * Initializes the controller class.
-     *
-     * @param url
-     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // read the three save files and see if they are there.
-        // if they are, deserialize them and put their information on the buttons.
-
+        // read saves and change the text on the tiles.
         try {
-            save1 = SaveAndLoadModelUtil.deserializeModel("save1.ser");
+            Model save1 = SaveAndLoadModelUtil.deserializeModel("save1.ser");
 
             this.saveSlot1.setText(save1.toString());
         } catch (IOException ex) {
             this.saveSlot1.setText("Empty Save Slot");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GameSaveMenuController.class.getName()).log(
-                    Level.SEVERE,
-                    null,
-                    ex);
+
         }
 
         try {
-            save2 = SaveAndLoadModelUtil.deserializeModel("save2.ser");
+            Model save2 = SaveAndLoadModelUtil.deserializeModel("save2.ser");
 
             this.saveSlot2.setText(save2.toString());
         } catch (IOException ex) {
@@ -81,36 +54,55 @@ public class GameSaveMenuController implements Initializable {
             this.saveSlot2.setText("Empty Save Slot");
 
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GameSaveMenuController.class.getName()).log(
-                    Level.SEVERE,
-                    null,
-                    ex);
+
         }
         try {
-            save3 = SaveAndLoadModelUtil.deserializeModel("save3.ser");
+            Model save3 = SaveAndLoadModelUtil.deserializeModel("save3.ser");
             this.saveSlot3.setText(save3.toString());
         } catch (IOException ex) {
 
             this.saveSlot3.setText("Empty Save Slot");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GameSaveMenuController.class.getName()).log(
-                    Level.SEVERE,
-                    null,
-                    ex);
+
         }
+    }
+
+    public void initModel(Model myModel) {
+        this.myModel = myModel;
     }
 
     @FXML
     private void saveInSlot1(ActionEvent event) {
+        try {
+            SaveAndLoadModelUtil.serializeModel(myModel, "save1.ser");
+            this.saveSlot1.setText(myModel.toString());
+        } catch (IOException ex) {
+            this.saveSlot1.setText("Failed to save");
+
+        }
 
     }
 
     @FXML
     private void saveInSlot2(ActionEvent event) {
+        try {
+            SaveAndLoadModelUtil.serializeModel(myModel, "save2.ser");
+            this.saveSlot2.setText(myModel.toString());
+        } catch (IOException ex) {
+            this.saveSlot2.setText("Failed to save");
+        }
     }
 
     @FXML
     private void saveInSlot3(ActionEvent event) {
+        System.out.println("Hehe");
+        try {
+            SaveAndLoadModelUtil.serializeModel(myModel, "save3.ser");
+            this.saveSlot3.setText(myModel.toString());
+        } catch (IOException ex) {
+            this.saveSlot3.setText("Failed to save");
+
+        }
     }
 
     @FXML

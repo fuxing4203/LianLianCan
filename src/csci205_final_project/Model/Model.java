@@ -15,14 +15,10 @@
  */
 package csci205_final_project.Model;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.TilePane;
-import javafx.scene.paint.ImagePattern;
+import java.util.Random;
 
 /**
  *
@@ -38,14 +34,11 @@ public class Model implements Serializable {
     private ArrayList<ArrayList<Tile>> data; // stores the tiles
     private int totalSize = 0; // records the total number of tiles
     private int shuffleChance = 2; // records the number of chances for shuffle
-    private Tile selectedTile;
-    private int numOfSelections = 0;
-    private TilePane tilePane;
+    private String theme;
 
-    public Model(Level level, TilePane tp) {
-        tilePane = tp;
+    public Model(Level level, String theme) {
         this.level = level;
-        this.totalSize = this.level.getHeight() * this.level.getWidth();
+        this.theme = theme;
         data = new ArrayList();
         for (int i = 0; i < this.level.getHeight() + 2; i++) {
             ArrayList<Tile> row = new ArrayList();
@@ -75,10 +68,10 @@ public class Model implements Serializable {
      * @return boolean
      */
     public boolean isTileCancelable(Tile a, Tile b) {
-
-        return true;
-        /*
-        if (!a.equals(b)) {
+        if (a == null || b == null) {
+            return false;
+        }
+        else if (!a.isEqualTo(b)) {
             //System.out.println("Not Equal!");
             return false;
         }
@@ -98,7 +91,7 @@ public class Model implements Serializable {
                 return true;
             }
             return false;
-        }*/
+        }
     }
 
     /**
@@ -113,33 +106,29 @@ public class Model implements Serializable {
      * @return boolean
      */
     public boolean checkPath(int ax, int ay, int bx, int by, int numTurn) {
-        System.out.println(ax + " " + ay + " " + bx + " " + by);
-        return true;
-        /*
+
+//        System.out.println(ax + " " + ay + " " + bx + " " + by);
         if ((ax == bx) && (ay == by)) {
             // If two tiles are at the same position, return false
             return true;
         }
         else if (numTurn > this.turn) {
-            System.out.println("Exceeds max turn");
+//            System.out.println("Exceeds max turn");
             // If the number of turns reach this.turn, return false
             return false;
         }
         else {
-         */
-        // each InLine checks one direction
 
-        /*
-            InLine aup = new InLine(ax, ay);
-            InLine adown = new InLine(ax, ay);
-            InLine aleft = new InLine(ax, ay);
-            InLine aright = new InLine(ax, ay);
-            InLine bup = new InLine(bx, by);
-            InLine bdown = new InLine(bx, by);
-            InLine bleft = new InLine(bx, by);
-            InLine bright = new InLine(bx, by);
-         */
- /*
+            // each InLine checks one direction
+            InLine aup = new InLine(ax, ay, data);
+            InLine adown = new InLine(ax, ay, data);
+            InLine aleft = new InLine(ax, ay, data);
+            InLine aright = new InLine(ax, ay, data);
+            InLine bup = new InLine(bx, by, data);
+            InLine bdown = new InLine(bx, by, data);
+            InLine bleft = new InLine(bx, by, data);
+            InLine bright = new InLine(bx, by, data);
+
             int oneright = ax;
             int oneleft = ax;
             int oneup = ay;
@@ -159,9 +148,8 @@ public class Model implements Serializable {
             }
 
             InLine one = new InLine();
-         */
-        // call checkPath with updated position
-        /*
+
+            // call checkPath with updated position
             if (aup.checkUp(ax, ay, bx, by) || adown.checkDown(ax, ay, bx, by) || aleft.checkLeft(
                     ax, ay, bx, by) || aright.checkRight(ax, ay, bx, by)) {
                 return true;
@@ -193,9 +181,7 @@ public class Model implements Serializable {
                     numTurn + 2) || checkPath(
                             aright.getX(), aright.getY(), bleft.getX(),
                             bleft.getY(), numTurn + 2);
-         */
- /*}*/
-        //return false;
+        }
     }
 
     /**
@@ -239,60 +225,89 @@ public class Model implements Serializable {
         return data;
     }
 
-    public void generateGameWithMode(TilePane tp, Level level) {
-
-        tp.setPrefColumns(level.getWidth());
-        tp.setPrefRows(level.getWidth());
-        tp.setPrefWidth(50 * level.getWidth());
-        tp.setPrefHeight(50 * level.getHeight());
-        tp.setMaxSize(50 * level.getWidth(), 50 * level.getHeight());
-        int i;
-        int j;
-        for (i = 1; i < level.getWidth() + 1; i++) {
-            for (j = 1; j < level.getHeight() + 1; j++) {
-                Tile aTile = data.get(i).get(j);
-                //                aTile.setX(perWidth * j);
-                //                aTile.setY(perHeight * i);
-                File file = new File("a.jpg");
-                Image img = new Image(file.toURI().toString());
-                aTile.setFill(new ImagePattern(img));
-                aTile.setOnMouseClicked((MouseEvent event) -> {
-                    //System.out.println(aTile.getPosX());
-                    //System.out.println(aTile.getPosY());
-                    if (numOfSelections % 2 == 0) {
-                        selectedTile = aTile;
-                        numOfSelections++;
-                    }
-                    else if (numOfSelections % 2 == 1) {
-                        boolean isPath = isTileCancelable(selectedTile, aTile);
-                        if (isPath) {
-                            cancelTile(selectedTile, aTile);
-                        }
-                        numOfSelections++;
-
-                    }
-                });
-                tp.getChildren().add(aTile);
-                //System.out.println(aTile.getX());
-                //System.out.println(aTile.getY());
-            }
-        }
-    }
-
-    private void cancelTile(Tile selectedTile, Tile aTile) {
-        selectedTile.setOpacity(0);
-        aTile.setOpacity(0);
+    public void removeTile(Tile selectedTile, Tile aTile) {
         data.get(selectedTile.getPosX()).set(selectedTile.getPosX(), null);
         data.get(aTile.getPosX()).set(aTile.getPosX(), null);
     }
 
+    public Level getLevel() {
+        return level;
+    }
+
+    public ArrayList<String> imgNameProducer(String theme) {
+        ArrayList<String> sResult = new ArrayList<String>();
+        ArrayList<Integer> iResult = new ArrayList<Integer>();
+        int width = this.level.getWidth();
+        int height = this.level.getHeight();
+        int numTiles = width * height;
+        int numImgs = numTiles / 4;
+        Random rnd = new Random();
+        int n;
+        for (int i = 0; i < numTiles; i++) {
+            while (true) {
+                n = rnd.nextInt(numImgs);
+                if (numContained(iResult, n) < 4) {
+                    iResult.add(n);
+                    sResult.add(theme + "/" + n + ".jpg");
+                    break;
+                }
+            }
+        }
+        return sResult;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public int getTotalSize() {
+        return totalSize;
+    }
+
+    public int getShuffleChance() {
+        return shuffleChance;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    private int numContained(ArrayList<Integer> input, int x) {
+        int i;
+        int result = 0;
+        for (i = 0; i < input.size(); i++) {
+            if (input.get(i) == x) {
+                result += 1;
+            }
+        }
+        return result;
+    }
+
     @Override
     public String toString() {
-        String currentLevel = this.level.toString();
-        int currentSize = this.totalSize;
-        return String.format("--Level:%s --Remaining Tiles:%3d--", currentLevel,
-                             currentSize);
+        return String.format("-- Theme: %5s -- Level: %s-- ", this.getTheme(),
+                             this.level.toString());
 
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+    public void setData(ArrayList<ArrayList<Tile>> data) {
+        this.data = data;
+    }
+
+    public void setTotalSize(int totalSize) {
+        this.totalSize = totalSize;
+    }
+
+    public void setShuffleChance(int shuffleChance) {
+        this.shuffleChance = shuffleChance;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 
 }

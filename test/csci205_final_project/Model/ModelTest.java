@@ -49,13 +49,13 @@ public class ModelTest {
         System.out.println("cancelTileDiffName");
         md.data.get(2).get(5).setImgName("a");
         md.data.get(3).get(5).setImgName("b");
-        boolean result = md.isTileCancelable(md.data.get(2).get(5),
+        boolean result = md.cancelTile(md.data.get(2).get(5),
                                        md.data.get(3).get(5));
         assertFalse(result);
 
         System.out.println("cancelTileNextToEachOther");
         md.data.get(3).get(5).setImgName("a");
-        result = md.isTileCancelable(md.data.get(2).get(5),
+        result = md.cancelTile(md.data.get(2).get(5),
                                md.data.get(3).get(5));
         assertTrue(result);
 
@@ -66,11 +66,11 @@ public class ModelTest {
         md.data.get(2).get(5).setImgName("b");
         md.data.get(3).get(5).setImgName("b");
         md.data.get(4).get(5).setImgName("b");
-        result = md.isTileCancelable(md.data.get(2).get(5),
+        result = md.cancelTile(md.data.get(2).get(5),
                                md.data.get(4).get(5));
         assertFalse(result);
         md.data.get(3).set(5, null);
-        result = md.isTileCancelable(md.data.get(2).get(5),
+        result = md.cancelTile(md.data.get(2).get(5),
                                md.data.get(4).get(5));
         assertTrue(result);
 
@@ -81,7 +81,7 @@ public class ModelTest {
         md.data.get(2).set(6, null);
         md.data.get(3).set(6, null);
         md.data.get(4).set(6, null);
-        result = md.isTileCancelable(md.data.get(2).get(5),
+        result = md.cancelTile(md.data.get(2).get(5),
                                md.data.get(4).get(5));
         assertTrue(result);
 
@@ -92,14 +92,14 @@ public class ModelTest {
         md.data.get(4).set(5, null);
         md.data.get(2).get(4).setImgName("b");
         md.data.get(4).get(6).setImgName("b");
-        result = md.isTileCancelable(md.data.get(2).get(4),
+        result = md.cancelTile(md.data.get(2).get(4),
                                md.data.get(4).get(6));
         assertTrue(result);
 
         System.out.println("cancelTileThreeTurns");
         md.data.get(1).get(4).setImgName("b");
         md.data.get(5).get(6).setImgName("b");
-        result = md.isTileCancelable(md.data.get(1).get(4),
+        result = md.cancelTile(md.data.get(1).get(4),
                                md.data.get(5).get(6));
         assertFalse(result);
     }

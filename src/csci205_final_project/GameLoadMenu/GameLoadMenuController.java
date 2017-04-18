@@ -4,11 +4,11 @@
 *
 * Name: Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
 * Date: Apr 16, 2017
-* Time: 4:14:18 PM
+* Time: 3:34:02 PM
 *
 * Project: csci205_final_project
-* Package: csci205_final_project.GameLoadMenu
-* File: GameLoadMenuController
+* Package: csci205_final_project.Model.GameSaveMenu
+* File: GameSaveMenuController
 * Description:
 *
 * ****************************************
@@ -16,7 +16,6 @@
 package csci205_final_project.GameLoadMenu;
 
 import Util.SaveAndLoadModelUtil;
-import csci205_final_project.GameSaveMenu.GameSaveMenuController;
 import csci205_final_project.Model.Model;
 import java.io.IOException;
 import java.net.URL;
@@ -37,98 +36,68 @@ import javafx.stage.Stage;
 public class GameLoadMenuController implements Initializable {
 
     @FXML
-    private Button saveSlot1;
-    @FXML
-    private Button saveSlot2;
-    @FXML
-    private Button saveSlot3;
-    @FXML
     private Button resume;
 
-    private Model myModel;
+    private Model save1;
+    private Model save2;
+    private Model save3;
+    private Model theModel;
+    @FXML
+    private Button loadSlot1;
+    @FXML
+    private Button loadSlot2;
+    @FXML
+    private Button loadSlot3;
 
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // read saves and change the text on the tiles.
-        try {
-            Model save1 = SaveAndLoadModelUtil.deserializeModel("save1.ser");
+        // read the three save files and see if they are there.
+        // if they are, deserialize them and put their information on the buttons.
 
-            this.saveSlot1.setText(save1.toString());
+        try {
+            save1 = SaveAndLoadModelUtil.deserializeModel("save1.ser");
+
+            this.loadSlot1.setText(save1.toString());
         } catch (IOException ex) {
-            this.saveSlot1.setText("Empty Save Slot");
+            this.loadSlot1.setText("Empty Save Slot");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GameSaveMenuController.class.getName()).log(
+            Logger.getLogger(GameLoadMenuController.class.getName()).log(
                     Level.SEVERE,
                     null,
                     ex);
         }
 
         try {
-            Model save2 = SaveAndLoadModelUtil.deserializeModel("save2.ser");
+            save2 = SaveAndLoadModelUtil.deserializeModel("save2.ser");
 
-            this.saveSlot2.setText(save2.toString());
+            this.loadSlot2.setText(save2.toString());
         } catch (IOException ex) {
 
-            this.saveSlot2.setText("Empty Save Slot");
+            this.loadSlot2.setText("Empty Save Slot");
 
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GameSaveMenuController.class.getName()).log(
+            Logger.getLogger(GameLoadMenuController.class.getName()).log(
                     Level.SEVERE,
                     null,
                     ex);
         }
         try {
-            Model save3 = SaveAndLoadModelUtil.deserializeModel("save3.ser");
-            this.saveSlot3.setText(save3.toString());
+            save3 = SaveAndLoadModelUtil.deserializeModel("save3.ser");
+            this.loadSlot3.setText(save3.toString());
         } catch (IOException ex) {
 
-            this.saveSlot3.setText("Empty Save Slot");
+            this.loadSlot3.setText("Empty Save Slot");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GameSaveMenuController.class.getName()).log(
+            Logger.getLogger(GameLoadMenuController.class.getName()).log(
                     Level.SEVERE,
                     null,
                     ex);
-        }
-    }
-
-    public void initModel(Model myModel) {
-        this.myModel = myModel;
-    }
-
-    @FXML
-    private void saveInSlot1(ActionEvent event) {
-        try {
-            SaveAndLoadModelUtil.serializeModel(myModel, "save1.ser");
-            this.saveSlot1.setText(myModel.toString());
-        } catch (IOException ex) {
-            this.saveSlot1.setText("Failed to save");
-
-        }
-
-    }
-
-    @FXML
-    private void saveInSlot2(ActionEvent event) {
-        try {
-            SaveAndLoadModelUtil.serializeModel(myModel, "save2.ser");
-            this.saveSlot2.setText(myModel.toString());
-        } catch (IOException ex) {
-            this.saveSlot2.setText("Failed to save");
-        }
-    }
-
-    @FXML
-    private void saveInSlot3(ActionEvent event) {
-        System.out.println("Hehe");
-        try {
-            SaveAndLoadModelUtil.serializeModel(myModel, "save3.ser");
-            this.saveSlot3.setText(myModel.toString());
-        } catch (IOException ex) {
-            this.saveSlot3.setText("Failed to save");
-
         }
     }
 
@@ -136,6 +105,18 @@ public class GameLoadMenuController implements Initializable {
     private void resumeToGame(ActionEvent event) {
         Stage stage = (Stage) this.resume.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private void loadSlot1(ActionEvent event) {
+    }
+
+    @FXML
+    private void loadSlot2(ActionEvent event) {
+    }
+
+    @FXML
+    private void loadSlot3(ActionEvent event) {
     }
 
 }

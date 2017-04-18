@@ -64,7 +64,6 @@ public class SaveAndLoadModelUtil {
      */
     public static void serializeModel(Model myModel, String dirName) throws FileNotFoundException, IOException {
         //try {
-        dirName += ".ser";
         FileOutputStream fileOut = new FileOutputStream(dirName);
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
         out.writeObject(myModel);

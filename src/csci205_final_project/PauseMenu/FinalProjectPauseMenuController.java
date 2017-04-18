@@ -47,6 +47,7 @@ public class FinalProjectPauseMenuController implements Initializable {
     @FXML
     private Button loadBtn;
 
+    private Thread myThread;
     private Model theModel;
 
     /**
@@ -57,7 +58,9 @@ public class FinalProjectPauseMenuController implements Initializable {
         // TODO
     }
 
-    public void initData(Model theModel) {
+    public void initData(Thread t, Model theModel) {
+        myThread = t;
+
         this.theModel = theModel;
 
     }
@@ -65,6 +68,8 @@ public class FinalProjectPauseMenuController implements Initializable {
     @FXML
     private void resumeGame(ActionEvent event) {
         Stage stage = (Stage) this.resumeBtn.getScene().getWindow();
+        //TODO
+        myThread.resume();
         stage.close();
 
     }
@@ -75,6 +80,7 @@ public class FinalProjectPauseMenuController implements Initializable {
                 "../GameSaveMenu/GameSaveMenu.fxml"));
         Pane save = (Pane) loader.load();
         GameSaveMenuController gameSave = loader.<GameSaveMenuController>getController();
+        gameSave.initModel(theModel);
         Scene scene = new Scene(save);
         Stage stage;
         stage = new Stage();
@@ -88,7 +94,7 @@ public class FinalProjectPauseMenuController implements Initializable {
                 "../GameLoadMenu/GameLoadMenu.fxml"));
         Pane load = (Pane) loader.load();
         GameLoadMenuController gameLoad = loader.<GameLoadMenuController>getController();
-        gameLoad.initModel(theModel);
+
         Scene scene = new Scene(load);
         Stage stage;
         stage = new Stage();
