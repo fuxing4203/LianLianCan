@@ -71,18 +71,19 @@ public class Model implements Serializable {
      */
     public boolean isTileCancelable(Tile a, Tile b) {
         if (a == null || b == null) {
-            System.out.println("Null tile");
+//            System.out.println("Null tile");
             return false;
         }
         else if (!a.isEqualTo(b)) {
-            System.out.println("Not Equal!");
+//            System.out.println("Not Equal!");
             return false;
         }
         else if ((data.get(a.getPosY()).get(a.getPosX()) == null) || (data.get(
                                                                       b.getPosY()).get(
                                                                       b.getPosX()) == null)) {
-            System.out.println(
-                    "Null Tile" + a.getPosY() + " " + a.getPosX() + " " + b.getPosY() + " " + b.getPosX());
+            //            System.out.println(
+            "Null Tile" + a.getPosY() + " " + a.getPosX() + " " + b.getPosY() + " " + b.getPosX()
+            );
             return false;
         }
         else {

@@ -149,7 +149,7 @@ public class FinalProjectGameSceneController implements Initializable {
         tilePane.setPrefWidth(50 * level.getWidth());
         tilePane.setPrefHeight(50 * level.getHeight());
         tilePane.setMaxSize(50 * level.getWidth(), 50 * level.getHeight());
-        ArrayList<String> imgSeq = theModel.imgNameProducer(theModel.getTheme());
+        ArrayList<String> imgSeq = theModel.getImgSeq();
         int i;
         int j;
         int index = 0;
