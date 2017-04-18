@@ -69,15 +69,29 @@ public class Model implements Serializable {
      */
     public boolean isTileCancelable(Tile a, Tile b) {
         if (a == null || b == null) {
+            System.out.println("Null tile");
             return false;
         }
         else if (!a.isEqualTo(b)) {
-            //System.out.println("Not Equal!");
+            System.out.println("Not Equal!");
             return false;
         }
         else if ((data.get(a.getPosY()).get(a.getPosX()) == null) || (data.get(
                                                                       b.getPosY()).get(
                                                                       b.getPosX()) == null)) {
+            System.out.println(
+                    "Null Tile" + a.getPosY() + " " + a.getPosX() + " " + b.getPosY() + " " + b.getPosX());
+            System.out.println(data);
+            System.out.println(this.totalSize);
+            int nulPic = 0;
+            for (int i = 0; i < this.data.size(); i++) {
+                for (int j = 0; j < this.data.get(0).size(); j++) {
+                    if (this.data.get(i).get(j) != null) {
+                        nulPic += 1;
+                    }
+                }
+            }
+            System.out.println(nulPic);
             return false;
         }
         else {
@@ -88,8 +102,10 @@ public class Model implements Serializable {
                 data.get(a.getPosY()).set(a.getPosX(), null);
                 data.get(b.getPosY()).set(b.getPosX(), null);
                 this.totalSize -= 2;
+                System.out.println(true);
                 return true;
             }
+            System.out.println(false);
             return false;
         }
     }
@@ -110,7 +126,7 @@ public class Model implements Serializable {
 //        System.out.println(ax + " " + ay + " " + bx + " " + by);
         if ((ax == bx) && (ay == by)) {
             // If two tiles are at the same position, return false
-            return true;
+            return false;
         }
         else if (numTurn > this.turn) {
 //            System.out.println("Exceeds max turn");
@@ -226,8 +242,8 @@ public class Model implements Serializable {
     }
 
     public void removeTile(Tile selectedTile, Tile aTile) {
-        data.get(selectedTile.getPosX()).set(selectedTile.getPosX(), null);
-        data.get(aTile.getPosX()).set(aTile.getPosX(), null);
+        data.get(selectedTile.getPosY()).set(selectedTile.getPosX(), null);
+        data.get(aTile.getPosY()).set(aTile.getPosX(), null);
     }
 
     public Level getLevel() {

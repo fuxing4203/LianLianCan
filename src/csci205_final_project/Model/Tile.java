@@ -16,7 +16,6 @@
 package csci205_final_project.Model;
 
 import java.io.Serializable;
-import java.util.Objects;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
@@ -117,13 +116,6 @@ public class Tile implements Serializable {
      */
     public void setY(int y) {
         this.y = y;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.imgName);
-        return hash;
     }
 
     /**
