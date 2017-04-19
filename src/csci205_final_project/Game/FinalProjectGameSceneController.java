@@ -16,6 +16,7 @@
 package csci205_final_project.Game;
 
 import csci205_final_project.Model.*;
+import csci205_final_project.Option.OptionController;
 import csci205_final_project.PauseMenu.FinalProjectPauseMenuController;
 import java.io.File;
 import java.io.IOException;
@@ -58,6 +59,7 @@ public class FinalProjectGameSceneController implements Initializable {
     @FXML
     private Label labelLevel;
 
+    private Level level;
     private Model theModel;
     private int seconds;
     private Thread th;
@@ -76,8 +78,19 @@ public class FinalProjectGameSceneController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        theModel = new Model(Level.EASY, "pokeman");
-        startGameBoardWithMode(Level.EASY);
+        String levelString = OptionController.getLevel();
+        if (levelString.equals("Easy")) {
+            level = Level.EASY;
+        }
+        else if (levelString.equals("Medium")) {
+            level = Level.MEDIUM;
+        }
+        else if (levelString.equals("Hard")) {
+            level = Level.HARD;
+        }
+
+        theModel = new Model(level, OptionController.getTheme());
+        startGameBoardWithMode(level);
         // start timer
         Task<Void> task = new Task<Void>() {
             @Override
