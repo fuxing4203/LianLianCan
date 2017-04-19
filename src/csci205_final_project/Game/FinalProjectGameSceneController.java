@@ -211,6 +211,7 @@ public class FinalProjectGameSceneController implements Initializable {
                 aRectangle.setOpacity(0);
             }
             else { // if there is no path between them, change the next selected tile as selected.
+                selectedRectangle.setOpacity(1);
                 selectedRectangle = aRectangle;
                 selectedTile = aTile;
                 selectedRectangle.setOpacity(0.5);
