@@ -20,7 +20,6 @@ import csci205_final_project.PauseMenu.FinalProjectPauseMenuController;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -125,7 +124,27 @@ public class FinalProjectGameSceneController implements Initializable {
 
     @FXML
     private void btnShuffle(ActionEvent event) {
-        // theModel = new Model();
+        theModel.shuffle();
+        Level level = theModel.getLevel();
+        tilePane.getChildren().clear();
+        for (int i = 1; i < level.getWidth() + 1; i++) {
+            for (int j = 1; j < level.getHeight() + 1; j++) {
+                Tile aTile = theModel.getData().get(j).get(i);
+                Rectangle aRectangle = new Rectangle(50, 50);
+                aRectangle.setOnMouseClicked((MouseEvent eventB) -> {
+                    selectRectangle(aRectangle, aTile);
+                });
+                if (aTile != null) {
+                    File file = new File(aTile.getImgName());
+                    Image img = new Image(file.toURI().toString());
+                    aRectangle.setFill(new ImagePattern(img));
+                }
+                else {
+                    aRectangle.setOpacity(0);
+                }
+                tilePane.getChildren().add(aRectangle);
+            }
+        }
     }
 
     @FXML
@@ -149,17 +168,10 @@ public class FinalProjectGameSceneController implements Initializable {
         tilePane.setPrefWidth(50 * level.getWidth());
         tilePane.setPrefHeight(50 * level.getHeight());
         tilePane.setMaxSize(50 * level.getWidth(), 50 * level.getHeight());
-        ArrayList<String> imgSeq = theModel.getImgSeq();
-        int i;
-        int j;
-        int index = 0;
-        for (i = 1; i < level.getWidth() + 1; i++) {
-            for (j = 1; j < level.getHeight() + 1; j++) {
-                Tile aTile = theModel.getData().get(i).get(j);
-                //                aTile.setX(perWidth * j);
-                //                aTile.setY(perHeight * i);
-                File file = new File(imgSeq.get(index));
-                index += 1;
+        for (int i = 1; i < level.getWidth() + 1; i++) {
+            for (int j = 1; j < level.getHeight() + 1; j++) {
+                Tile aTile = theModel.getData().get(j).get(i);
+                File file = new File(aTile.getImgName());
                 Image img = new Image(file.toURI().toString());
                 Rectangle aRectangle = new Rectangle(50, 50);
                 aRectangle.setFill(new ImagePattern(img));
@@ -167,8 +179,6 @@ public class FinalProjectGameSceneController implements Initializable {
                     selectRectangle(aRectangle, aTile);
                 });
                 tilePane.getChildren().add(aRectangle);
-                //System.out.println(aTile.getX());
-                //System.out.println(aTile.getY());
             }
         }
     }
@@ -193,9 +203,7 @@ public class FinalProjectGameSceneController implements Initializable {
 
             selectedRectangle.setOpacity(1); // set the opacity back in case there is no path between the current one and the next one.
 
-            boolean isPath = theModel.isTileCancelable(
-                    selectedTile,
-                    aTile);
+            boolean isPath = theModel.isTileCancelable(selectedTile, aTile);
             if (isPath) {
                 theModel.removeTile(selectedTile, aTile);
                 // make the tiles invisible.

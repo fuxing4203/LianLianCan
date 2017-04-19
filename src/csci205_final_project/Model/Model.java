@@ -31,7 +31,6 @@ public class Model implements Serializable {
     private int totalSize = 0; // records the total number of tiles
     private int shuffleChance = 2; // records the number of chances for shuffle
     private String theme; // theme of the images
-    private ArrayList<String> imgSeq; // sequence for loading the image
 
     /**
      *
@@ -41,7 +40,7 @@ public class Model implements Serializable {
     public Model(Level level, String theme) {
         this.level = level;
         this.theme = theme;
-        this.imgSeq = imgNameProducer(theme);
+        ArrayList<String> imgSeq = imgNameProducer(theme);
         data = new ArrayList();
         for (int i = 0; i < this.level.getHeight() + 2; i++) {
             ArrayList<Tile> row = new ArrayList();
@@ -110,8 +109,6 @@ public class Model implements Serializable {
      * @return boolean
      */
     public boolean checkPath(int ax, int ay, int bx, int by) {
-
-//        System.out.println(ax + " " + ay + " " + bx + " " + by);
         if ((ax == bx) && (ay == by)) {
             // If two tiles are at the same position, return false
             return false;
@@ -274,15 +271,6 @@ public class Model implements Serializable {
      */
     public void setData(ArrayList<ArrayList<Tile>> data) {
         this.data = data;
-    }
-
-    /**
-     * Getter for the image paths
-     *
-     * @return imgSeq
-     */
-    public ArrayList<String> getImgSeq() {
-        return imgSeq;
     }
 
     /**
