@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" prefHeight="301.0" prefWidth="216.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csci205_final_project.Option.OptionController">
+<VBox alignment="CENTER" prefHeight="391.0" prefWidth="285.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csci205_final_project.Option.OptionController">
    <children>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Option">
          <font>
@@ -22,8 +22,11 @@
       <Slider fx:id="volumeSlider" />
       <Region VBox.vgrow="ALWAYS" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Themes" />
-      <ComboBox fx:id="dropdownComboBox" prefWidth="150.0" />
+      <ComboBox fx:id="themeBox" prefWidth="150.0" />
       <Region VBox.vgrow="ALWAYS" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Level" />
+      <ComboBox fx:id="levelBox" prefWidth="150.0" />
+      <Region />
       <Button fx:id="returnBtn" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#resume" text="Return" />
       <Region VBox.vgrow="ALWAYS" />
    </children>
