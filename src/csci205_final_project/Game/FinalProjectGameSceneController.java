@@ -87,14 +87,16 @@ public class FinalProjectGameSceneController implements Initializable {
     private String theme;
     private ArrayList<ArrayList<Rectangle>> data;
 
+    private int score = 0;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        // start timer
         playMusic();
+        // start timer
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() {
@@ -188,6 +190,7 @@ public class FinalProjectGameSceneController implements Initializable {
     public void createModel() {
         theModel = new Model(level, theme);
         startGameBoardWithMode(theModel.getLevel());
+        labelScore.setText(String.format("%d", theModel.getScore()));
     }
 
     public void initData(String themeString, String levelString) {
@@ -329,12 +332,16 @@ public class FinalProjectGameSceneController implements Initializable {
                 // make the tiles invisible.
                 selectedRectangle.setOpacity(0);
                 aRectangle.setOpacity(0);
+                score += 5;
+                labelScore.setText(String.format("%d", score));
             }
             else { // if there is no path between them, change the next selected tile as selected.
                 selectedRectangle.setOpacity(1);
                 selectedRectangle = aRectangle;
                 selectedTile = aTile;
                 selectedRectangle.setOpacity(0.5);
+                score -= 1;
+                labelScore.setText(String.format("%d", score));
             }
 
             numOfSelections++;

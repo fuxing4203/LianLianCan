@@ -32,6 +32,7 @@ public class Model implements Serializable {
     private int shuffleChance = 2; // records the number of chances for shuffle
     private String theme; // theme of the images
     private int hintChance = 2;
+    private int score = 0;
 
     /**
      *
@@ -72,6 +73,7 @@ public class Model implements Serializable {
             return false;
         }
         else if (!a.isEqualTo(b)) {
+            this.score -= 1;
             return false;
         }
         else if ((data.get(a.getPosY()).get(a.getPosX()) == null) || (data.get(
@@ -81,8 +83,10 @@ public class Model implements Serializable {
         }
         else {
             if (checkPath(a.getPosX(), a.getPosY(), b.getPosX(), b.getPosY())) {
+                this.score += 5;
                 return true;
             }
+            this.score -= 1;
             return false;
         }
     }
@@ -424,6 +428,10 @@ public class Model implements Serializable {
             }
         }
         return result;
+    }
+
+    public int getScore() {
+        return score;
     }
 
 }
