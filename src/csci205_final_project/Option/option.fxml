@@ -27,7 +27,7 @@
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Level" />
       <ComboBox fx:id="levelBox" prefWidth="150.0" />
       <Region />
-      <Button fx:id="startGame" mnemonicParsing="false" onAction="#start" prefHeight="63.0" prefWidth="150.0" text="Button" />
+      <Button fx:id="startGame" mnemonicParsing="false" onAction="#start" prefHeight="63.0" prefWidth="150.0" text="Start" />
       <Button fx:id="returnBtn" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#resume" text="Return" />
       <Region VBox.vgrow="ALWAYS" />
    </children>
