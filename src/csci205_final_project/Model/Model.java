@@ -223,13 +223,9 @@ public class Model implements Serializable {
      * Shuffle the remaining tiles with canceled stay at the same position,
      * return true if able to shuffle
      *
-     * @return boolean
      */
-    public boolean shuffle() {
-        if (this.shuffleChance <= 0) {
-            return false;
-        }
-        else {
+    public void shuffle() {
+        if (this.shuffleChance > 0) {
             ArrayList<Tile> temp = new ArrayList();
             for (int i = 0; i < data.size(); i++) {
                 for (int j = 0; j < data.get(0).size(); j++) {
@@ -252,12 +248,61 @@ public class Model implements Serializable {
                 }
             }
             this.shuffleChance -= 1;
-            return true;
         }
     }
 
-    public void hint() {
-
+    public ArrayList<Tile> hint() {
+        if (this.hintChance > 0) {
+            ArrayList<Tile> result = new ArrayList();
+            boolean breaked = false;
+            for (int i = 0; i < this.data.size(); i++) {
+                for (int j = 0; j < this.data.get(0).size(); j++) {
+                    for (int m = i; m < this.data.size(); m++) {
+                        if (m == i) {
+                            for (int n = j + 1; n < this.data.get(0).size(); n++) {
+                                if (isTileCancelable(this.data.get(i).get(j),
+                                                     this.data.get(m).get(n))) {
+                                    result.add(this.data.get(i).get(j));
+                                    result.add(this.data.get(m).get(n));
+                                    breaked = true;
+                                    this.hintChance -= 1;
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            for (int n = 0; n < this.data.get(0).size(); n++) {
+                                if (isTileCancelable(this.data.get(i).get(j),
+                                                     this.data.get(m).get(n))) {
+                                    result.add(this.data.get(i).get(j));
+                                    result.add(this.data.get(m).get(n));
+                                    breaked = true;
+                                    this.hintChance -= 1;
+                                    break;
+                                }
+                            }
+                        }
+                        if (breaked) {
+                            break;
+                        }
+                    }
+                    if (breaked) {
+                        break;
+                    }
+                }
+                if (breaked) {
+                    break;
+                }
+            }
+            if (breaked) {
+                return result;
+            }
+            else {
+                this.shuffleChance += 1;
+                this.shuffle();
+            }
+        }
+        return null;
     }
 
     /**
@@ -285,6 +330,10 @@ public class Model implements Serializable {
      */
     public Level getLevel() {
         return level;
+    }
+
+    public int getHintChance() {
+        return hintChance;
     }
 
     /**

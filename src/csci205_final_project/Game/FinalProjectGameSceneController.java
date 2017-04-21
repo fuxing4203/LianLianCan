@@ -20,7 +20,9 @@ import csci205_final_project.PauseMenu.FinalProjectPauseMenuController;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,6 +40,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * FXML Controller class
@@ -75,6 +85,7 @@ public class FinalProjectGameSceneController implements Initializable {
     public Rectangle selectedRectangle;
     public int numOfSelections = 0;
     private String theme;
+    private ArrayList<ArrayList<Rectangle>> data;
 
     /**
      * Initializes the controller class.
@@ -83,27 +94,95 @@ public class FinalProjectGameSceneController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         // start timer
+        playMusic();
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() {
-                for (int i = 0; i < 400; i++) {
+                for (int i = 0; i < 100; i++) {
                     try {
-                        Thread.sleep(50);
+                        Thread.sleep(40);
                     } catch (InterruptedException e) {
                         Thread.interrupted();
                         break;
                     }
-                    updateProgress(i + 1, 400);
+                    updateProgress(i + 1, 100);
                 }
                 return null;
             }
         };
-
         timeBar.progressProperty().bind(task.progressProperty());
         th = new Thread(task);
         th.setDaemon(true);
         th.start();
 
+        /*
+        if (th.isInterrupted()) {
+            Rectangle gameOver = new Rectangle();
+            gameOver.setWidth(tilePane.getWidth());
+            gameOver.setHeight(tilePane.getHeight());
+            File file = new File("GG.jpg");
+            Image img = new Image(file.toURI().toString());
+            gameOver.setFill(new ImagePattern(img));
+            tilePane.getChildren().add(gameOver);
+        }
+         */
+    }
+
+    private void playMusic() {
+        File soundFile = new File("music.wav");
+        AudioInputStream sound = null;
+        try {
+            sound = AudioSystem.getAudioInputStream(soundFile);
+        } catch (UnsupportedAudioFileException ex) {
+            Logger.getLogger(FinalProjectGameSceneController.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null,
+                    ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FinalProjectGameSceneController.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null,
+                    ex);
+        }
+
+        // load the sound into memory (a Clip)
+        DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
+        Clip clip = null;
+        try {
+            clip = (Clip) AudioSystem.getLine(info);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(FinalProjectGameSceneController.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null,
+                    ex);
+        }
+        try {
+            clip.open(sound);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(FinalProjectGameSceneController.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null,
+                    ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FinalProjectGameSceneController.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null,
+                    ex);
+        }
+
+        // due to bug in Java Sound, explicitly exit the VM when
+        // the sound has stopped.
+        clip.addLineListener(new LineListener() {
+            public void update(LineEvent event) {
+                if (event.getType() == LineEvent.Type.STOP) {
+                    event.getLine().close();
+                    System.exit(0);
+                }
+            }
+        });
+
+        // play the sound clip
+        clip.start();
     }
 
     public void createModel() {
@@ -148,11 +227,13 @@ public class FinalProjectGameSceneController implements Initializable {
     @FXML
     private void btnShuffle(ActionEvent event) {
         theModel.shuffle();
+        data = new ArrayList();
         Level level = theModel.getLevel();
         tilePane.getChildren().clear();
-        for (int i = 1; i < level.getWidth() + 1; i++) {
-            for (int j = 1; j < level.getHeight() + 1; j++) {
-                Tile aTile = theModel.getData().get(j).get(i);
+        for (int i = 1; i < level.getHeight() + 1; i++) {
+            ArrayList<Rectangle> row = new ArrayList();
+            for (int j = 1; j < level.getWidth() + 1; j++) {
+                Tile aTile = theModel.getData().get(i).get(j);
                 Rectangle aRectangle = new Rectangle(50, 50);
                 aRectangle.setOnMouseClicked((MouseEvent eventB) -> {
                     selectRectangle(aRectangle, aTile);
@@ -165,14 +246,25 @@ public class FinalProjectGameSceneController implements Initializable {
                 else {
                     aRectangle.setOpacity(0);
                 }
+                row.add(aRectangle);
                 tilePane.getChildren().add(aRectangle);
             }
+            data.add(row);
         }
         labelShuffle.setText(String.format("%d", theModel.getShuffleChance()));
     }
 
     @FXML
     private void btnHint(ActionEvent event) {
+        ArrayList<Tile> result = theModel.hint();
+        System.out.println(result);
+        if (result != null) {
+            Tile a = result.get(0);
+            Tile b = result.get(1);
+            data.get(a.getPosY() - 1).get(a.getPosX() - 1).setOpacity(0.3);
+            data.get(b.getPosY() - 1).get(b.getPosX() - 1).setOpacity(0.3);
+        }
+        labelHint.setText(String.format("%d", theModel.getHintChance()));
     }
 
     @FXML
@@ -192,9 +284,11 @@ public class FinalProjectGameSceneController implements Initializable {
         tilePane.setPrefWidth(50 * level.getWidth());
         tilePane.setPrefHeight(50 * level.getHeight());
         tilePane.setMaxSize(50 * level.getWidth(), 50 * level.getHeight());
-        for (int i = 1; i < level.getWidth() + 1; i++) {
-            for (int j = 1; j < level.getHeight() + 1; j++) {
-                Tile aTile = theModel.getData().get(j).get(i);
+        data = new ArrayList();
+        for (int i = 1; i < level.getHeight() + 1; i++) {
+            ArrayList<Rectangle> row = new ArrayList();
+            for (int j = 1; j < level.getWidth() + 1; j++) {
+                Tile aTile = theModel.getData().get(i).get(j);
                 File file = new File(aTile.getImgName());
                 Image img = new Image(file.toURI().toString());
                 Rectangle aRectangle = new Rectangle(50, 50);
@@ -203,7 +297,9 @@ public class FinalProjectGameSceneController implements Initializable {
                     selectRectangle(aRectangle, aTile);
                 });
                 tilePane.getChildren().add(aRectangle);
+                row.add(aRectangle);
             }
+            data.add(row);
         }
     }
 
