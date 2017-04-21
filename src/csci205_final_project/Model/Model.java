@@ -35,6 +35,7 @@ public class Model implements Serializable {
     private int score = 0;
 
     /**
+     * Constructor for Model
      *
      * @param level
      * @param theme
@@ -42,8 +43,18 @@ public class Model implements Serializable {
     public Model(Level level, String theme) {
         this.level = level;
         this.theme = theme;
-        ArrayList<String> imgSeq = imgNameProducer(theme);
-        data = new ArrayList();
+        this.generateData(imgNameProducer());
+        this.totalSize = level.getHeight() * level.getWidth();
+    }
+
+    /**
+     * Generates data with images
+     *
+     * @param imgSeq
+     */
+    public void generateData(ArrayList<String> imgSeq) {
+        this.data = new ArrayList();
+        int index = 0;
         for (int i = 0; i < this.level.getHeight() + 2; i++) {
             ArrayList<Tile> row = new ArrayList();
             for (int j = 0; j < this.level.getWidth() + 2; j++) {
@@ -51,13 +62,14 @@ public class Model implements Serializable {
                     row.add(null);
                 }
                 else {
-                    Tile tile = new Tile(j, i, imgSeq.get(this.totalSize));
+                    Tile tile = new Tile(j, i, imgSeq.get(index));
                     row.add(tile);
-                    this.totalSize += 1;
+                    index += 1;
                 }
             }
-            data.add(row);
+            this.data.add(row);
         }
+
     }
 
     /**
@@ -255,6 +267,10 @@ public class Model implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Tile> hint() {
         if (this.hintChance > 0) {
             ArrayList<Tile> result = new ArrayList();
@@ -332,6 +348,11 @@ public class Model implements Serializable {
         return level;
     }
 
+    /**
+     * Getter for hint chance remaining
+     *
+     * @return hintChance
+     */
     public int getHintChance() {
         return hintChance;
     }
@@ -364,6 +385,15 @@ public class Model implements Serializable {
     }
 
     /**
+     * Getter for current score
+     *
+     * @return score
+     */
+    public int getScore() {
+        return score;
+    }
+
+    /**
      * Representation of the model
      *
      * @return
@@ -376,21 +406,22 @@ public class Model implements Serializable {
     }
 
     /**
-     * Setter for shuffleChance
+     * Setter for level. Update level, data and totalSize
      *
-     * @param shuffleChance
+     * @param level
      */
-    public void setShuffleChance(int shuffleChance) {
-        this.shuffleChance = shuffleChance;
+    public void setLevel(Level level) {
+        this.level = level;
+        this.totalSize = level.getHeight() * level.getWidth();
+        this.generateData(imgNameProducer());
     }
 
     /**
      * Generates an ArrayList of path of images
      *
-     * @param theme - the folder that stores the pictures
      * @return sResult
      */
-    private ArrayList<String> imgNameProducer(String theme) {
+    public ArrayList<String> imgNameProducer() {
         ArrayList<String> sResult = new ArrayList<String>();
         ArrayList<Integer> iResult = new ArrayList<Integer>();
         int width = this.level.getWidth();
@@ -404,7 +435,7 @@ public class Model implements Serializable {
                 n = rnd.nextInt(numImgs);
                 if (numContained(iResult, n) < 4) {
                     iResult.add(n);
-                    sResult.add(theme + "/" + n + ".jpg");
+                    sResult.add(this.theme + "/" + n + ".jpg");
                     break;
                 }
             }
@@ -424,18 +455,6 @@ public class Model implements Serializable {
             }
         }
         return result;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setHintChance(int hintChance) {
-        this.hintChance = hintChance;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 
 }

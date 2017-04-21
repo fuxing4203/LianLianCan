@@ -60,4 +60,20 @@ public enum Level implements Serializable {
     public int getHeight() {
         return this.height;
     }
+
+    /**
+     * Level up
+     *
+     * @param currentlvl
+     * @return
+     */
+    public static Level updateLevel(Level currentlvl) {
+        if (currentlvl == Level.EASY) {
+            currentlvl = Level.MEDIUM;
+        }
+        else if (currentlvl == Level.MEDIUM) {
+            currentlvl = Level.HARD;
+        }
+        return currentlvl;
+    }
 }

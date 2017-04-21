@@ -73,8 +73,10 @@ public class FinalProjectGameSceneController implements Initializable {
     private BorderPane parentPane;
     @FXML
     private ProgressBar timeBar;
+
     public Tile selectedTile;
     public Rectangle selectedRectangle;
+
     public int numOfSelections = 0;
     private String theme;
     private ArrayList<ArrayList<Rectangle>> data;
@@ -85,6 +87,9 @@ public class FinalProjectGameSceneController implements Initializable {
 
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -182,6 +187,9 @@ public class FinalProjectGameSceneController implements Initializable {
         clip.start();
     }
      */
+    /**
+     * Initialize the model
+     */
     public void createModel() {
         theModel = new Model(level, theme);
         startGameBoardWithMode(theModel.getLevel());
@@ -191,6 +199,12 @@ public class FinalProjectGameSceneController implements Initializable {
         labelLevel.setText(String.format("%d", levelNum));
     }
 
+    /**
+     * Update theme and level
+     *
+     * @param themeString
+     * @param levelString
+     */
     public void initData(String themeString, String levelString) {
         this.theme = themeString;
         if (levelString.equals("Easy")) {
@@ -278,8 +292,10 @@ public class FinalProjectGameSceneController implements Initializable {
     private void labelLevel(MouseEvent event) {
     }
 
-    /*
-        Initialize game with a level. Have to initialize game first.
+    /**
+     * Initialize game with a level. Have to initialize game first.
+     *
+     * @param level
      */
     public void startGameBoardWithMode(Level level) {
         tilePane.setPrefColumns(level.getWidth());
@@ -336,28 +352,10 @@ public class FinalProjectGameSceneController implements Initializable {
                 labelScore.setText(String.format("%d", score));
                 if (theModel.getTotalSize() == 0) {
                     levelNum += 1;
-                    int score = theModel.getScore();
-                    int hintChance = theModel.getHintChance();
-                    int shuffleChance = theModel.getShuffleChance();
-                    Level currentlvl = theModel.getLevel();
-                    String theme = theModel.getTheme();
-                    if (currentlvl == Level.EASY) {
-                        currentlvl = Level.MEDIUM;
-                    }
-                    else if (currentlvl == Level.MEDIUM) {
-                        currentlvl = Level.HARD;
-                    }
-                    theModel = new Model(currentlvl, theme);
-                    theModel.setScore(score);
-                    theModel.setHintChance(hintChance);
-                    theModel.setShuffleChance(shuffleChance);
+                    theModel.setLevel(Level.updateLevel(theModel.getLevel()));
+
                     tilePane.getChildren().clear();
                     startGameBoardWithMode(theModel.getLevel());
-                    labelScore.setText(String.format("%d", theModel.getScore()));
-                    labelHint.setText(String.format("%d",
-                                                    theModel.getHintChance()));
-                    labelShuffle.setText(String.format("%d",
-                                                       theModel.getShuffleChance()));
                     labelLevel.setText(String.format("%d", levelNum));
 
                 }
