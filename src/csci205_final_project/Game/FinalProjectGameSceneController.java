@@ -16,13 +16,13 @@
 package csci205_final_project.Game;
 
 import csci205_final_project.Model.*;
-import csci205_final_project.Option.OptionController;
 import csci205_final_project.PauseMenu.FinalProjectPauseMenuController;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,6 +40,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * FXML Controller class
@@ -94,30 +102,98 @@ public class FinalProjectGameSceneController implements Initializable {
             level = Level.HARD;
         }
          */
-        theModel = new Model(Level.EASY, OptionController.getTheme());
-        startGameBoardWithMode(theModel.getLevel());
+        theModel = new Model(Level.EASY, "pokeman");
+        startGameBoardWithMode(Level.EASY);
+        playMusic();
         // start timer
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() {
-                for (int i = 0; i < 400; i++) {
+                for (int i = 0; i < 100; i++) {
                     try {
-                        Thread.sleep(50);
+                        Thread.sleep(40);
                     } catch (InterruptedException e) {
                         Thread.interrupted();
                         break;
                     }
-                    updateProgress(i + 1, 400);
+                    updateProgress(i + 1, 100);
                 }
                 return null;
             }
         };
-
         timeBar.progressProperty().bind(task.progressProperty());
         th = new Thread(task);
         th.setDaemon(true);
         th.start();
 
+        /*
+        if (th.isInterrupted()) {
+            Rectangle gameOver = new Rectangle();
+            gameOver.setWidth(tilePane.getWidth());
+            gameOver.setHeight(tilePane.getHeight());
+            File file = new File("GG.jpg");
+            Image img = new Image(file.toURI().toString());
+            gameOver.setFill(new ImagePattern(img));
+            tilePane.getChildren().add(gameOver);
+        }
+         */
+    }
+
+    private void playMusic() {
+        File soundFile = new File("music.wav");
+        AudioInputStream sound = null;
+        try {
+            sound = AudioSystem.getAudioInputStream(soundFile);
+        } catch (UnsupportedAudioFileException ex) {
+            Logger.getLogger(FinalProjectGameSceneController.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null,
+                    ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FinalProjectGameSceneController.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null,
+                    ex);
+        }
+
+        // load the sound into memory (a Clip)
+        DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
+        Clip clip = null;
+        try {
+            clip = (Clip) AudioSystem.getLine(info);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(FinalProjectGameSceneController.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null,
+                    ex);
+        }
+        try {
+            clip.open(sound);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(FinalProjectGameSceneController.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null,
+                    ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FinalProjectGameSceneController.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null,
+                    ex);
+        }
+
+        // due to bug in Java Sound, explicitly exit the VM when
+        // the sound has stopped.
+        clip.addLineListener(new LineListener() {
+            public void update(LineEvent event) {
+                if (event.getType() == LineEvent.Type.STOP) {
+                    event.getLine().close();
+                    System.exit(0);
+                }
+            }
+        });
+
+        // play the sound clip
+        clip.start();
     }
 
     @FXML
