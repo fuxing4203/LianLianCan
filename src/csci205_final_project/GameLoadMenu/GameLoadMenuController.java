@@ -16,7 +16,9 @@
 package csci205_final_project.GameLoadMenu;
 
 import Util.SaveAndLoadModelUtil;
+import csci205_final_project.Game.FinalProjectGameSceneController;
 import csci205_final_project.Model.Model;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,8 +26,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
@@ -108,15 +114,36 @@ public class GameLoadMenuController implements Initializable {
     }
 
     @FXML
-    private void loadSlot1(ActionEvent event) {
+    private void loadSlot1(ActionEvent event) throws IOException, FileNotFoundException, ClassNotFoundException {
+
+        save1 = SaveAndLoadModelUtil.deserializeModel("save1.ser");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "../Game/finalProjectGameScene.fxml"));
+
+        Parent root;
+        BorderPane game = (BorderPane) loader.load();
+
+        FinalProjectGameSceneController gameController = loader.<FinalProjectGameSceneController>getController();
+
+        Stage stage;
+        stage = (Stage) loadSlot1.getScene().getWindow();
+
+        gameController.initData(save1.getTheme(), save1.getLevel());
+        gameController.loadModel(save1);
+        Scene scene = new Scene(game);
+        stage.setScene(scene);
+        stage.show();
+
     }
 
     @FXML
-    private void loadSlot2(ActionEvent event) {
+    private void loadSlot2(ActionEvent event
+    ) {
     }
 
     @FXML
-    private void loadSlot3(ActionEvent event) {
+    private void loadSlot3(ActionEvent event
+    ) {
     }
 
 }

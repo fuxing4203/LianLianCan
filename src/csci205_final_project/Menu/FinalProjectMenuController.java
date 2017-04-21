@@ -71,8 +71,15 @@ public class FinalProjectMenuController implements Initializable {
     }
 
     @FXML
-    void loadGame() {
-
+    void loadGame() throws IOException {
+        Stage stage;
+        Parent root;
+        stage = (Stage) btnLoad.getScene().getWindow();
+        root = FXMLLoader.load(getClass().getResource(
+                "../GameLoadMenu/GameLoadMenu.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML

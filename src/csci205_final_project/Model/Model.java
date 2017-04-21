@@ -55,6 +55,7 @@ public class Model implements Serializable {
     public void generateData(ArrayList<String> imgSeq) {
         this.data = new ArrayList();
         int index = 0;
+        data = new ArrayList();
         for (int i = 0; i < this.level.getHeight() + 2; i++) {
             ArrayList<Tile> row = new ArrayList();
             for (int j = 0; j < this.level.getWidth() + 2; j++) {

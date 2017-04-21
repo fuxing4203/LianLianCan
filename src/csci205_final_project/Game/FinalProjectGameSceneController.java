@@ -22,8 +22,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -40,6 +43,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * FXML Controller class
@@ -76,7 +87,6 @@ public class FinalProjectGameSceneController implements Initializable {
 
     public Tile selectedTile;
     public Rectangle selectedRectangle;
-
     public int numOfSelections = 0;
     private String theme;
     private ArrayList<ArrayList<Rectangle>> data;
@@ -94,9 +104,10 @@ public class FinalProjectGameSceneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        // playMusic();
+        playMusic("music.wav");
         // start timer
-        Task<Void> task = new Task<Void>() {
+        Task<Void> task;
+        task = new Task<Void>() {
             @Override
             public Void call() {
                 for (int i = 0; i < 100; i++) {
@@ -110,28 +121,32 @@ public class FinalProjectGameSceneController implements Initializable {
                 }
                 return null;
             }
+
         };
+        task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+
+                tilePane.getChildren().clear();
+                Rectangle gameOver = new Rectangle();
+                gameOver.setWidth(1000);
+                gameOver.setHeight(600);
+                File file = new File("GG.jpg");
+                Image img = new Image(file.toURI().toString());
+                gameOver.setFill(new ImagePattern(img));
+                tilePane.getChildren().add(gameOver);
+
+            }
+        });
         timeBar.progressProperty().bind(task.progressProperty());
         th = new Thread(task);
         th.setDaemon(true);
         th.start();
 
-        /*
-        if (th.isInterrupted()) {
-            Rectangle gameOver = new Rectangle();
-            gameOver.setWidth(tilePane.getWidth());
-            gameOver.setHeight(tilePane.getHeight());
-            File file = new File("GG.jpg");
-            Image img = new Image(file.toURI().toString());
-            gameOver.setFill(new ImagePattern(img));
-            tilePane.getChildren().add(gameOver);
-        }
-         */
     }
 
-    /*
-    private void playMusic() {
-        File soundFile = new File("music.wav");
+    private void playMusic(String filenameString) {
+        File soundFile = new File(filenameString);
         AudioInputStream sound = null;
         try {
             sound = AudioSystem.getAudioInputStream(soundFile);
@@ -160,12 +175,7 @@ public class FinalProjectGameSceneController implements Initializable {
         }
         try {
             clip.open(sound);
-        } catch (LineUnavailableException ex) {
-            Logger.getLogger(FinalProjectGameSceneController.class.getName()).log(
-                    java.util.logging.Level.SEVERE,
-                    null,
-                    ex);
-        } catch (IOException ex) {
+        } catch (LineUnavailableException | IOException ex) {
             Logger.getLogger(FinalProjectGameSceneController.class.getName()).log(
                     java.util.logging.Level.SEVERE,
                     null,
@@ -182,17 +192,31 @@ public class FinalProjectGameSceneController implements Initializable {
                 }
             }
         });
-
+        clip.loop(1000);
         // play the sound clip
         clip.start();
+
     }
-     */
+
     /**
      * Initialize the model
      */
     public void createModel() {
         theModel = new Model(level, theme);
         startGameBoardWithMode(theModel.getLevel());
+        labelScore.setText(String.format("%d", theModel.getScore()));
+        labelHint.setText(String.format("%d", theModel.getHintChance()));
+        labelShuffle.setText(String.format("%d", theModel.getShuffleChance()));
+        labelLevel.setText(String.format("%d", levelNum));
+    }
+
+    /**
+     * Load saved model
+     *
+     * @param model
+     */
+    public void loadModel(Model model) {
+        startGameBoardWithMode(model.getLevel());
         labelScore.setText(String.format("%d", theModel.getScore()));
         labelHint.setText(String.format("%d", theModel.getHintChance()));
         labelShuffle.setText(String.format("%d", theModel.getShuffleChance()));
@@ -217,6 +241,17 @@ public class FinalProjectGameSceneController implements Initializable {
             level = Level.HARD;
         }
 
+    }
+
+    /**
+     * Update theme and level
+     *
+     * @param themeString
+     * @param level
+     */
+    public void initData(String themeString, Level level) {
+        this.theme = themeString;
+        this.level = level;
     }
 
     @FXML
@@ -337,6 +372,7 @@ public class FinalProjectGameSceneController implements Initializable {
             selectedRectangle = aRectangle;
             selectedRectangle.setOpacity(0.5); // set the opacity to show that this rectangle is selected.
             numOfSelections++;
+            //playMusic("audioeff/blomark.wav");
         }
         else if (numOfSelections % 2 == 1) {
 
@@ -367,6 +403,8 @@ public class FinalProjectGameSceneController implements Initializable {
                 selectedRectangle.setOpacity(1);
                 score -= 1;
                 labelScore.setText(String.format("%d", score));
+
+                //playMusic("audioeff/blomark.wav");
             }
 
             numOfSelections++;
