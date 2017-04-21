@@ -99,7 +99,8 @@ public class FinalProjectGameSceneController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        playMusic();
+
+        playMusic("music.wav");
         // start timer
         Task<Void> task;
         task = new Task<Void>() {
@@ -140,8 +141,8 @@ public class FinalProjectGameSceneController implements Initializable {
 
     }
 
-    private static void playMusic() {
-        File soundFile = new File("music.wav");
+    private void playMusic(String filenameString) {
+        File soundFile = new File(filenameString);
         AudioInputStream sound = null;
         try {
             sound = AudioSystem.getAudioInputStream(soundFile);
@@ -332,6 +333,7 @@ public class FinalProjectGameSceneController implements Initializable {
             selectedRectangle = aRectangle;
             selectedRectangle.setOpacity(0.5); // set the opacity to show that this rectangle is selected.
             numOfSelections++;
+            //playMusic("audioeff/blomark.wav");
         }
         else if (numOfSelections % 2 == 1) {
 
@@ -380,6 +382,8 @@ public class FinalProjectGameSceneController implements Initializable {
                 selectedRectangle.setOpacity(1);
                 score -= 1;
                 labelScore.setText(String.format("%d", score));
+
+                //playMusic("audioeff/blomark.wav");
             }
 
             numOfSelections++;
