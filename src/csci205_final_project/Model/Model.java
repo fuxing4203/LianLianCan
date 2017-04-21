@@ -31,6 +31,7 @@ public class Model implements Serializable {
     private int totalSize = 0; // records the total number of tiles
     private int shuffleChance = 2; // records the number of chances for shuffle
     private String theme; // theme of the images
+    private int hintChance = 2;
 
     /**
      *
@@ -253,6 +254,10 @@ public class Model implements Serializable {
             this.shuffleChance -= 1;
             return true;
         }
+    }
+
+    public void hint() {
+
     }
 
     /**

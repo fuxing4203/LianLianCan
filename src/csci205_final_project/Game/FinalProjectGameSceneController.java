@@ -57,6 +57,10 @@ public class FinalProjectGameSceneController implements Initializable {
     private Label labelScore;
     @FXML
     private Label labelLevel;
+    @FXML
+    private Label labelShuffle;
+    @FXML
+    private Label labelHint;
 
     private Level level;
     private Model theModel;
@@ -77,7 +81,7 @@ public class FinalProjectGameSceneController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        String levelString = OptionController.getLevel();
+        /*        String levelString = OptionController.getLevel();
         if (levelString.equals("Easy")) {
             level = Level.EASY;
         }
@@ -87,9 +91,9 @@ public class FinalProjectGameSceneController implements Initializable {
         else if (levelString.equals("Hard")) {
             level = Level.HARD;
         }
-
-        theModel = new Model(level, OptionController.getTheme());
-        startGameBoardWithMode(level);
+         */
+        theModel = new Model(Level.EASY, OptionController.getTheme());
+        startGameBoardWithMode(theModel.getLevel());
         // start timer
         Task<Void> task = new Task<Void>() {
             @Override
@@ -158,6 +162,7 @@ public class FinalProjectGameSceneController implements Initializable {
                 tilePane.getChildren().add(aRectangle);
             }
         }
+        labelShuffle.setText(String.format("%d", theModel.getShuffleChance()));
     }
 
     @FXML
