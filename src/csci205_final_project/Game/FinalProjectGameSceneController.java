@@ -21,6 +21,7 @@ import csci205_final_project.PauseMenu.FinalProjectPauseMenuController;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -75,6 +76,7 @@ public class FinalProjectGameSceneController implements Initializable {
     public Tile selectedTile;
     public Rectangle selectedRectangle;
     public int numOfSelections = 0;
+    private ArrayList<ArrayList<Rectangle>> data;
 
     /**
      * Initializes the controller class.
@@ -142,11 +144,13 @@ public class FinalProjectGameSceneController implements Initializable {
     @FXML
     private void btnShuffle(ActionEvent event) {
         theModel.shuffle();
+        data = new ArrayList();
         Level level = theModel.getLevel();
         tilePane.getChildren().clear();
-        for (int i = 1; i < level.getWidth() + 1; i++) {
-            for (int j = 1; j < level.getHeight() + 1; j++) {
-                Tile aTile = theModel.getData().get(j).get(i);
+        for (int i = 1; i < level.getHeight() + 1; i++) {
+            ArrayList<Rectangle> row = new ArrayList();
+            for (int j = 1; j < level.getWidth() + 1; j++) {
+                Tile aTile = theModel.getData().get(i).get(j);
                 Rectangle aRectangle = new Rectangle(50, 50);
                 aRectangle.setOnMouseClicked((MouseEvent eventB) -> {
                     selectRectangle(aRectangle, aTile);
@@ -159,14 +163,25 @@ public class FinalProjectGameSceneController implements Initializable {
                 else {
                     aRectangle.setOpacity(0);
                 }
+                row.add(aRectangle);
                 tilePane.getChildren().add(aRectangle);
             }
+            data.add(row);
         }
         labelShuffle.setText(String.format("%d", theModel.getShuffleChance()));
     }
 
     @FXML
     private void btnHint(ActionEvent event) {
+        ArrayList<Tile> result = theModel.hint();
+        System.out.println(result);
+        if (result != null) {
+            Tile a = result.get(0);
+            Tile b = result.get(1);
+            data.get(a.getPosY() - 1).get(a.getPosX() - 1).setOpacity(0.3);
+            data.get(b.getPosY() - 1).get(b.getPosX() - 1).setOpacity(0.3);
+        }
+        labelHint.setText(String.format("%d", theModel.getHintChance()));
     }
 
     @FXML
@@ -186,9 +201,11 @@ public class FinalProjectGameSceneController implements Initializable {
         tilePane.setPrefWidth(50 * level.getWidth());
         tilePane.setPrefHeight(50 * level.getHeight());
         tilePane.setMaxSize(50 * level.getWidth(), 50 * level.getHeight());
-        for (int i = 1; i < level.getWidth() + 1; i++) {
-            for (int j = 1; j < level.getHeight() + 1; j++) {
-                Tile aTile = theModel.getData().get(j).get(i);
+        data = new ArrayList();
+        for (int i = 1; i < level.getHeight() + 1; i++) {
+            ArrayList<Rectangle> row = new ArrayList();
+            for (int j = 1; j < level.getWidth() + 1; j++) {
+                Tile aTile = theModel.getData().get(i).get(j);
                 File file = new File(aTile.getImgName());
                 Image img = new Image(file.toURI().toString());
                 Rectangle aRectangle = new Rectangle(50, 50);
@@ -197,7 +214,9 @@ public class FinalProjectGameSceneController implements Initializable {
                     selectRectangle(aRectangle, aTile);
                 });
                 tilePane.getChildren().add(aRectangle);
+                row.add(aRectangle);
             }
+            data.add(row);
         }
     }
 
