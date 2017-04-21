@@ -95,7 +95,7 @@ public class FinalProjectGameSceneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        playMusic();
+        playMusic("music.wav");
         // start timer
         Task<Void> task = new Task<Void>() {
             @Override
@@ -130,8 +130,8 @@ public class FinalProjectGameSceneController implements Initializable {
          */
     }
 
-    private void playMusic() {
-        File soundFile = new File("music.wav");
+    private void playMusic(String filenameString) {
+        File soundFile = new File(filenameString);
         AudioInputStream sound = null;
         try {
             sound = AudioSystem.getAudioInputStream(soundFile);
@@ -182,7 +182,7 @@ public class FinalProjectGameSceneController implements Initializable {
                 }
             }
         });
-
+        clip.loop(1000);
         // play the sound clip
         clip.start();
     }
@@ -237,7 +237,7 @@ public class FinalProjectGameSceneController implements Initializable {
             ArrayList<Rectangle> row = new ArrayList();
             for (int j = 1; j < level.getWidth() + 1; j++) {
                 Tile aTile = theModel.getData().get(i).get(j);
-                Rectangle aRectangle = new Rectangle(50, 50);
+                Rectangle aRectangle = new Rectangle(80, 80);
                 aRectangle.setOnMouseClicked((MouseEvent eventB) -> {
                     selectRectangle(aRectangle, aTile);
                 });
