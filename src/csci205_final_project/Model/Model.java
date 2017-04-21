@@ -32,7 +32,7 @@ public class Model implements Serializable {
     private int shuffleChance = 2; // records the number of chances for shuffle
     private String theme; // theme of the images
     private int hintChance = 2;
-    private int score = 0;
+    private int score;
 
     /**
      *
@@ -42,6 +42,7 @@ public class Model implements Serializable {
     public Model(Level level, String theme) {
         this.level = level;
         this.theme = theme;
+        this.score = 0;
         ArrayList<String> imgSeq = imgNameProducer(theme);
         data = new ArrayList();
         for (int i = 0; i < this.level.getHeight() + 2; i++) {
