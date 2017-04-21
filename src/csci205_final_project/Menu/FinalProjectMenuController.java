@@ -53,7 +53,9 @@ public class FinalProjectMenuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        //Image woodenTexture = new Image(getClass().getResourceAsStream(
+        //        "../images/wooden.jpg"));
+        //btnStart.setGraphic(new ImageView(woodenTexture));
     }
 
     @FXML
