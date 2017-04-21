@@ -301,10 +301,6 @@ public class Model implements Serializable {
             if (breaked) {
                 return result;
             }
-            else {
-                this.shuffleChance += 1;
-                this.shuffle();
-            }
         }
         return null;
     }

@@ -28,6 +28,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -88,6 +89,8 @@ public class FinalProjectGameSceneController implements Initializable {
     private ArrayList<ArrayList<Rectangle>> data;
 
     private int score = 0;
+    @FXML
+    private Button btnExit;
 
     /**
      * Initializes the controller class.
@@ -237,7 +240,7 @@ public class FinalProjectGameSceneController implements Initializable {
             ArrayList<Rectangle> row = new ArrayList();
             for (int j = 1; j < level.getWidth() + 1; j++) {
                 Tile aTile = theModel.getData().get(i).get(j);
-                Rectangle aRectangle = new Rectangle(80, 80);
+                Rectangle aRectangle = new Rectangle(50, 50);
                 aRectangle.setOnMouseClicked((MouseEvent eventB) -> {
                     selectRectangle(aRectangle, aTile);
                 });
@@ -260,12 +263,14 @@ public class FinalProjectGameSceneController implements Initializable {
     @FXML
     private void btnHint(ActionEvent event) {
         ArrayList<Tile> result = theModel.hint();
-        System.out.println(result);
         if (result != null) {
             Tile a = result.get(0);
             Tile b = result.get(1);
             data.get(a.getPosY() - 1).get(a.getPosX() - 1).setOpacity(0.3);
             data.get(b.getPosY() - 1).get(b.getPosX() - 1).setOpacity(0.3);
+        }
+        else {
+            this.btnShuffle(event);
         }
         labelHint.setText(String.format("%d", theModel.getHintChance()));
     }
@@ -321,6 +326,7 @@ public class FinalProjectGameSceneController implements Initializable {
             selectedRectangle = aRectangle;
             selectedRectangle.setOpacity(0.5); // set the opacity to show that this rectangle is selected.
             numOfSelections++;
+            //playMusic("audioeff/blomark.wav");
         }
         else if (numOfSelections % 2 == 1) {
 
@@ -334,18 +340,33 @@ public class FinalProjectGameSceneController implements Initializable {
                 aRectangle.setOpacity(0);
                 score += 5;
                 labelScore.setText(String.format("%d", score));
+                //playMusic("audioeff/banana.wav");
             }
             else { // if there is no path between them, change the next selected tile as selected.
                 selectedRectangle.setOpacity(1);
                 selectedRectangle = aRectangle;
                 selectedTile = aTile;
-                selectedRectangle.setOpacity(0.5);
+                selectedRectangle.setOpacity(1);
                 score -= 1;
                 labelScore.setText(String.format("%d", score));
+
+                //playMusic("audioeff/blomark.wav");
             }
 
             numOfSelections++;
         }
+    }
+
+    @FXML
+    private void btnExit(ActionEvent event) throws IOException {
+        Stage stage;
+        Parent root;
+        stage = (Stage) btnExit.getScene().getWindow();
+        root = FXMLLoader.load(getClass().getResource(
+                "../Menu/finalProjectMenu.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
 }
