@@ -196,6 +196,11 @@ public class FinalProjectGameSceneController implements Initializable {
         labelScore.setText(String.format("%d", theModel.getScore()));
     }
 
+    public void loadModel(Model model) {
+        startGameBoardWithMode(model.getLevel());
+        labelScore.setText(String.format("%d", model.getScore()));
+    }
+
     public void initData(String themeString, String levelString) {
         this.theme = themeString;
         if (levelString.equals("Easy")) {
@@ -208,6 +213,11 @@ public class FinalProjectGameSceneController implements Initializable {
             level = Level.HARD;
         }
 
+    }
+
+    public void initData(String themeString, Level level) {
+        this.theme = themeString;
+        this.level = level;
     }
 
     @FXML
