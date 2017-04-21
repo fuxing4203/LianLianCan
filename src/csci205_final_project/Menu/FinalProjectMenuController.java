@@ -42,8 +42,6 @@ public class FinalProjectMenuController implements Initializable {
     @FXML
     private Button btnTutorial;
     @FXML
-    private Button btnOption;
-    @FXML
     private Button btnRecords;
     @FXML
     private Button btnExit;
@@ -64,7 +62,7 @@ public class FinalProjectMenuController implements Initializable {
         Parent root;
         stage = (Stage) btnStart.getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource(
-                "../Game/finalProjectGameScene.fxml"));
+                "../Option/option.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -80,14 +78,12 @@ public class FinalProjectMenuController implements Initializable {
 
     }
 
-    @FXML
     void openOptions() throws IOException {
         Stage stage;
         Parent root;
         stage = (Stage) btnStart.getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource(
                 "../Option/option.fxml"));
-
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

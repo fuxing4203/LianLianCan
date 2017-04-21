@@ -15,6 +15,8 @@
  */
 package csci205_final_project.Option;
 
+import csci205_final_project.Game.FinalProjectGameSceneController;
+import csci205_final_project.Model.Level;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,6 +31,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
@@ -42,8 +45,7 @@ public class OptionController implements Initializable {
             "pokeman", "professor", "ragecomics");
     ObservableList<String> levelList = FXCollections.observableArrayList(
             "Easy", "Medium", "Hard");
-    private static String theme;
-    private static String level;
+
     @FXML
     private Slider volumeSlider;
     @FXML
@@ -52,6 +54,8 @@ public class OptionController implements Initializable {
     private ComboBox themeBox;
     @FXML
     private ComboBox levelBox;
+    @FXML
+    private Button startGame;
 
     /**
      * Initializes the controller class.
@@ -67,8 +71,7 @@ public class OptionController implements Initializable {
 
     @FXML
     private void resume(ActionEvent event) throws IOException {
-        theme = (String) themeBox.getValue();
-        level = (String) levelBox.getValue();
+
         Stage stage;
         Parent root;
         stage = (Stage) returnBtn.getScene().getWindow();
@@ -80,12 +83,36 @@ public class OptionController implements Initializable {
         stage.show();
     }
 
-    public static String getTheme() {
-        return theme;
-    }
+    @FXML
+    private void start(ActionEvent event) throws IOException {
+        String levelString;
+        String themeString;
+        themeString = (String) themeBox.getValue();
+        levelString = (String) levelBox.getValue();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "../Game/finalProjectGameScene.fxml"));
 
-    public static String getLevel() {
-        return level;
+        Parent root;
+        BorderPane option = (BorderPane) loader.load();
+
+        FinalProjectGameSceneController gameController = loader.<FinalProjectGameSceneController>getController();
+
+        Stage stage;
+        stage = (Stage) returnBtn.getScene().getWindow();
+        // default game values
+        if (themeString == null) {
+            themeString = "pokeman";
+
+        }
+
+        if (levelString == null) {
+            levelString = Level.EASY.toString();
+        }
+        gameController.initData(themeString, levelString);
+        gameController.createModel();
+        Scene scene = new Scene(option);
+        stage.setScene(scene);
+        stage.show();
     }
 
 }

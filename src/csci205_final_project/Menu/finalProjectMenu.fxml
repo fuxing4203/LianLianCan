@@ -32,11 +32,6 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="btnOption" mnemonicParsing="false" onAction="#openOptions" prefWidth="126.0" text="Options">
-                     <VBox.margin>
-                        <Insets top="20.0" />
-                     </VBox.margin>
-                  </Button>
                   <Button fx:id="btnRecords" mnemonicParsing="false" onAction="#openRecords" prefWidth="126.0" text="Records">
                      <VBox.margin>
                         <Insets top="20.0" />

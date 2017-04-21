@@ -16,7 +16,6 @@
 package csci205_final_project.Game;
 
 import csci205_final_project.Model.*;
-import csci205_final_project.Option.OptionController;
 import csci205_final_project.PauseMenu.FinalProjectPauseMenuController;
 import java.io.File;
 import java.io.IOException;
@@ -75,25 +74,14 @@ public class FinalProjectGameSceneController implements Initializable {
     public Tile selectedTile;
     public Rectangle selectedRectangle;
     public int numOfSelections = 0;
+    private String theme;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        /*        String levelString = OptionController.getLevel();
-        if (levelString.equals("Easy")) {
-            level = Level.EASY;
-        }
-        else if (levelString.equals("Medium")) {
-            level = Level.MEDIUM;
-        }
-        else if (levelString.equals("Hard")) {
-            level = Level.HARD;
-        }
-         */
-        theModel = new Model(Level.EASY, OptionController.getTheme());
-        startGameBoardWithMode(theModel.getLevel());
+
         // start timer
         Task<Void> task = new Task<Void>() {
             @Override
@@ -118,8 +106,26 @@ public class FinalProjectGameSceneController implements Initializable {
 
     }
 
-    @FXML
+    public void createModel() {
+        theModel = new Model(level, theme);
+        startGameBoardWithMode(theModel.getLevel());
+    }
 
+    public void initData(String themeString, String levelString) {
+        this.theme = themeString;
+        if (levelString.equals("Easy")) {
+            level = Level.EASY;
+        }
+        else if (levelString.equals("Medium")) {
+            level = Level.MEDIUM;
+        }
+        else if (levelString.equals("Hard")) {
+            level = Level.HARD;
+        }
+
+    }
+
+    @FXML
     private void btnPause(ActionEvent event) throws IOException, InterruptedException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "../PauseMenu/finalProjectPauseMenu.fxml"));
