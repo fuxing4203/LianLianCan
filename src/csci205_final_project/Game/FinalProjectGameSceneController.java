@@ -78,7 +78,7 @@ public class FinalProjectGameSceneController implements Initializable {
     public int numOfSelections = 0;
     private String theme;
     private ArrayList<ArrayList<Rectangle>> data;
-
+    private int levelNum = 0;
     private int score = 0;
     @FXML
     private Button btnExit;
@@ -186,6 +186,9 @@ public class FinalProjectGameSceneController implements Initializable {
         theModel = new Model(level, theme);
         startGameBoardWithMode(theModel.getLevel());
         labelScore.setText(String.format("%d", theModel.getScore()));
+        labelHint.setText(String.format("%d", theModel.getHintChance()));
+        labelShuffle.setText(String.format("%d", theModel.getShuffleChance()));
+        labelLevel.setText(String.format("%d", levelNum));
     }
 
     public void initData(String themeString, String levelString) {
@@ -331,6 +334,33 @@ public class FinalProjectGameSceneController implements Initializable {
                 aRectangle.setOpacity(0);
                 score += 5;
                 labelScore.setText(String.format("%d", score));
+                if (theModel.getTotalSize() == 0) {
+                    levelNum += 1;
+                    int score = theModel.getScore();
+                    int hintChance = theModel.getHintChance();
+                    int shuffleChance = theModel.getShuffleChance();
+                    Level currentlvl = theModel.getLevel();
+                    String theme = theModel.getTheme();
+                    if (currentlvl == Level.EASY) {
+                        currentlvl = Level.MEDIUM;
+                    }
+                    else if (currentlvl == Level.MEDIUM) {
+                        currentlvl = Level.HARD;
+                    }
+                    theModel = new Model(currentlvl, theme);
+                    theModel.setScore(score);
+                    theModel.setHintChance(hintChance);
+                    theModel.setShuffleChance(shuffleChance);
+                    tilePane.getChildren().clear();
+                    startGameBoardWithMode(theModel.getLevel());
+                    labelScore.setText(String.format("%d", theModel.getScore()));
+                    labelHint.setText(String.format("%d",
+                                                    theModel.getHintChance()));
+                    labelShuffle.setText(String.format("%d",
+                                                       theModel.getShuffleChance()));
+                    labelLevel.setText(String.format("%d", levelNum));
+
+                }
             }
             else { // if there is no path between them, change the next selected tile as selected.
                 selectedRectangle.setOpacity(1);
