@@ -430,4 +430,12 @@ public class Model implements Serializable {
         return score;
     }
 
+    public void setHintChance(int hintChance) {
+        this.hintChance = hintChance;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
 }
