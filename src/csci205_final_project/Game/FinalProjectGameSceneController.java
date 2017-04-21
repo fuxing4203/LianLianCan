@@ -24,7 +24,9 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -87,7 +89,7 @@ public class FinalProjectGameSceneController implements Initializable {
     public int numOfSelections = 0;
     private String theme;
     private ArrayList<ArrayList<Rectangle>> data;
-
+    private int levelNum = 0;
     private int score = 0;
     @FXML
     private Button btnExit;
@@ -98,9 +100,10 @@ public class FinalProjectGameSceneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        playMusic();
+        playMusic("music.wav");
         // start timer
-        Task<Void> task = new Task<Void>() {
+        Task<Void> task;
+        task = new Task<Void>() {
             @Override
             public Void call() {
                 for (int i = 0; i < 100; i++) {
@@ -114,27 +117,32 @@ public class FinalProjectGameSceneController implements Initializable {
                 }
                 return null;
             }
+
         };
+        task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+
+                tilePane.getChildren().clear();
+                Rectangle gameOver = new Rectangle();
+                gameOver.setWidth(1000);
+                gameOver.setHeight(600);
+                File file = new File("GG.jpg");
+                Image img = new Image(file.toURI().toString());
+                gameOver.setFill(new ImagePattern(img));
+                tilePane.getChildren().add(gameOver);
+
+            }
+        });
         timeBar.progressProperty().bind(task.progressProperty());
         th = new Thread(task);
         th.setDaemon(true);
         th.start();
 
-        /*
-        if (th.isInterrupted()) {
-            Rectangle gameOver = new Rectangle();
-            gameOver.setWidth(tilePane.getWidth());
-            gameOver.setHeight(tilePane.getHeight());
-            File file = new File("GG.jpg");
-            Image img = new Image(file.toURI().toString());
-            gameOver.setFill(new ImagePattern(img));
-            tilePane.getChildren().add(gameOver);
-        }
-         */
     }
 
-    private void playMusic() {
-        File soundFile = new File("music.wav");
+    private void playMusic(String filenameString) {
+        File soundFile = new File(filenameString);
         AudioInputStream sound = null;
         try {
             sound = AudioSystem.getAudioInputStream(soundFile);
@@ -163,12 +171,7 @@ public class FinalProjectGameSceneController implements Initializable {
         }
         try {
             clip.open(sound);
-        } catch (LineUnavailableException ex) {
-            Logger.getLogger(FinalProjectGameSceneController.class.getName()).log(
-                    java.util.logging.Level.SEVERE,
-                    null,
-                    ex);
-        } catch (IOException ex) {
+        } catch (LineUnavailableException | IOException ex) {
             Logger.getLogger(FinalProjectGameSceneController.class.getName()).log(
                     java.util.logging.Level.SEVERE,
                     null,
@@ -185,15 +188,19 @@ public class FinalProjectGameSceneController implements Initializable {
                 }
             }
         });
-
+        clip.loop(1000);
         // play the sound clip
         clip.start();
+
     }
 
     public void createModel() {
         theModel = new Model(level, theme);
         startGameBoardWithMode(theModel.getLevel());
         labelScore.setText(String.format("%d", theModel.getScore()));
+        labelHint.setText(String.format("%d", theModel.getHintChance()));
+        labelShuffle.setText(String.format("%d", theModel.getShuffleChance()));
+        labelLevel.setText(String.format("%d", levelNum));
     }
 
     public void loadModel(Model model) {
@@ -273,12 +280,14 @@ public class FinalProjectGameSceneController implements Initializable {
     @FXML
     private void btnHint(ActionEvent event) {
         ArrayList<Tile> result = theModel.hint();
-        System.out.println(result);
         if (result != null) {
             Tile a = result.get(0);
             Tile b = result.get(1);
             data.get(a.getPosY() - 1).get(a.getPosX() - 1).setOpacity(0.3);
             data.get(b.getPosY() - 1).get(b.getPosX() - 1).setOpacity(0.3);
+        }
+        else {
+            this.btnShuffle(event);
         }
         labelHint.setText(String.format("%d", theModel.getHintChance()));
     }
@@ -334,6 +343,7 @@ public class FinalProjectGameSceneController implements Initializable {
             selectedRectangle = aRectangle;
             selectedRectangle.setOpacity(0.5); // set the opacity to show that this rectangle is selected.
             numOfSelections++;
+            //playMusic("audioeff/blomark.wav");
         }
         else if (numOfSelections % 2 == 1) {
 
@@ -347,14 +357,43 @@ public class FinalProjectGameSceneController implements Initializable {
                 aRectangle.setOpacity(0);
                 score += 5;
                 labelScore.setText(String.format("%d", score));
+                if (theModel.getTotalSize() == 0) {
+                    levelNum += 1;
+                    int score = theModel.getScore();
+                    int hintChance = theModel.getHintChance();
+                    int shuffleChance = theModel.getShuffleChance();
+                    Level currentlvl = theModel.getLevel();
+                    String theme = theModel.getTheme();
+                    if (currentlvl == Level.EASY) {
+                        currentlvl = Level.MEDIUM;
+                    }
+                    else if (currentlvl == Level.MEDIUM) {
+                        currentlvl = Level.HARD;
+                    }
+                    theModel = new Model(currentlvl, theme);
+                    theModel.setScore(score);
+                    theModel.setHintChance(hintChance);
+                    theModel.setShuffleChance(shuffleChance);
+                    tilePane.getChildren().clear();
+                    startGameBoardWithMode(theModel.getLevel());
+                    labelScore.setText(String.format("%d", theModel.getScore()));
+                    labelHint.setText(String.format("%d",
+                                                    theModel.getHintChance()));
+                    labelShuffle.setText(String.format("%d",
+                                                       theModel.getShuffleChance()));
+                    labelLevel.setText(String.format("%d", levelNum));
+
+                }
             }
             else { // if there is no path between them, change the next selected tile as selected.
                 selectedRectangle.setOpacity(1);
                 selectedRectangle = aRectangle;
                 selectedTile = aTile;
-                selectedRectangle.setOpacity(0.5);
+                selectedRectangle.setOpacity(1);
                 score -= 1;
                 labelScore.setText(String.format("%d", score));
+
+                //playMusic("audioeff/blomark.wav");
             }
 
             numOfSelections++;
