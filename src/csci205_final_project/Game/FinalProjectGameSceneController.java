@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Logger;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,14 +39,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * FXML Controller class
@@ -95,7 +86,7 @@ public class FinalProjectGameSceneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        playMusic();
+        // playMusic();
         // start timer
         Task<Void> task = new Task<Void>() {
             @Override
@@ -130,6 +121,7 @@ public class FinalProjectGameSceneController implements Initializable {
          */
     }
 
+    /*
     private void playMusic() {
         File soundFile = new File("music.wav");
         AudioInputStream sound = null;
@@ -186,7 +178,7 @@ public class FinalProjectGameSceneController implements Initializable {
         // play the sound clip
         clip.start();
     }
-
+     */
     public void createModel() {
         theModel = new Model(level, theme);
         startGameBoardWithMode(theModel.getLevel());
@@ -260,12 +252,14 @@ public class FinalProjectGameSceneController implements Initializable {
     @FXML
     private void btnHint(ActionEvent event) {
         ArrayList<Tile> result = theModel.hint();
-        System.out.println(result);
         if (result != null) {
             Tile a = result.get(0);
             Tile b = result.get(1);
             data.get(a.getPosY() - 1).get(a.getPosX() - 1).setOpacity(0.3);
             data.get(b.getPosY() - 1).get(b.getPosX() - 1).setOpacity(0.3);
+        }
+        else {
+            this.btnShuffle(event);
         }
         labelHint.setText(String.format("%d", theModel.getHintChance()));
     }
@@ -339,7 +333,7 @@ public class FinalProjectGameSceneController implements Initializable {
                 selectedRectangle.setOpacity(1);
                 selectedRectangle = aRectangle;
                 selectedTile = aTile;
-                selectedRectangle.setOpacity(0.5);
+                selectedRectangle.setOpacity(1);
                 score -= 1;
                 labelScore.setText(String.format("%d", score));
             }
