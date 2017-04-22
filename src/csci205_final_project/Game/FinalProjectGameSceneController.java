@@ -95,6 +95,8 @@ public class FinalProjectGameSceneController implements Initializable {
     @FXML
     private Button btnExit;
 
+    private boolean gg;
+
     /**
      * Initializes the controller class.
      *
@@ -104,20 +106,21 @@ public class FinalProjectGameSceneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        playMusic("music.wav");
+        //playMusic("music.wav");
         // start timer
+        gg = false;
         Task<Void> task;
         task = new Task<Void>() {
             @Override
             public Void call() {
-                for (int i = 0; i < 100; i++) {
+                for (int i = 0; i < 1000; i++) {
                     try {
                         Thread.sleep(40);
                     } catch (InterruptedException e) {
                         Thread.interrupted();
                         break;
                     }
-                    updateProgress(i + 1, 100);
+                    updateProgress(i + 1, 1000);
                 }
                 return null;
             }
@@ -126,8 +129,9 @@ public class FinalProjectGameSceneController implements Initializable {
         task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent t) {
-                theModel.setHintChance(0);
+                gg = true;
                 theModel.setShuffleChance(0);
+                theModel.setHintChance(0);
                 tilePane.getChildren().clear();
                 Rectangle gameOver = new Rectangle();
                 gameOver.setWidth(1000);
@@ -277,47 +281,52 @@ public class FinalProjectGameSceneController implements Initializable {
 
     @FXML
     private void btnShuffle(ActionEvent event) {
-        theModel.shuffle();
-        data = new ArrayList();
-        Level level = theModel.getLevel();
-        tilePane.getChildren().clear();
-        for (int i = 1; i < level.getHeight() + 1; i++) {
-            ArrayList<Rectangle> row = new ArrayList();
-            for (int j = 1; j < level.getWidth() + 1; j++) {
-                Tile aTile = theModel.getData().get(i).get(j);
-                Rectangle aRectangle = new Rectangle(50, 50);
-                aRectangle.setOnMouseClicked((MouseEvent eventB) -> {
-                    selectRectangle(aRectangle, aTile);
-                });
-                if (aTile != null) {
-                    File file = new File(aTile.getImgName());
-                    Image img = new Image(file.toURI().toString());
-                    aRectangle.setFill(new ImagePattern(img));
+        if (!gg) {
+            theModel.shuffle();
+            data = new ArrayList();
+            Level level = theModel.getLevel();
+            tilePane.getChildren().clear();
+            for (int i = 1; i < level.getHeight() + 1; i++) {
+                ArrayList<Rectangle> row = new ArrayList();
+                for (int j = 1; j < level.getWidth() + 1; j++) {
+                    Tile aTile = theModel.getData().get(i).get(j);
+                    Rectangle aRectangle = new Rectangle(50, 50);
+                    aRectangle.setOnMouseClicked((MouseEvent eventB) -> {
+                        selectRectangle(aRectangle, aTile);
+                    });
+                    if (aTile != null) {
+                        File file = new File(aTile.getImgName());
+                        Image img = new Image(file.toURI().toString());
+                        aRectangle.setFill(new ImagePattern(img));
+                    }
+                    else {
+                        aRectangle.setOpacity(0);
+                    }
+                    row.add(aRectangle);
+                    tilePane.getChildren().add(aRectangle);
                 }
-                else {
-                    aRectangle.setOpacity(0);
-                }
-                row.add(aRectangle);
-                tilePane.getChildren().add(aRectangle);
+                data.add(row);
             }
-            data.add(row);
+            labelShuffle.setText(
+                    String.format("%d", theModel.getShuffleChance()));
         }
-        labelShuffle.setText(String.format("%d", theModel.getShuffleChance()));
     }
 
     @FXML
     private void btnHint(ActionEvent event) {
-        ArrayList<Tile> result = theModel.hint();
-        if (result != null) {
-            Tile a = result.get(0);
-            Tile b = result.get(1);
-            data.get(a.getPosY() - 1).get(a.getPosX() - 1).setOpacity(0.3);
-            data.get(b.getPosY() - 1).get(b.getPosX() - 1).setOpacity(0.3);
+        if (!gg) {
+            ArrayList<Tile> result = theModel.hint();
+            if (result != null) {
+                Tile a = result.get(0);
+                Tile b = result.get(1);
+                data.get(a.getPosY() - 1).get(a.getPosX() - 1).setOpacity(0.3);
+                data.get(b.getPosY() - 1).get(b.getPosX() - 1).setOpacity(0.3);
+            }
+            else {
+                this.btnShuffle(event);
+            }
+            labelHint.setText(String.format("%d", theModel.getHintChance()));
         }
-        else {
-            this.btnShuffle(event);
-        }
-        labelHint.setText(String.format("%d", theModel.getHintChance()));
     }
 
     @FXML
