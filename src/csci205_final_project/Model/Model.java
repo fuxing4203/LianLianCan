@@ -458,4 +458,12 @@ public class Model implements Serializable {
         return result;
     }
 
+    public void setShuffleChance(int shuffleChance) {
+        this.shuffleChance = shuffleChance;
+    }
+
+    public void setHintChance(int hintChance) {
+        this.hintChance = hintChance;
+    }
+
 }

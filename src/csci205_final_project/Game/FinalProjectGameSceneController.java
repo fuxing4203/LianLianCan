@@ -126,7 +126,8 @@ public class FinalProjectGameSceneController implements Initializable {
         task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent t) {
-
+                theModel.setHintChance(0);
+                theModel.setShuffleChance(0);
                 tilePane.getChildren().clear();
                 Rectangle gameOver = new Rectangle();
                 gameOver.setWidth(1000);
