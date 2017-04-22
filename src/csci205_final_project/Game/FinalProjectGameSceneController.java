@@ -94,6 +94,7 @@ public class FinalProjectGameSceneController implements Initializable {
     private int score = 0;
     @FXML
     private Button btnExit;
+    private boolean levelUp = false;
 
     /**
      * Initializes the controller class.
@@ -103,30 +104,39 @@ public class FinalProjectGameSceneController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         playMusic("music.wav");
+        beginTimer();
+
+    }
+
+    public void beginTimer() {
         // start timer
         Task<Void> task;
         task = new Task<Void>() {
             @Override
             public Void call() {
-                for (int i = 0; i < 100; i++) {
+                // 2 minutes
+                for (int i = 0; i < 120; i++) {
                     try {
-                        Thread.sleep(40);
+                        th.sleep(1000);
                     } catch (InterruptedException e) {
-                        Thread.interrupted();
+                        levelUp = true;
                         break;
                     }
-                    updateProgress(i + 1, 100);
+                    updateProgress(i + 1, 120);
                 }
                 return null;
             }
 
         };
+
         task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent t) {
 
+                gg = true;
+                theModel.setShuffleChance(0);
+                theModel.setHintChance(0);
                 tilePane.getChildren().clear();
                 Rectangle gameOver = new Rectangle();
                 gameOver.setWidth(1000);
@@ -135,14 +145,12 @@ public class FinalProjectGameSceneController implements Initializable {
                 Image img = new Image(file.toURI().toString());
                 gameOver.setFill(new ImagePattern(img));
                 tilePane.getChildren().add(gameOver);
-
             }
         });
         timeBar.progressProperty().bind(task.progressProperty());
         th = new Thread(task);
         th.setDaemon(true);
         th.start();
-
     }
 
     private void playMusic(String filenameString) {
@@ -389,10 +397,11 @@ public class FinalProjectGameSceneController implements Initializable {
                 if (theModel.getTotalSize() == 0) {
                     levelNum += 1;
                     theModel.setLevel(Level.updateLevel(theModel.getLevel()));
-
                     tilePane.getChildren().clear();
                     startGameBoardWithMode(theModel.getLevel());
                     labelLevel.setText(String.format("%d", levelNum));
+                    th.interrupt();
+                    beginTimer();
 
                 }
             }
