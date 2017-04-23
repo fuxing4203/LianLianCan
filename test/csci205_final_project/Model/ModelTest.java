@@ -18,6 +18,7 @@ package csci205_final_project.Model;
 import static csci205_final_project.Model.Level.EASY;
 import java.util.ArrayList;
 import org.junit.After;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -111,6 +112,41 @@ public class ModelTest {
         result = md.isTileCancelable(data.get(1).get(4),
                                      data.get(5).get(6));
         assertFalse(result);
+    }
+
+    /**
+     * Test of isTileCancelable method, of class Model.
+     */
+    @Test
+    public void testIsTileCancelable() {
+        System.out.println("isTileCancelable");
+        Model md = new Model(EASY, "pokeman");
+        ArrayList<ArrayList<Tile>> data = md.getData();
+        data.get(1).get(4).setImgName("b");
+        data.get(1).get(5).setImgName("a");
+        boolean expResult = false;
+        boolean result = md.isTileCancelable(data.get(1).get(4),
+                                             data.get(1).get(5));
+        assertEquals(expResult, result);
+        data.get(1).get(5).setImgName("b");
+        expResult = true;
+        result = md.isTileCancelable(data.get(1).get(4), data.get(1).get(5));
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of removeTile method, of class Model.
+     */
+    @Test
+    public void testRemoveTile() {
+        System.out.println("removeTile");
+        Model md = new Model(EASY, "pokeman");
+        ArrayList<ArrayList<Tile>> data = md.getData();
+        data.get(1).get(4).setImgName("a");
+        data.get(1).get(5).setImgName("a");
+        md.removeTile(data.get(1).get(4), data.get(1).get(5));
+        assertEquals(data.get(1).get(4), null);
+        assertEquals(data.get(1).get(5), null);
     }
 
 }
