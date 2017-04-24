@@ -40,6 +40,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -83,10 +84,10 @@ public class FinalProjectGameSceneController implements Initializable {
     private String theme;
     private ArrayList<ArrayList<Rectangle>> data;
     private int levelNum = 0;
-    private int score = 0;
     @FXML
     private Button btnExit;
     private boolean gg;
+    private ArrayList<ArrayList<Integer>> blackTiles = null;
 
     /**
      * Initializes the controller class.
@@ -110,7 +111,9 @@ public class FinalProjectGameSceneController implements Initializable {
             public Void call() {
                 // 2 minutes
                 for (int i = 0; i < 120; i++) {
-
+                    if (blackTiles != null) {
+                        drawLine(blackTiles, 0);
+                    }
                     try {
                         th.sleep(1000);
                     } catch (InterruptedException e) {
@@ -231,30 +234,9 @@ public class FinalProjectGameSceneController implements Initializable {
     private void btnShuffle(ActionEvent event) {
         if (!gg) {
             theModel.shuffle();
-            data = new ArrayList();
             Level level = theModel.getLevel();
             tilePane.getChildren().clear();
-            for (int i = 1; i < level.getHeight() + 1; i++) {
-                ArrayList<Rectangle> row = new ArrayList();
-                for (int j = 1; j < level.getWidth() + 1; j++) {
-                    Tile aTile = theModel.getData().get(i).get(j);
-                    Rectangle aRectangle = new Rectangle(50, 50);
-                    aRectangle.setOnMouseClicked((MouseEvent eventB) -> {
-                        selectRectangle(aRectangle, aTile);
-                    });
-                    if (aTile != null) {
-                        File file = new File(aTile.getImgName());
-                        Image img = new Image(file.toURI().toString());
-                        aRectangle.setFill(new ImagePattern(img));
-                    }
-                    else {
-                        aRectangle.setOpacity(0);
-                    }
-                    row.add(aRectangle);
-                    tilePane.getChildren().add(aRectangle);
-                }
-                data.add(row);
-            }
+            startGameBoardWithMode(level);
             labelShuffle.setText(
                     String.format("%d", theModel.getShuffleChance()));
         }
@@ -267,8 +249,8 @@ public class FinalProjectGameSceneController implements Initializable {
             if (result != null) {
                 Tile a = result.get(0);
                 Tile b = result.get(1);
-                data.get(a.getPosY() - 1).get(a.getPosX() - 1).setOpacity(0.3);
-                data.get(b.getPosY() - 1).get(b.getPosX() - 1).setOpacity(0.3);
+                data.get(a.getPosY()).get(a.getPosX()).setOpacity(0.3);
+                data.get(b.getPosY()).get(b.getPosX()).setOpacity(0.3);
             }
             else {
                 this.btnShuffle(event);
@@ -291,23 +273,29 @@ public class FinalProjectGameSceneController implements Initializable {
      * @param level
      */
     public void startGameBoardWithMode(Level level) {
-        tilePane.setPrefColumns(level.getWidth());
-        tilePane.setPrefRows(level.getWidth());
-        tilePane.setPrefWidth(50 * level.getWidth());
-        tilePane.setPrefHeight(50 * level.getHeight());
-        tilePane.setMaxSize(50 * level.getWidth(), 50 * level.getHeight());
+        tilePane.setPrefColumns(level.getWidth() + 2);
+        tilePane.setPrefRows(level.getHeight() + 2);
+        tilePane.setPrefWidth(50 * (level.getWidth() + 2));
+        tilePane.setPrefHeight(50 * (level.getHeight() + 2));
+        tilePane.setMaxSize(50 * (level.getWidth() + 2),
+                            50 * (level.getHeight() + 2));
         data = new ArrayList();
-        for (int i = 1; i < level.getHeight() + 1; i++) {
+        for (int i = 0; i < level.getHeight() + 2; i++) {
             ArrayList<Rectangle> row = new ArrayList();
-            for (int j = 1; j < level.getWidth() + 1; j++) {
+            for (int j = 0; j < level.getWidth() + 2; j++) {
                 Tile aTile = theModel.getData().get(i).get(j);
-                File file = new File(aTile.getImgName());
-                Image img = new Image(file.toURI().toString());
                 Rectangle aRectangle = new Rectangle(50, 50);
-                aRectangle.setFill(new ImagePattern(img));
-                aRectangle.setOnMouseClicked((MouseEvent event) -> {
+                aRectangle.setOnMouseClicked((MouseEvent eventB) -> {
                     selectRectangle(aRectangle, aTile);
                 });
+                if (aTile != null) {
+                    File file = new File(aTile.getImgName());
+                    Image img = new Image(file.toURI().toString());
+                    aRectangle.setFill(new ImagePattern(img));
+                }
+                else {
+                    aRectangle.setOpacity(0);
+                }
                 tilePane.getChildren().add(aRectangle);
                 row.add(aRectangle);
             }
@@ -336,23 +324,24 @@ public class FinalProjectGameSceneController implements Initializable {
 
             selectedRectangle.setOpacity(1); // set the opacity back in case there is no path between the current one and the next one.
 
-            boolean isPath = theModel.isTileCancelable(selectedTile, aTile);
-            if (isPath) {
+            blackTiles = theModel.findPath(
+                    selectedTile, aTile);
+            if (blackTiles != null) {
                 theModel.removeTile(selectedTile, aTile);
                 // make the tiles invisible.
-                selectedRectangle.setOpacity(0);
-                aRectangle.setOpacity(0);
-                score += 5;
-                labelScore.setText(String.format("%d", score));
+                selectedRectangle.setFill(Color.BLACK);
+                aRectangle.setFill(Color.BLACK);
+                drawLine(blackTiles, 1);
+                labelScore.setText(String.format("%d", theModel.getScore()));
                 if (theModel.getTotalSize() == 0) {
                     levelNum += 1;
                     theModel.setLevel(Level.updateLevel(theModel.getLevel()));
                     tilePane.getChildren().clear();
                     startGameBoardWithMode(theModel.getLevel());
                     labelLevel.setText(String.format("%d", levelNum));
+                    blackTiles = null;
                     th.interrupt();
                     beginTimer();
-
                 }
             }
             else { // if there is no path between them, change the next selected tile as selected.
@@ -360,13 +349,47 @@ public class FinalProjectGameSceneController implements Initializable {
                 selectedRectangle = aRectangle;
                 selectedTile = aTile;
                 selectedRectangle.setOpacity(1);
-                score -= 1;
-                labelScore.setText(String.format("%d", score));
+                labelScore.setText(String.format("%d", theModel.getScore()));
 
                 //playMusic("audioeff/blomark.wav");
             }
 
             numOfSelections++;
+        }
+    }
+
+    private void drawLine(ArrayList<ArrayList<Integer>> coordinates,
+                          double opacity) {
+        for (int i = 0; i < coordinates.size() - 1; i++) {
+            if (coordinates.get(i).get(1) < coordinates.get(i + 1).get(1)) {
+                for (int j = coordinates.get(i).get(1); j <= coordinates.get(
+                     i + 1).get(1); j++) {
+                    data.get(j).get(coordinates.get(i).get(0)).setOpacity(
+                            opacity);
+                }
+            }
+            else if (coordinates.get(i).get(1) > coordinates.get(i + 1).get(1)) {
+                for (int j = coordinates.get(i + 1).get(1); j <= coordinates.get(
+                     i).get(1); j++) {
+                    data.get(j).get(coordinates.get(i).get(0)).setOpacity(
+                            opacity);
+                }
+            }
+            else if (coordinates.get(i).get(0) < coordinates.get(
+                    i + 1).get(0)) {
+                for (int j = coordinates.get(i).get(0); j <= coordinates.get(
+                     i + 1).get(0); j++) {
+                    data.get(coordinates.get(i).get(1)).get(j).setOpacity(
+                            opacity);
+                }
+            }
+            else {
+                for (int j = coordinates.get(i + 1).get(0); j <= coordinates.get(
+                     i).get(0); j++) {
+                    data.get(coordinates.get(i).get(1)).get(j).setOpacity(
+                            opacity);
+                }
+            }
         }
     }
 

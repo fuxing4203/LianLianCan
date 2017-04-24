@@ -74,37 +74,6 @@ public class Model implements Serializable {
     }
 
     /**
-     * Check if two tiles can be canceled. If it's possible, cancel tiles and
-     * return true.
-     *
-     * @param a - a tile
-     * @param b - another tile
-     * @return boolean
-     */
-    public boolean isTileCancelable(Tile a, Tile b) {
-        if (a == null || b == null) {
-            return false;
-        }
-        else if (!a.isEqualTo(b)) {
-            this.score -= 1;
-            return false;
-        }
-        else if ((data.get(a.getPosY()).get(a.getPosX()) == null) || (data.get(
-                                                                      b.getPosY()).get(
-                                                                      b.getPosX()) == null)) {
-            return false;
-        }
-        else {
-            if (checkPath(a.getPosX(), a.getPosY(), b.getPosX(), b.getPosY())) {
-                this.score += 5;
-                return true;
-            }
-            this.score -= 1;
-            return false;
-        }
-    }
-
-    /**
      * Remove Tiles
      *
      * @param selectedTile - first tile
@@ -114,28 +83,6 @@ public class Model implements Serializable {
         data.get(selectedTile.getPosY()).set(selectedTile.getPosX(), null);
         data.get(aTile.getPosY()).set(aTile.getPosX(), null);
         this.totalSize -= 2;
-    }
-
-    /**
-     * Check path for the inner tiles to see if they can be connected with in
-     * the number of turns. Return true if that's possible.
-     *
-     * @param ax - posX for a
-     * @param ay - posY for a
-     * @param bx - posX for b
-     * @param by - posY for b
-     * @return boolean
-     */
-    public boolean checkPath(int ax, int ay, int bx, int by) {
-        if ((ax == bx) && (ay == by)) {
-            // If two tiles are at the same position, return false
-            return false;
-        }
-        else {
-            return checkHorizontal(ax, ay, bx, by) || checkVertical(ax, ay, bx,
-                                                                    by) || checkOneTurn(
-                            ax, ay, bx, by) || checkTwoTurn(ax, ay, bx, by);
-        }
     }
 
     /**
@@ -281,8 +228,8 @@ public class Model implements Serializable {
                     for (int m = i; m < this.data.size(); m++) {
                         if (m == i) {
                             for (int n = j + 1; n < this.data.get(0).size(); n++) {
-                                if (isTileCancelable(this.data.get(i).get(j),
-                                                     this.data.get(m).get(n))) {
+                                if (findPath(this.data.get(i).get(j),
+                                             this.data.get(m).get(n)) != null) {
                                     result.add(this.data.get(i).get(j));
                                     result.add(this.data.get(m).get(n));
                                     breaked = true;
@@ -293,8 +240,8 @@ public class Model implements Serializable {
                         }
                         else {
                             for (int n = 0; n < this.data.get(0).size(); n++) {
-                                if (isTileCancelable(this.data.get(i).get(j),
-                                                     this.data.get(m).get(n))) {
+                                if (findPath(this.data.get(i).get(j),
+                                             this.data.get(m).get(n)) != null) {
                                     result.add(this.data.get(i).get(j));
                                     result.add(this.data.get(m).get(n));
                                     breaked = true;
@@ -459,5 +406,163 @@ public class Model implements Serializable {
             }
         }
         return result;
+    }
+
+    public ArrayList<ArrayList<Integer>> findPath(Tile a, Tile b) {
+        if (a == null || b == null) {
+            return null;
+        }
+        else if (!a.isEqualTo(b)) {
+            this.score -= 1;
+            return null;
+        }
+        else if ((data.get(a.getPosY()).get(a.getPosX()) == null) || (data.get(
+                                                                      b.getPosY()).get(
+                                                                      b.getPosX()) == null)) {
+            return null;
+        }
+        else {
+            ArrayList<ArrayList<Integer>> result = new ArrayList();
+            int ax = a.getPosX();
+            int ay = a.getPosY();
+            int bx = b.getPosX();
+            int by = b.getPosY();
+            if ((ax == bx) && (ay == by)) {
+                this.score -= 1;
+                return null;
+            }
+            if (checkHorizontal(ax, ay, bx, by)) {
+                ArrayList<Integer> coordinate = new ArrayList();
+                coordinate.add(ax);
+                coordinate.add(ay);
+                result.add(coordinate);
+                coordinate = new ArrayList();
+                coordinate.add(bx);
+                coordinate.add(by);
+                result.add(coordinate);
+            }
+            else if (checkVertical(ax, ay, bx, by)) {
+                ArrayList<Integer> coordinate = new ArrayList();
+                coordinate.add(ax);
+                coordinate.add(ay);
+                result.add(coordinate);
+                coordinate = new ArrayList();
+                coordinate.add(bx);
+                coordinate.add(by);
+                result.add(coordinate);
+            }
+            else if (checkOneTurn(ax, ay, bx, by)) {
+                boolean path1 = checkVertical(ax, ay, ax, by) && checkHorizontal(
+                        ax,
+                        by,
+                        bx,
+                        by) && data.get(
+                                by).get(ax) == null;
+                if (path1) {
+                    ArrayList<Integer> coordinate = new ArrayList();
+                    coordinate.add(ax);
+                    coordinate.add(ay);
+                    result.add(coordinate);
+                    coordinate = new ArrayList();
+                    coordinate.add(ax);
+                    coordinate.add(by);
+                    result.add(coordinate);
+                    coordinate = new ArrayList();
+                    coordinate.add(bx);
+                    coordinate.add(by);
+                    result.add(coordinate);
+                }
+                else {
+                    ArrayList<Integer> coordinate = new ArrayList();
+                    coordinate.add(ax);
+                    coordinate.add(ay);
+                    result.add(coordinate);
+                    coordinate = new ArrayList();
+                    coordinate.add(bx);
+                    coordinate.add(ay);
+                    result.add(coordinate);
+                    coordinate = new ArrayList();
+                    coordinate.add(bx);
+                    coordinate.add(by);
+                    result.add(coordinate);
+                }
+            }
+            else if (checkTwoTurn(ax, ay, bx, by)) {
+                boolean pathH = false;
+                boolean pathV = false;
+                for (int i = 0; i < data.size(); i++) {
+                    pathH = pathH || (checkOneTurn(ax, i, bx, by) && checkVertical(
+                                      ax, i,
+                                      ax,
+                                      ay) && data.get(
+                                      i).get(ax) == null);
+                    pathV = pathV || (checkOneTurn(i, ay, bx, by) && checkHorizontal(
+                                      i,
+                                      ay,
+                                      ax,
+                                      ay) && data.get(
+                                      ay).get(i) == null);
+                }
+                if (pathH) {
+                    int i;
+                    for (i = 0; i < data.size(); i++) {
+                        if ((checkOneTurn(ax, i, ax, by) && checkVertical(
+                             ax, i, ax, ay) && data.get(i).get(ax) == null) == true) {
+                            break;
+                        }
+                    }
+                    ArrayList<Integer> coordinate = new ArrayList();
+                    coordinate.add(ax);
+                    coordinate.add(ay);
+                    result.add(coordinate);
+                    coordinate = new ArrayList();
+                    coordinate.add(ax);
+                    coordinate.add(i);
+                    result.add(coordinate);
+                    coordinate = new ArrayList();
+                    coordinate.add(bx);
+                    coordinate.add(i);
+                    result.add(coordinate);
+                    coordinate = new ArrayList();
+                    coordinate.add(bx);
+                    coordinate.add(by);
+                    result.add(coordinate);
+                }
+                else {
+                    int i;
+                    for (i = 0; i < data.size(); i++) {
+                        if ((checkOneTurn(i, ay, bx, by) && checkHorizontal(i,
+                                                                            ay,
+                                                                            ax,
+                                                                            ay) && data.get(
+                             ay).get(i) == null) == true) {
+                            break;
+                        }
+                    }
+                    ArrayList<Integer> coordinate = new ArrayList();
+                    coordinate.add(ax);
+                    coordinate.add(ay);
+                    result.add(coordinate);
+                    coordinate = new ArrayList();
+                    coordinate.add(i);
+                    coordinate.add(ay);
+                    result.add(coordinate);
+                    coordinate = new ArrayList();
+                    coordinate.add(i);
+                    coordinate.add(by);
+                    result.add(coordinate);
+                    coordinate = new ArrayList();
+                    coordinate.add(bx);
+                    coordinate.add(by);
+                    result.add(coordinate);
+                }
+            }
+            else {
+                this.score -= 1;
+                return null;
+            }
+            this.score += 5;
+            return result;
+        }
     }
 }
