@@ -21,8 +21,9 @@ import java.util.Collections;
 import java.util.Random;
 
 /**
+ * model class including the background methods of the game
  *
- * @author Iris
+ * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
  */
 public class Model implements Serializable {
 
@@ -39,6 +40,7 @@ public class Model implements Serializable {
      *
      * @param level
      * @param theme
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public Model(Level level, String theme) {
         this.level = level;
@@ -51,6 +53,7 @@ public class Model implements Serializable {
      * Generates data with images
      *
      * @param imgSeq
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public void generateData(ArrayList<String> imgSeq) {
         this.data = new ArrayList();
@@ -78,6 +81,7 @@ public class Model implements Serializable {
      *
      * @param selectedTile - first tile
      * @param aTile - second tile
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public void removeTile(Tile selectedTile, Tile aTile) {
         data.get(selectedTile.getPosY()).set(selectedTile.getPosX(), null);
@@ -94,6 +98,7 @@ public class Model implements Serializable {
      * @param bx - posX for b
      * @param by - posY for b
      * @return
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public boolean checkHorizontal(int ax, int ay, int bx, int by) {
         if (ay != by) {
@@ -120,6 +125,7 @@ public class Model implements Serializable {
      * @param bx - posX for b
      * @param by - posY for b
      * @return
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public boolean checkVertical(int ax, int ay, int bx, int by) {
         if (ax != bx) {
@@ -146,6 +152,7 @@ public class Model implements Serializable {
      * @param bx - posX for b
      * @param by - posY for b
      * @return
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public boolean checkOneTurn(int ax, int ay, int bx, int by) {
         boolean path1 = checkVertical(ax, ay, ax, by) && checkHorizontal(ax, by,
@@ -165,6 +172,7 @@ public class Model implements Serializable {
      * @param bx - posX for b
      * @param by - posY for b
      * @return
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public boolean checkTwoTurn(int ax, int ay, int bx, int by) {
         boolean pathH = false;
@@ -187,6 +195,7 @@ public class Model implements Serializable {
      * Shuffle the remaining tiles with canceled stay at the same position,
      * return true if able to shuffle
      *
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public void shuffle() {
         if (this.shuffleChance > 0) {
@@ -216,8 +225,10 @@ public class Model implements Serializable {
     }
 
     /**
+     * give a hint of two cancelable tiles
      *
-     * @return
+     * @return an ArrayList of two tiles that can be canceled
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public ArrayList<Tile> hint() {
         if (this.hintChance > 0) {
@@ -272,83 +283,38 @@ public class Model implements Serializable {
         return null;
     }
 
-    /**
-     * Getter for tiles
-     *
-     * @return data
-     */
     public ArrayList<ArrayList<Tile>> getData() {
         return data;
     }
 
-    /**
-     * Setter for data. Only used during testing
-     *
-     * @param data
-     */
     public void setData(ArrayList<ArrayList<Tile>> data) {
         this.data = data;
     }
 
-    /**
-     * Getter for Level
-     *
-     * @return level
-     */
     public Level getLevel() {
         return level;
     }
 
-    /**
-     * Getter for hint chance remaining
-     *
-     * @return hintChance
-     */
     public int getHintChance() {
         return hintChance;
     }
 
-    /**
-     * Getter for totalSize of the tiles remaining
-     *
-     * @return totalSize
-     */
     public int getTotalSize() {
         return totalSize;
     }
 
-    /**
-     * Getter for shuffle chance remaining
-     *
-     * @return shuffleChance
-     */
     public int getShuffleChance() {
         return shuffleChance;
     }
 
-    /**
-     * Getter for current theme
-     *
-     * @return theme
-     */
     public String getTheme() {
         return theme;
     }
 
-    /**
-     * Getter for current score
-     *
-     * @return score
-     */
     public int getScore() {
         return score;
     }
 
-    /**
-     * Representation of the model
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return String.format("-- Theme: %5s -- Level: %s-- ", this.getTheme(),
@@ -356,11 +322,6 @@ public class Model implements Serializable {
 
     }
 
-    /**
-     * Setter for level. Update level, data and totalSize
-     *
-     * @param level
-     */
     public void setLevel(Level level) {
         this.level = level;
         this.totalSize = level.getHeight() * level.getWidth();
@@ -371,6 +332,7 @@ public class Model implements Serializable {
      * Generates an ArrayList of path of images
      *
      * @return sResult
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public ArrayList<String> imgNameProducer() {
         ArrayList<String> sResult = new ArrayList<String>();
@@ -396,6 +358,8 @@ public class Model implements Serializable {
 
     /**
      * Helper function for imgNameProducer
+     *
+     * @author Junjie Jiang
      */
     private int numContained(ArrayList<Integer> input, int x) {
         int i;
@@ -408,6 +372,15 @@ public class Model implements Serializable {
         return result;
     }
 
+    /**
+     * Check if there's a possible path between two tiles. Return null if not.
+     *
+     * @param a - a tile
+     * @param b - another tile
+     * @return result - an ArrayList with pairs of coordinates recording turning
+     * points
+     * @author Iris Fu
+     */
     public ArrayList<ArrayList<Integer>> findPath(Tile a, Tile b) {
         if (a == null || b == null) {
             return null;

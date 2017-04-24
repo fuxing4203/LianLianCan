@@ -25,8 +25,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
+ * start menu class
  *
- * @author hs031
+ * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
  */
 public class startMenu extends Application {
 
@@ -51,7 +52,10 @@ public class startMenu extends Application {
     }
 
     /**
+     * main class
+     *
      * @param args the command line arguments
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public static void main(String[] args) {
         launch(args);

@@ -18,8 +18,9 @@ package csci205_final_project.Model;
 import java.util.ArrayList;
 
 /**
+ * inline class
  *
- * @author Iris
+ * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
  */
 public class InLine {
 
@@ -31,6 +32,7 @@ public class InLine {
      * Updated position of ax
      *
      * @return x
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public int getX() {
         return x;
@@ -40,6 +42,7 @@ public class InLine {
      * Updated position of ay
      *
      * @return y
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public int getY() {
         return y;
@@ -64,6 +67,7 @@ public class InLine {
      * @param bx - posX for b
      * @param by - posY for b
      * @return boolean
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public boolean checkUp(int ax, int ay, int bx, int by) {
 
@@ -98,6 +102,7 @@ public class InLine {
      * @param bx - posX for b
      * @param by - posY for b
      * @return boolean
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public boolean checkDown(int ax, int ay, int bx, int by) {
         if (ax == bx && ay > by) {
@@ -129,6 +134,7 @@ public class InLine {
      * @param bx - posX of b
      * @param by - posY of b
      * @return boolean
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public boolean checkRight(int ax, int ay, int bx, int by) {
 
@@ -167,6 +173,7 @@ public class InLine {
      * @param bx - posX of b
      * @param by - posY of b
      * @return boolean
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public boolean checkLeft(int ax, int ay, int bx, int by) {
         if (ay == by && ax > bx) {

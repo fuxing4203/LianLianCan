@@ -48,7 +48,7 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author jj030
+ * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
  */
 public class FinalProjectGameSceneController implements Initializable {
 
@@ -66,26 +66,24 @@ public class FinalProjectGameSceneController implements Initializable {
     private Label labelShuffle;
     @FXML
     private Label labelHint;
-
-    private Level level;
-    private Model theModel;
-    private int seconds;
-    private Thread th;
     @FXML
     private TilePane tilePane;
     @FXML
     private BorderPane parentPane;
     @FXML
     private ProgressBar timeBar;
+    @FXML
+    private Button btnExit;
 
+    private Level level;
+    private Model theModel;
+    private Thread th;
     public Tile selectedTile;
     public Rectangle selectedRectangle;
     public int numOfSelections = 0;
     private String theme;
     private ArrayList<ArrayList<Rectangle>> data;
     private int levelNum = 0;
-    @FXML
-    private Button btnExit;
     private boolean gg;
     private ArrayList<ArrayList<Integer>> blackTiles = null;
 
@@ -94,6 +92,7 @@ public class FinalProjectGameSceneController implements Initializable {
      *
      * @param url
      * @param rb
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -102,6 +101,11 @@ public class FinalProjectGameSceneController implements Initializable {
 
     }
 
+    /**
+     * a method used to begin a timer
+     *
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
+     */
     public void beginTimer() {
         // start timer
         gg = false;
@@ -156,6 +160,8 @@ public class FinalProjectGameSceneController implements Initializable {
 
     /**
      * Initialize the model
+     *
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public void createModel() {
         theModel = new Model(level, theme);
@@ -271,6 +277,7 @@ public class FinalProjectGameSceneController implements Initializable {
      * Initialize game with a level. Have to initialize game first.
      *
      * @param level
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public void startGameBoardWithMode(Level level) {
         tilePane.setPrefColumns(level.getWidth() + 2);
@@ -303,8 +310,13 @@ public class FinalProjectGameSceneController implements Initializable {
         }
     }
 
-    /*
-
+    /**
+     * a method to select a rectangle and link that to the tile in the
+     * background
+     *
+     * @param aRectangle
+     * @param aTile
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     private void selectRectangle(Rectangle aRectangle, Tile aTile) {
         //System.out.println(aTile.getPosX());
@@ -358,6 +370,13 @@ public class FinalProjectGameSceneController implements Initializable {
         }
     }
 
+    /**
+     * Show or hide the tiles on the path
+     *
+     * @param coordinates - turning points of the path stored in groups (x, y)
+     * @param opacity - a double from 0 to 1
+     * @author Iris Fu
+     */
     private void drawLine(ArrayList<ArrayList<Integer>> coordinates,
                           double opacity) {
         for (int i = 0; i < coordinates.size() - 1; i++) {

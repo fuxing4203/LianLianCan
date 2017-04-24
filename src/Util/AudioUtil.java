@@ -30,11 +30,18 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
+ * an utility class for audio
  *
- * @author Zilin Ma
+ * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
  */
 public class AudioUtil {
 
+    /**
+     * an utility for music playing
+     *
+     * @param filenameString
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
+     */
     public static void playMusic(String filenameString) {
         File soundFile = new File(filenameString);
         AudioInputStream sound = null;
