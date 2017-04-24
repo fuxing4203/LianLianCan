@@ -141,7 +141,6 @@ public class FinalProjectGameSceneController implements Initializable {
                 else {
                     gg = false;
                 }
-                System.out.println(gg);
                 if (gg) {
                     tilePane.getChildren().clear();
                     Rectangle gameOver = new Rectangle();
