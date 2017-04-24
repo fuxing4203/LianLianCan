@@ -46,6 +46,7 @@ public class startMenu extends Application {
 
         primaryStage.setTitle("Game");
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
