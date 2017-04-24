@@ -47,7 +47,7 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author jj030
+ * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
  */
 public class FinalProjectGameSceneController implements Initializable {
 
@@ -78,7 +78,9 @@ public class FinalProjectGameSceneController implements Initializable {
     private ProgressBar timeBar;
 
     public Tile selectedTile;
+
     public Rectangle selectedRectangle;
+
     public int numOfSelections = 0;
     private String theme;
     private ArrayList<ArrayList<Rectangle>> data;
@@ -93,6 +95,7 @@ public class FinalProjectGameSceneController implements Initializable {
      *
      * @param url
      * @param rb
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -101,6 +104,11 @@ public class FinalProjectGameSceneController implements Initializable {
 
     }
 
+    /**
+     * a method used to begin a timer
+     *
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
+     */
     public void beginTimer() {
         // start timer
         gg = false;
@@ -154,6 +162,8 @@ public class FinalProjectGameSceneController implements Initializable {
 
     /**
      * Initialize the model
+     *
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public void createModel() {
         theModel = new Model(level, theme);
@@ -182,6 +192,7 @@ public class FinalProjectGameSceneController implements Initializable {
      *
      * @param themeString
      * @param levelString
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public void initData(String themeString, String levelString) {
         this.theme = themeString;
@@ -290,6 +301,7 @@ public class FinalProjectGameSceneController implements Initializable {
      * Initialize game with a level. Have to initialize game first.
      *
      * @param level
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public void startGameBoardWithMode(Level level) {
         tilePane.setPrefColumns(level.getWidth());
@@ -316,8 +328,13 @@ public class FinalProjectGameSceneController implements Initializable {
         }
     }
 
-    /*
-
+    /**
+     * a method to select a rectangle and link that to the tile in the
+     * background
+     *
+     * @param aRectangle
+     * @param aTile
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     private void selectRectangle(Rectangle aRectangle, Tile aTile) {
         //System.out.println(aTile.getPosX());

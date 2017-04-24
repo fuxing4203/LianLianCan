@@ -32,9 +32,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
+ * FXML Controller class for pause menu
  *
- * @author jj030
+ * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
  */
 public class FinalProjectPauseMenuController implements Initializable {
 
@@ -52,12 +52,23 @@ public class FinalProjectPauseMenuController implements Initializable {
 
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
 
+    /**
+     * initialize the data
+     *
+     * @param t
+     * @param theModel
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
+     */
     public void initData(Thread t, Model theModel) {
         myThread = t;
 

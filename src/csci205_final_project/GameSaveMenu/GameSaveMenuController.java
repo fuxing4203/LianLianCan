@@ -31,6 +31,10 @@ public class GameSaveMenuController implements Initializable {
 
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -67,6 +71,12 @@ public class GameSaveMenuController implements Initializable {
         }
     }
 
+    /**
+     * initialize a model
+     *
+     * @param myModel
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
+     */
     public void initModel(Model myModel) {
         this.myModel = myModel;
     }
