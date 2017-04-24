@@ -404,17 +404,7 @@ public class Model implements Serializable {
                 this.score -= 1;
                 return null;
             }
-            if (checkHorizontal(ax, ay, bx, by)) {
-                ArrayList<Integer> coordinate = new ArrayList();
-                coordinate.add(ax);
-                coordinate.add(ay);
-                result.add(coordinate);
-                coordinate = new ArrayList();
-                coordinate.add(bx);
-                coordinate.add(by);
-                result.add(coordinate);
-            }
-            else if (checkVertical(ax, ay, bx, by)) {
+            if (checkHorizontal(ax, ay, bx, by) || checkVertical(ax, ay, bx, by)) {
                 ArrayList<Integer> coordinate = new ArrayList();
                 coordinate.add(ax);
                 coordinate.add(ay);
@@ -425,110 +415,63 @@ public class Model implements Serializable {
                 result.add(coordinate);
             }
             else if (checkOneTurn(ax, ay, bx, by)) {
-                boolean path1 = checkVertical(ax, ay, ax, by) && checkHorizontal(
-                        ax,
-                        by,
-                        bx,
-                        by) && data.get(
-                                by).get(ax) == null;
-                if (path1) {
-                    ArrayList<Integer> coordinate = new ArrayList();
-                    coordinate.add(ax);
-                    coordinate.add(ay);
-                    result.add(coordinate);
+                ArrayList<Integer> coordinate = new ArrayList();
+                coordinate.add(ax);
+                coordinate.add(ay);
+                result.add(coordinate);
+                if (checkVertical(ax, ay, ax, by) && checkHorizontal(
+                        ax, by, bx, by) && data.get(by).get(ax) == null) {
                     coordinate = new ArrayList();
                     coordinate.add(ax);
-                    coordinate.add(by);
-                    result.add(coordinate);
-                    coordinate = new ArrayList();
-                    coordinate.add(bx);
                     coordinate.add(by);
                     result.add(coordinate);
                 }
                 else {
-                    ArrayList<Integer> coordinate = new ArrayList();
-                    coordinate.add(ax);
-                    coordinate.add(ay);
-                    result.add(coordinate);
                     coordinate = new ArrayList();
                     coordinate.add(bx);
                     coordinate.add(ay);
-                    result.add(coordinate);
-                    coordinate = new ArrayList();
-                    coordinate.add(bx);
-                    coordinate.add(by);
                     result.add(coordinate);
                 }
+                coordinate = new ArrayList();
+                coordinate.add(bx);
+                coordinate.add(by);
+                result.add(coordinate);
             }
             else if (checkTwoTurn(ax, ay, bx, by)) {
-                boolean pathH = false;
-                boolean pathV = false;
+                ArrayList<Integer> coordinate = new ArrayList();
+                coordinate.add(ax);
+                coordinate.add(ay);
+                result.add(coordinate);
                 for (int i = 0; i < data.size(); i++) {
-                    pathH = pathH || (checkOneTurn(ax, i, bx, by) && checkVertical(
-                                      ax, i,
-                                      ax,
-                                      ay) && data.get(
-                                      i).get(ax) == null);
-                    pathV = pathV || (checkOneTurn(i, ay, bx, by) && checkHorizontal(
-                                      i,
-                                      ay,
-                                      ax,
-                                      ay) && data.get(
-                                      ay).get(i) == null);
-                }
-                if (pathH) {
-                    int i;
-                    for (i = 0; i < data.size(); i++) {
-                        if ((checkOneTurn(ax, i, ax, by) && checkVertical(
-                             ax, i, ax, ay) && data.get(i).get(ax) == null) == true) {
-                            break;
-                        }
+                    if ((checkOneTurn(ax, i, bx, by) && checkVertical(
+                         ax, i, ax, ay) && data.get(i).get(ax) == null)) {
+                        coordinate = new ArrayList();
+                        coordinate.add(ax);
+                        coordinate.add(i);
+                        result.add(coordinate);
+                        coordinate = new ArrayList();
+                        coordinate.add(bx);
+                        coordinate.add(i);
+                        result.add(coordinate);
+                        break;
                     }
-                    ArrayList<Integer> coordinate = new ArrayList();
-                    coordinate.add(ax);
-                    coordinate.add(ay);
-                    result.add(coordinate);
-                    coordinate = new ArrayList();
-                    coordinate.add(ax);
-                    coordinate.add(i);
-                    result.add(coordinate);
-                    coordinate = new ArrayList();
-                    coordinate.add(bx);
-                    coordinate.add(i);
-                    result.add(coordinate);
-                    coordinate = new ArrayList();
-                    coordinate.add(bx);
-                    coordinate.add(by);
-                    result.add(coordinate);
-                }
-                else {
-                    int i;
-                    for (i = 0; i < data.size(); i++) {
-                        if ((checkOneTurn(i, ay, bx, by) && checkHorizontal(i,
-                                                                            ay,
-                                                                            ax,
-                                                                            ay) && data.get(
-                             ay).get(i) == null) == true) {
-                            break;
-                        }
+                    if ((checkOneTurn(i, ay, bx, by) && checkHorizontal(
+                         i, ay, ax, ay) && data.get(ay).get(i) == null)) {
+                        coordinate = new ArrayList();
+                        coordinate.add(i);
+                        coordinate.add(ay);
+                        result.add(coordinate);
+                        coordinate = new ArrayList();
+                        coordinate.add(i);
+                        coordinate.add(by);
+                        result.add(coordinate);
+                        break;
                     }
-                    ArrayList<Integer> coordinate = new ArrayList();
-                    coordinate.add(ax);
-                    coordinate.add(ay);
-                    result.add(coordinate);
-                    coordinate = new ArrayList();
-                    coordinate.add(i);
-                    coordinate.add(ay);
-                    result.add(coordinate);
-                    coordinate = new ArrayList();
-                    coordinate.add(i);
-                    coordinate.add(by);
-                    result.add(coordinate);
-                    coordinate = new ArrayList();
-                    coordinate.add(bx);
-                    coordinate.add(by);
-                    result.add(coordinate);
                 }
+                coordinate = new ArrayList();
+                coordinate.add(bx);
+                coordinate.add(by);
+                result.add(coordinate);
             }
             else {
                 this.score -= 1;
