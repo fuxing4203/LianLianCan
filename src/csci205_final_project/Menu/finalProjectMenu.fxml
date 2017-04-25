@@ -39,7 +39,7 @@
                   </Button>
                </children>
             </VBox>
-            <ImageView fitHeight="321.0" fitWidth="436.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS" />
+            <ImageView fx:id="menuImage" fitHeight="321.0" fitWidth="436.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
    </children>
