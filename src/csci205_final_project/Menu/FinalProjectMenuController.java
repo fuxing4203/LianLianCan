@@ -15,6 +15,7 @@
  */
 package csci205_final_project.Menu;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,6 +26,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -63,6 +65,9 @@ public class FinalProjectMenuController implements Initializable {
         //Image woodenTexture = new Image(getClass().getResourceAsStream(
         //        "../images/wooden.jpg"));
         //btnStart.setGraphic(new ImageView(woodenTexture));
+        File file = new File("GG.jpg");
+        Image img = new Image(file.toURI().toString());
+        menuImage = new ImageView(img);
     }
 
     @FXML
