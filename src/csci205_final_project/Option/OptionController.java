@@ -83,6 +83,7 @@ public class OptionController implements Initializable {
                 "../Menu/finalProjectMenu.fxml"));
 
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         stage.setScene(scene);
         stage.show();
     }
@@ -115,6 +116,7 @@ public class OptionController implements Initializable {
         gameController.initData(themeString, levelString);
         gameController.createModel();
         Scene scene = new Scene(option);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         stage.setScene(scene);
         stage.show();
     }

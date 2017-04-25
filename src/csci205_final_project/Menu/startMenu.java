@@ -44,6 +44,8 @@ public class startMenu extends Application {
         Parent root = loader.load(in);
 
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(
+                "/csci205_final_project/Menu/menu.css");
 
         primaryStage.setTitle("Game");
         primaryStage.setScene(scene);
