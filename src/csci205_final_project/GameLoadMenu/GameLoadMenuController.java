@@ -37,7 +37,7 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author Zilin Ma
+ * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
  */
 public class GameLoadMenuController implements Initializable {
 
@@ -60,6 +60,7 @@ public class GameLoadMenuController implements Initializable {
      *
      * @param url
      * @param rb
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

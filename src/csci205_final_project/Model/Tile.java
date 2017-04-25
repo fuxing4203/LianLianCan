@@ -18,8 +18,9 @@ package csci205_final_project.Model;
 import java.io.Serializable;
 
 /**
+ * tile class for background running program
  *
- * @author Iris
+ * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
  */
 public class Tile implements Serializable {
 
@@ -43,6 +44,7 @@ public class Tile implements Serializable {
      * Set the path of image
      *
      * @param imgName
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public void setImgName(String imgName) {
         this.imgName = imgName;
@@ -53,6 +55,7 @@ public class Tile implements Serializable {
      *
      * @param obj
      * @return boolean
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public boolean isEqualTo(Object obj) {
         if (obj == null) {
@@ -72,6 +75,7 @@ public class Tile implements Serializable {
      * Set the new posX for the tile
      *
      * @param x
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public void setX(int x) {
         this.x = x;
@@ -81,6 +85,7 @@ public class Tile implements Serializable {
      * Set the new posY for the tile
      *
      * @param y
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public void setY(int y) {
         this.y = y;
@@ -90,6 +95,7 @@ public class Tile implements Serializable {
      * Getter for PosX
      *
      * @return x
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public int getPosX() {
         return x;
@@ -99,6 +105,7 @@ public class Tile implements Serializable {
      * Getter for posY
      *
      * @return y
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public int getPosY() {
         return y;
@@ -108,6 +115,7 @@ public class Tile implements Serializable {
      * Getter for imgName
      *
      * @return imgName - String
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public String getImgName() {
         return imgName;

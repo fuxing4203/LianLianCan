@@ -21,8 +21,9 @@ import java.util.Collections;
 import java.util.Random;
 
 /**
+ * model class including the background methods of the game
  *
- * @author Iris
+ * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
  */
 public class Model implements Serializable {
 
@@ -39,6 +40,7 @@ public class Model implements Serializable {
      *
      * @param level
      * @param theme
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public Model(Level level, String theme) {
         this.level = level;
@@ -51,6 +53,7 @@ public class Model implements Serializable {
      * Generates data with images
      *
      * @param imgSeq
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public void generateData(ArrayList<String> imgSeq) {
         this.data = new ArrayList();
@@ -74,68 +77,16 @@ public class Model implements Serializable {
     }
 
     /**
-     * Check if two tiles can be canceled. If it's possible, cancel tiles and
-     * return true.
-     *
-     * @param a - a tile
-     * @param b - another tile
-     * @return boolean
-     */
-    public boolean isTileCancelable(Tile a, Tile b) {
-        if (a == null || b == null) {
-            return false;
-        }
-        else if (!a.isEqualTo(b)) {
-            this.score -= 1;
-            return false;
-        }
-        else if ((data.get(a.getPosY()).get(a.getPosX()) == null) || (data.get(
-                                                                      b.getPosY()).get(
-                                                                      b.getPosX()) == null)) {
-            return false;
-        }
-        else {
-            if (checkPath(a.getPosX(), a.getPosY(), b.getPosX(), b.getPosY())) {
-                this.score += 5;
-                return true;
-            }
-            this.score -= 1;
-            return false;
-        }
-    }
-
-    /**
      * Remove Tiles
      *
      * @param selectedTile - first tile
      * @param aTile - second tile
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public void removeTile(Tile selectedTile, Tile aTile) {
         data.get(selectedTile.getPosY()).set(selectedTile.getPosX(), null);
         data.get(aTile.getPosY()).set(aTile.getPosX(), null);
         this.totalSize -= 2;
-    }
-
-    /**
-     * Check path for the inner tiles to see if they can be connected with in
-     * the number of turns. Return true if that's possible.
-     *
-     * @param ax - posX for a
-     * @param ay - posY for a
-     * @param bx - posX for b
-     * @param by - posY for b
-     * @return boolean
-     */
-    public boolean checkPath(int ax, int ay, int bx, int by) {
-        if ((ax == bx) && (ay == by)) {
-            // If two tiles are at the same position, return false
-            return false;
-        }
-        else {
-            return checkHorizontal(ax, ay, bx, by) || checkVertical(ax, ay, bx,
-                                                                    by) || checkOneTurn(
-                            ax, ay, bx, by) || checkTwoTurn(ax, ay, bx, by);
-        }
     }
 
     /**
@@ -147,6 +98,7 @@ public class Model implements Serializable {
      * @param bx - posX for b
      * @param by - posY for b
      * @return
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public boolean checkHorizontal(int ax, int ay, int bx, int by) {
         if (ay != by) {
@@ -173,6 +125,7 @@ public class Model implements Serializable {
      * @param bx - posX for b
      * @param by - posY for b
      * @return
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public boolean checkVertical(int ax, int ay, int bx, int by) {
         if (ax != bx) {
@@ -199,6 +152,7 @@ public class Model implements Serializable {
      * @param bx - posX for b
      * @param by - posY for b
      * @return
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public boolean checkOneTurn(int ax, int ay, int bx, int by) {
         boolean path1 = checkVertical(ax, ay, ax, by) && checkHorizontal(ax, by,
@@ -218,6 +172,7 @@ public class Model implements Serializable {
      * @param bx - posX for b
      * @param by - posY for b
      * @return
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public boolean checkTwoTurn(int ax, int ay, int bx, int by) {
         boolean pathH = false;
@@ -240,6 +195,7 @@ public class Model implements Serializable {
      * Shuffle the remaining tiles with canceled stay at the same position,
      * return true if able to shuffle
      *
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public void shuffle() {
         if (this.shuffleChance > 0) {
@@ -269,8 +225,10 @@ public class Model implements Serializable {
     }
 
     /**
+     * give a hint of two cancelable tiles
      *
-     * @return
+     * @return an ArrayList of two tiles that can be canceled
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public ArrayList<Tile> hint() {
         if (this.hintChance > 0) {
@@ -281,8 +239,8 @@ public class Model implements Serializable {
                     for (int m = i; m < this.data.size(); m++) {
                         if (m == i) {
                             for (int n = j + 1; n < this.data.get(0).size(); n++) {
-                                if (isTileCancelable(this.data.get(i).get(j),
-                                                     this.data.get(m).get(n))) {
+                                if (findPath(this.data.get(i).get(j),
+                                             this.data.get(m).get(n)) != null) {
                                     result.add(this.data.get(i).get(j));
                                     result.add(this.data.get(m).get(n));
                                     breaked = true;
@@ -293,8 +251,8 @@ public class Model implements Serializable {
                         }
                         else {
                             for (int n = 0; n < this.data.get(0).size(); n++) {
-                                if (isTileCancelable(this.data.get(i).get(j),
-                                                     this.data.get(m).get(n))) {
+                                if (findPath(this.data.get(i).get(j),
+                                             this.data.get(m).get(n)) != null) {
                                     result.add(this.data.get(i).get(j));
                                     result.add(this.data.get(m).get(n));
                                     breaked = true;
@@ -318,87 +276,45 @@ public class Model implements Serializable {
             if (breaked) {
                 return result;
             }
+            else {
+                this.shuffleChance += 1;
+            }
         }
         return null;
     }
 
-    /**
-     * Getter for tiles
-     *
-     * @return data
-     */
     public ArrayList<ArrayList<Tile>> getData() {
         return data;
     }
 
-    /**
-     * Setter for data. Only used during testing
-     *
-     * @param data
-     */
     public void setData(ArrayList<ArrayList<Tile>> data) {
         this.data = data;
     }
 
-    /**
-     * Getter for Level
-     *
-     * @return level
-     */
     public Level getLevel() {
         return level;
     }
 
-    /**
-     * Getter for hint chance remaining
-     *
-     * @return hintChance
-     */
     public int getHintChance() {
         return hintChance;
     }
 
-    /**
-     * Getter for totalSize of the tiles remaining
-     *
-     * @return totalSize
-     */
     public int getTotalSize() {
         return totalSize;
     }
 
-    /**
-     * Getter for shuffle chance remaining
-     *
-     * @return shuffleChance
-     */
     public int getShuffleChance() {
         return shuffleChance;
     }
 
-    /**
-     * Getter for current theme
-     *
-     * @return theme
-     */
     public String getTheme() {
         return theme;
     }
 
-    /**
-     * Getter for current score
-     *
-     * @return score
-     */
     public int getScore() {
         return score;
     }
 
-    /**
-     * Representation of the model
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return String.format("-- Theme: %5s -- Level: %s-- ", this.getTheme(),
@@ -406,11 +322,6 @@ public class Model implements Serializable {
 
     }
 
-    /**
-     * Setter for level. Update level, data and totalSize
-     *
-     * @param level
-     */
     public void setLevel(Level level) {
         this.level = level;
         this.totalSize = level.getHeight() * level.getWidth();
@@ -421,6 +332,7 @@ public class Model implements Serializable {
      * Generates an ArrayList of path of images
      *
      * @return sResult
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public ArrayList<String> imgNameProducer() {
         ArrayList<String> sResult = new ArrayList<String>();
@@ -446,6 +358,8 @@ public class Model implements Serializable {
 
     /**
      * Helper function for imgNameProducer
+     *
+     * @author Junjie Jiang
      */
     private int numContained(ArrayList<Integer> input, int x) {
         int i;
@@ -456,5 +370,115 @@ public class Model implements Serializable {
             }
         }
         return result;
+    }
+
+    /**
+     * Check if there's a possible path between two tiles. Return null if not.
+     *
+     * @param a - a tile
+     * @param b - another tile
+     * @return result - an ArrayList with pairs of coordinates recording turning
+     * points
+     * @author Iris Fu
+     */
+    public ArrayList<ArrayList<Integer>> findPath(Tile a, Tile b) {
+        if (a == null || b == null) {
+            return null;
+        }
+        else if (!a.isEqualTo(b)) {
+            this.score -= 1;
+            return null;
+        }
+        else if ((data.get(a.getPosY()).get(a.getPosX()) == null) || (data.get(
+                                                                      b.getPosY()).get(
+                                                                      b.getPosX()) == null)) {
+            return null;
+        }
+        else {
+            ArrayList<ArrayList<Integer>> result = new ArrayList();
+            int ax = a.getPosX();
+            int ay = a.getPosY();
+            int bx = b.getPosX();
+            int by = b.getPosY();
+            if ((ax == bx) && (ay == by)) {
+                this.score -= 1;
+                return null;
+            }
+            if (checkHorizontal(ax, ay, bx, by) || checkVertical(ax, ay, bx, by)) {
+                ArrayList<Integer> coordinate = new ArrayList();
+                coordinate.add(ax);
+                coordinate.add(ay);
+                result.add(coordinate);
+                coordinate = new ArrayList();
+                coordinate.add(bx);
+                coordinate.add(by);
+                result.add(coordinate);
+            }
+            else if (checkOneTurn(ax, ay, bx, by)) {
+                ArrayList<Integer> coordinate = new ArrayList();
+                coordinate.add(ax);
+                coordinate.add(ay);
+                result.add(coordinate);
+                if (checkVertical(ax, ay, ax, by) && checkHorizontal(
+                        ax, by, bx, by) && data.get(by).get(ax) == null) {
+                    coordinate = new ArrayList();
+                    coordinate.add(ax);
+                    coordinate.add(by);
+                    result.add(coordinate);
+                }
+                else {
+                    coordinate = new ArrayList();
+                    coordinate.add(bx);
+                    coordinate.add(ay);
+                    result.add(coordinate);
+                }
+                coordinate = new ArrayList();
+                coordinate.add(bx);
+                coordinate.add(by);
+                result.add(coordinate);
+            }
+            else if (checkTwoTurn(ax, ay, bx, by)) {
+                ArrayList<Integer> coordinate = new ArrayList();
+                coordinate.add(ax);
+                coordinate.add(ay);
+                result.add(coordinate);
+                for (int i = 0; i < data.size(); i++) {
+                    if ((checkOneTurn(ax, i, bx, by) && checkVertical(
+                         ax, i, ax, ay) && data.get(i).get(ax) == null)) {
+                        coordinate = new ArrayList();
+                        coordinate.add(ax);
+                        coordinate.add(i);
+                        result.add(coordinate);
+                        coordinate = new ArrayList();
+                        coordinate.add(bx);
+                        coordinate.add(i);
+                        result.add(coordinate);
+                        break;
+                    }
+                    if ((checkOneTurn(i, ay, bx, by) && checkHorizontal(
+                         i, ay, ax, ay) && data.get(ay).get(i) == null)) {
+                        coordinate = new ArrayList();
+                        coordinate.add(i);
+                        coordinate.add(ay);
+                        result.add(coordinate);
+                        coordinate = new ArrayList();
+                        coordinate.add(i);
+                        coordinate.add(by);
+                        result.add(coordinate);
+                        break;
+                    }
+                }
+                coordinate = new ArrayList();
+                coordinate.add(bx);
+                coordinate.add(by);
+                result.add(coordinate);
+            }
+            else {
+                this.score -= 1;
+                return null;
+            }
+            this.score += 5;
+            return result;
+        }
     }
 }

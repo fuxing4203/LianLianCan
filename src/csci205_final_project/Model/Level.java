@@ -18,8 +18,9 @@ package csci205_final_project.Model;
 import java.io.Serializable;
 
 /**
+ * level class for the level of game
  *
- * @author Iris
+ * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
  */
 public enum Level implements Serializable {
 
@@ -47,6 +48,7 @@ public enum Level implements Serializable {
      * Get the width of the board
      *
      * @return this.width
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public int getWidth() {
         return this.width;
@@ -56,6 +58,7 @@ public enum Level implements Serializable {
      * Get the height of the board
      *
      * @return this.height
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public int getHeight() {
         return this.height;
@@ -66,6 +69,7 @@ public enum Level implements Serializable {
      *
      * @param currentlvl
      * @return
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public static Level updateLevel(Level currentlvl) {
         if (currentlvl == Level.EASY) {
