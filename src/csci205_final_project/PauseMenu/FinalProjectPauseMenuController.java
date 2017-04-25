@@ -82,6 +82,7 @@ public class FinalProjectPauseMenuController implements Initializable {
         GameSaveMenuController gameSave = loader.<GameSaveMenuController>getController();
         gameSave.initModel(theModel);
         Scene scene = new Scene(save);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         Stage stage;
         stage = new Stage();
         stage.setScene(scene);
@@ -96,6 +97,7 @@ public class FinalProjectPauseMenuController implements Initializable {
         GameLoadMenuController gameLoad = loader.<GameLoadMenuController>getController();
 
         Scene scene = new Scene(load);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         Stage stage;
         stage = new Stage();
         stage.setScene(scene);

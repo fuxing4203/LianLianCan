@@ -131,6 +131,7 @@ public class GameLoadMenuController implements Initializable {
         gameController.initData(save1.getTheme(), save1.getLevel());
         gameController.loadModel(save1);
         Scene scene = new Scene(game);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         stage.setScene(scene);
         stage.show();
 

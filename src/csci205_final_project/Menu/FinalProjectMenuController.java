@@ -66,6 +66,7 @@ public class FinalProjectMenuController implements Initializable {
         root = FXMLLoader.load(getClass().getResource(
                 "../Option/option.fxml"));
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         stage.setScene(scene);
         stage.show();
     }
@@ -78,6 +79,7 @@ public class FinalProjectMenuController implements Initializable {
         root = FXMLLoader.load(getClass().getResource(
                 "../GameLoadMenu/GameLoadMenu.fxml"));
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         stage.setScene(scene);
         stage.show();
     }
@@ -94,6 +96,7 @@ public class FinalProjectMenuController implements Initializable {
         root = FXMLLoader.load(getClass().getResource(
                 "../Option/option.fxml"));
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         stage.setScene(scene);
         stage.show();
     }

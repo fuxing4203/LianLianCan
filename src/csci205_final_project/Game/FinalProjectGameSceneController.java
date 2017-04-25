@@ -217,6 +217,7 @@ public class FinalProjectGameSceneController implements Initializable {
         FinalProjectPauseMenuController finalProjectPauseMenuController = loader.<FinalProjectPauseMenuController>getController();
         finalProjectPauseMenuController.initData(th, theModel);
         Scene scene = new Scene(pause);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         Stage stage;
         stage = new Stage();
         stage.setScene(scene);
@@ -379,6 +380,7 @@ public class FinalProjectGameSceneController implements Initializable {
         root = FXMLLoader.load(getClass().getResource(
                 "../Menu/finalProjectMenu.fxml"));
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         stage.setScene(scene);
         stage.show();
     }
