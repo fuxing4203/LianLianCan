@@ -78,14 +78,27 @@ public class FinalProjectGameSceneController implements Initializable {
     private Level level;
     private Model theModel;
     private Thread th;
+    /**
+     *
+     */
     public Tile selectedTile;
+
+    /**
+     *
+     */
     public Rectangle selectedRectangle;
+
+    /**
+     *
+     */
     public int numOfSelections = 0;
     private String theme;
     private ArrayList<ArrayList<Rectangle>> data;
     private int levelNum = 0;
     private boolean gg;
     private ArrayList<ArrayList<Integer>> blackTiles = null;
+    private int score;
+    private int seconds;
 
     /**
      * Initializes the controller class.
@@ -98,7 +111,7 @@ public class FinalProjectGameSceneController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         AudioUtil.playMusic("music.wav");
         beginTimer();
-
+        data = new ArrayList<>();
     }
 
     /**
@@ -319,7 +332,7 @@ public class FinalProjectGameSceneController implements Initializable {
      * @param aTile
      * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
-    private void selectRectangle(Rectangle aRectangle, Tile aTile) {
+    public void selectRectangle(Rectangle aRectangle, Tile aTile) {
         //System.out.println(aTile.getPosX());
         //System.out.println(aTile.getPosY());
         if (aRectangle.getOpacity() == 0) {
@@ -424,6 +437,186 @@ public class FinalProjectGameSceneController implements Initializable {
         scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         stage.setScene(scene);
         stage.show();
+    }
+
+    public TilePane getTilePane() {
+        return tilePane;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public Button getBtnPause() {
+        return btnPause;
+    }
+
+    public Button getBtnShuffle() {
+        return btnShuffle;
+    }
+
+    public Button getBtnHint() {
+        return btnHint;
+    }
+
+    public Label getLabelScore() {
+        return labelScore;
+    }
+
+    public Label getLabelLevel() {
+        return labelLevel;
+    }
+
+    public Label getLabelShuffle() {
+        return labelShuffle;
+    }
+
+    public Label getLabelHint() {
+        return labelHint;
+    }
+
+    public Model getTheModel() {
+        return theModel;
+    }
+
+    public Thread getTh() {
+        return th;
+    }
+
+    public BorderPane getParentPane() {
+        return parentPane;
+    }
+
+    public ProgressBar getTimeBar() {
+        return timeBar;
+    }
+
+    public Tile getSelectedTile() {
+        return selectedTile;
+    }
+
+    public Rectangle getSelectedRectangle() {
+        return selectedRectangle;
+    }
+
+    public int getNumOfSelections() {
+        return numOfSelections;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public ArrayList<ArrayList<Rectangle>> getData() {
+        return data;
+    }
+
+    public int getLevelNum() {
+        return levelNum;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public Button getBtnExit() {
+        return btnExit;
+    }
+
+    public boolean isGg() {
+        return gg;
+    }
+
+    public void setBtnPause(Button btnPause) {
+        this.btnPause = btnPause;
+    }
+
+    public void setBtnShuffle(Button btnShuffle) {
+        this.btnShuffle = btnShuffle;
+    }
+
+    public void setBtnHint(Button btnHint) {
+        this.btnHint = btnHint;
+    }
+
+    public void setLabelScore(Label labelScore) {
+        this.labelScore = labelScore;
+    }
+
+    public void setLabelLevel(Label labelLevel) {
+        this.labelLevel = labelLevel;
+    }
+
+    public void setLabelShuffle(Label labelShuffle) {
+        this.labelShuffle = labelShuffle;
+    }
+
+    public void setLabelHint(Label labelHint) {
+        this.labelHint = labelHint;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+    public void setTheModel(Model theModel) {
+        this.theModel = theModel;
+    }
+
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
+    }
+
+    public void setTh(Thread th) {
+        this.th = th;
+    }
+
+    public void setTilePane(TilePane tilePane) {
+        this.tilePane = tilePane;
+    }
+
+    public void setParentPane(BorderPane parentPane) {
+        this.parentPane = parentPane;
+    }
+
+    public void setTimeBar(ProgressBar timeBar) {
+        this.timeBar = timeBar;
+    }
+
+    public void setSelectedTile(Tile selectedTile) {
+        this.selectedTile = selectedTile;
+    }
+
+    public void setSelectedRectangle(Rectangle selectedRectangle) {
+        this.selectedRectangle = selectedRectangle;
+    }
+
+    public void setNumOfSelections(int numOfSelections) {
+        this.numOfSelections = numOfSelections;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
+
+    public void setData(ArrayList<ArrayList<Rectangle>> data) {
+        this.data = data;
+    }
+
+    public void setLevelNum(int levelNum) {
+        this.levelNum = levelNum;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void setBtnExit(Button btnExit) {
+        this.btnExit = btnExit;
+    }
+
+    public void setGg(boolean gg) {
+        this.gg = gg;
     }
 
 }

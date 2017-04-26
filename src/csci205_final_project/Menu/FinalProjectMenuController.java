@@ -123,4 +123,28 @@ public class FinalProjectMenuController implements Initializable {
         Platform.exit();
     }
 
+    public Button getBtnStart() {
+        return btnStart;
+    }
+
+    public Button getBtnLoad() {
+        return btnLoad;
+    }
+
+    public Button getBtnTutorial() {
+        return btnTutorial;
+    }
+
+    public Button getBtnRecords() {
+        return btnRecords;
+    }
+
+    public Button getBtnExit() {
+        return btnExit;
+    }
+
+    public VBox getBackground() {
+        return background;
+    }
+
 }
