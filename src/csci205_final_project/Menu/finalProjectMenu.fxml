@@ -27,12 +27,12 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="btnRecords" mnemonicParsing="false" onAction="#openRecords" prefWidth="200.0" rotate="-11.9" text="Records">
+                  <Button fx:id="btnRecords" mnemonicParsing="false" onAction="#openRecords" prefWidth="200.0" text="Records">
                      <VBox.margin>
                         <Insets top="20.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="btnExit" mnemonicParsing="false" onAction="#Exit" prefWidth="200.0" rotate="15.9" text="Exit">
+                  <Button fx:id="btnExit" mnemonicParsing="false" onAction="#Exit" prefWidth="200.0" text="Exit">
                      <VBox.margin>
                         <Insets top="20.0" />
                      </VBox.margin>
