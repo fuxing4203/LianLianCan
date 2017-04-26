@@ -18,7 +18,12 @@ package csci205_final_project.Game;
 import Util.AudioUtil;
 import csci205_final_project.Model.*;
 import csci205_final_project.PauseMenu.FinalProjectPauseMenuController;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -162,6 +167,50 @@ public class FinalProjectGameSceneController implements Initializable {
                     Image img = new Image(file.toURI().toString());
                     gameOver.setFill(new ImagePattern(img));
                     tilePane.getChildren().add(gameOver);
+
+                    //Write score to Records.txt
+                    String content;
+                    ArrayList<Integer> records = new ArrayList<Integer>();
+
+                    File recordsFile = new File("Records.txt");
+                    BufferedReader br = null;
+                    try {
+                        br = new BufferedReader(new FileReader(recordsFile));
+                    } catch (FileNotFoundException ex) {
+                    }
+
+                    int i = 0;
+                    try {
+                        while ((content = br.readLine()) != null) {
+                            records.add(Integer.parseInt(content));
+                            i++;
+                        }
+                    } catch (IOException ex) {
+                    }
+
+                    if (theModel.getScore() > records.get(0)) {
+                        records.set(2, records.get(1));
+                        records.set(1, records.get(0));
+                        records.set(0, theModel.getScore());
+                    }
+                    else if (theModel.getScore() > records.get(1)) {
+                        records.set(2, records.get(1));
+                        records.set(1, theModel.getScore());
+                    }
+                    else if (theModel.getScore() > records.get(2)) {
+                        records.set(2, theModel.getScore());
+                    }
+
+                    try {
+                        BufferedWriter out = new BufferedWriter(new FileWriter(
+                                "Records.txt"));
+                        for (i = 0; i < 3; i++) {
+                            out.write(String.format("%d\n", records.get(i)));
+                        }
+                        out.close();
+                    } catch (IOException e) {
+                    }
+
                 }
             }
         });

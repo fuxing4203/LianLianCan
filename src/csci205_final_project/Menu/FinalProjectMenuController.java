@@ -114,7 +114,16 @@ public class FinalProjectMenuController implements Initializable {
     }
 
     @FXML
-    void openRecords() {
+    void openRecords() throws IOException {
+        Stage stage;
+        Parent root;
+        stage = (Stage) btnRecords.getScene().getWindow();
+        root = FXMLLoader.load(getClass().getResource(
+                "../Records/Records.fxml"));
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
+        stage.setScene(scene);
+        stage.show();
 
     }
 
