@@ -96,7 +96,7 @@ public class FinalProjectGameSceneController implements Initializable {
     private ArrayList<ArrayList<Rectangle>> data;
     private int levelNum = 0;
     private boolean gg;
-    private ArrayList<ArrayList<Integer>> blackTiles = null;
+    private ArrayList<ArrayList<Integer>> connectTiles = null;
     private int score;
     private int seconds;
 
@@ -128,8 +128,8 @@ public class FinalProjectGameSceneController implements Initializable {
             public Void call() {
                 // 2 minutes
                 for (int i = 0; i < 120; i++) {
-                    if (blackTiles != null) {
-                        drawLine(blackTiles, 0);
+                    if (connectTiles != null) {
+                        drawLine(connectTiles, 0);
                     }
                     try {
                         th.sleep(1000);
@@ -316,6 +316,8 @@ public class FinalProjectGameSceneController implements Initializable {
                 }
                 else {
                     aRectangle.setOpacity(0);
+                    aRectangle.setFill(Color.BLUE);
+
                 }
                 tilePane.getChildren().add(aRectangle);
                 row.add(aRectangle);
@@ -350,14 +352,15 @@ public class FinalProjectGameSceneController implements Initializable {
 
             selectedRectangle.setOpacity(1); // set the opacity back in case there is no path between the current one and the next one.
 
-            blackTiles = theModel.findPath(
+            connectTiles = theModel.findPath(
                     selectedTile, aTile);
-            if (blackTiles != null) {
+            if (connectTiles != null) {
                 theModel.removeTile(selectedTile, aTile);
                 // make the tiles invisible.
-                selectedRectangle.setFill(Color.BLACK);
-                aRectangle.setFill(Color.BLACK);
-                drawLine(blackTiles, 1);
+                selectedRectangle.setFill(Color.BLUE);
+                aRectangle.setFill(Color.BLUE);
+
+                drawLine(connectTiles, 0.2);
                 labelScore.setText(String.format("%d", theModel.getScore()));
                 if (theModel.getTotalSize() == 0) {
                     levelNum += 1;
@@ -365,7 +368,7 @@ public class FinalProjectGameSceneController implements Initializable {
                     tilePane.getChildren().clear();
                     startGameBoardWithMode(theModel.getLevel());
                     labelLevel.setText(String.format("%d", levelNum));
-                    blackTiles = null;
+                    connectTiles = null;
                     th.interrupt();
                     beginTimer();
                 }
