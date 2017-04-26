@@ -44,7 +44,7 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author Zilin Ma
+ * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
  */
 public class GameLoadMenuController implements Initializable {
 
@@ -67,6 +67,7 @@ public class GameLoadMenuController implements Initializable {
      *
      * @param url
      * @param rb
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -134,6 +135,7 @@ public class GameLoadMenuController implements Initializable {
 
         setupLables(gameController);
         Scene scene = new Scene(game);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         stage.setScene(scene);
         stage.show();
 
@@ -141,12 +143,58 @@ public class GameLoadMenuController implements Initializable {
 
     @FXML
     private void loadSlot2(ActionEvent event
-    ) {
+    ) throws IOException, FileNotFoundException, ClassNotFoundException {
+        save2 = SaveAndLoadModelUtil.deserializeModel("save2.ser");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "../Game/finalProjectGameScene.fxml"));
+
+        Parent root;
+        BorderPane game = (BorderPane) loader.load();
+
+        FinalProjectGameSceneController gameController = loader.<FinalProjectGameSceneController>getController();
+
+        Stage stage;
+        stage = (Stage) loadSlot1.getScene().getWindow();
+        gameController.initData(save1.getTheme(), save1.getLevel());
+        gameController.setTheModel(save1);
+        TilePane tilePane = gameController.getTilePane();
+        Level level = gameController.getLevel();
+        setupTilePane(tilePane, level);
+        drawTiles(level, gameController, tilePane);
+
+        setupLables(gameController);
+        Scene scene = new Scene(game);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
     private void loadSlot3(ActionEvent event
-    ) {
+    ) throws IOException, FileNotFoundException, ClassNotFoundException {
+        save3 = SaveAndLoadModelUtil.deserializeModel("save3.ser");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "../Game/finalProjectGameScene.fxml"));
+
+        Parent root;
+        BorderPane game = (BorderPane) loader.load();
+
+        FinalProjectGameSceneController gameController = loader.<FinalProjectGameSceneController>getController();
+
+        Stage stage;
+        stage = (Stage) loadSlot1.getScene().getWindow();
+        gameController.initData(save1.getTheme(), save1.getLevel());
+        gameController.setTheModel(save1);
+        TilePane tilePane = gameController.getTilePane();
+        Level level = gameController.getLevel();
+        setupTilePane(tilePane, level);
+        drawTiles(level, gameController, tilePane);
+
+        setupLables(gameController);
+        Scene scene = new Scene(game);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void setupLables(FinalProjectGameSceneController gameController) {

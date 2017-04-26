@@ -24,8 +24,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
+ * an utility class for saving and loading
  *
- * @author Zilin Ma
+ * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
  */
 public class SaveAndLoadModelUtil {
 
@@ -39,7 +40,7 @@ public class SaveAndLoadModelUtil {
      * @throws java.lang.ClassNotFoundException
      * @see
      * <a href="https://www.tutorialspoint.com/java/java_serialization.html">https://www.tutorialspoint.com/java/java_serialization.html</a>
-     *
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public static Model deserializeModel(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException {
         Model myModel = null;
@@ -61,6 +62,7 @@ public class SaveAndLoadModelUtil {
      * @throws java.io.FileNotFoundException
      * @see
      * <a href="https://www.tutorialspoint.com/java/java_serialization.htm">https://www.tutorialspoint.com/java/java_serialization.htm</a>
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public static void serializeModel(Model myModel, String dirName) throws FileNotFoundException, IOException {
         //try {

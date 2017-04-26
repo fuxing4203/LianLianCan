@@ -15,6 +15,7 @@
  */
 package csci205_final_project.Menu;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,13 +26,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
  * FXML Controller class
  *
- * @author hs031
+ * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
  */
 public class FinalProjectMenuController implements Initializable {
 
@@ -47,15 +50,24 @@ public class FinalProjectMenuController implements Initializable {
     private Button btnExit;
     @FXML
     private VBox background;
+    @FXML
+    private ImageView menuImage;
 
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //Image woodenTexture = new Image(getClass().getResourceAsStream(
         //        "../images/wooden.jpg"));
         //btnStart.setGraphic(new ImageView(woodenTexture));
+        File file = new File("d.png");
+        Image img = new Image(file.toURI().toString());
+        menuImage.setImage(img);
     }
 
     @FXML
@@ -66,6 +78,7 @@ public class FinalProjectMenuController implements Initializable {
         root = FXMLLoader.load(getClass().getResource(
                 "../Option/option.fxml"));
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         stage.setScene(scene);
         stage.show();
     }
@@ -78,6 +91,7 @@ public class FinalProjectMenuController implements Initializable {
         root = FXMLLoader.load(getClass().getResource(
                 "../GameLoadMenu/GameLoadMenu.fxml"));
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         stage.setScene(scene);
         stage.show();
     }
@@ -94,6 +108,7 @@ public class FinalProjectMenuController implements Initializable {
         root = FXMLLoader.load(getClass().getResource(
                 "../Option/option.fxml"));
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         stage.setScene(scene);
         stage.show();
     }

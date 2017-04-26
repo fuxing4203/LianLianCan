@@ -35,9 +35,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
+ * FXML Controller class for option menu
  *
- * @author Iris
+ * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
  */
 public class OptionController implements Initializable {
 
@@ -59,6 +59,10 @@ public class OptionController implements Initializable {
 
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
+     * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -79,6 +83,7 @@ public class OptionController implements Initializable {
                 "../Menu/finalProjectMenu.fxml"));
 
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         stage.setScene(scene);
         stage.show();
     }
@@ -111,6 +116,7 @@ public class OptionController implements Initializable {
         gameController.initData(themeString, levelString);
         gameController.createModel();
         Scene scene = new Scene(option);
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         stage.setScene(scene);
         stage.show();
     }

@@ -9,18 +9,18 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.TilePane?>
 
-<BorderPane fx:id="parentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="849.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csci205_final_project.Game.FinalProjectGameSceneController">
+<BorderPane fx:id="parentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="755.0" prefWidth="1010.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csci205_final_project.Game.FinalProjectGameSceneController">
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
             <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnPause" mnemonicParsing="false" onAction="#btnPause" text="Pause">
+            <Button fx:id="btnPause" mnemonicParsing="false" onAction="#btnPause" prefWidth="100.0" text="Pause">
                <HBox.margin>
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </HBox.margin>
             </Button>
             <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnShuffle" mnemonicParsing="false" onAction="#btnShuffle" text="Shuffle">
+            <Button fx:id="btnShuffle" mnemonicParsing="false" onAction="#btnShuffle" prefWidth="100.0" text="Shuffle">
                <HBox.margin>
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </HBox.margin>
@@ -42,7 +42,7 @@
                </padding>
             </Label>
             <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnHint" mnemonicParsing="false" onAction="#btnHint" text="Hint">
+            <Button fx:id="btnHint" mnemonicParsing="false" onAction="#btnHint" prefWidth="100.0" text="Hint">
                <HBox.margin>
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </HBox.margin>
@@ -98,7 +98,7 @@
                </padding>
             </Label>
             <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnExit" mnemonicParsing="false" onAction="#btnExit" text="Menu">
+            <Button fx:id="btnExit" mnemonicParsing="false" onAction="#btnExit" prefWidth="100.0" text="Menu">
                <HBox.margin>
                   <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                </HBox.margin>
@@ -110,6 +110,6 @@
       <TilePane fx:id="tilePane" alignment="CENTER" prefHeight="478.0" prefWidth="739.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <ProgressBar fx:id="timeBar" prefHeight="20.0" prefWidth="891.0" progress="0.0" BorderPane.alignment="CENTER" />
+      <ProgressBar fx:id="timeBar" prefHeight="20.0" prefWidth="1016.0" progress="0.0" BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>
