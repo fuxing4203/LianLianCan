@@ -33,6 +33,7 @@ public class Model implements Serializable {
     private String theme; // theme of the images
     private int hintChance = 2;
     private int score = 0;
+    private int time = 0;
 
     /**
      * Constructor for Model
@@ -456,5 +457,13 @@ public class Model implements Serializable {
             }
         }
         return result;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void incrementTime() {
+        time++;
     }
 }
