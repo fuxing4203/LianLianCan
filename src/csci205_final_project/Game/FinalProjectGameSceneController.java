@@ -83,19 +83,8 @@ public class FinalProjectGameSceneController implements Initializable {
     private Level level;
     private Model theModel;
     private Thread th;
-    /**
-     *
-     */
     public Tile selectedTile;
-
-    /**
-     *
-     */
     public Rectangle selectedRectangle;
-
-    /**
-     *
-     */
     public int numOfSelections = 0;
     private String theme;
     private ArrayList<ArrayList<Rectangle>> data;
@@ -132,17 +121,18 @@ public class FinalProjectGameSceneController implements Initializable {
             @Override
             public Void call() {
                 // 2 minutes
-                for (int i = 0; i < 120; i++) {
-                    if (connectTiles != null) {
-                        drawLine(connectTiles, 0);
-                    }
+                for (int i = 0; i < 600; i++) {
                     try {
-                        th.sleep(1000);
+                        th.sleep(500);
                     } catch (InterruptedException e) {
                         gg = true;
                         break;
                     }
-                    updateProgress(i + 1, 120);
+                    if (connectTiles != null) {
+                        drawLine(connectTiles, 0);
+                    }
+
+                    updateProgress(i + 1, 600);
                 }
                 return null;
             }
@@ -343,6 +333,7 @@ public class FinalProjectGameSceneController implements Initializable {
      * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public void startGameBoardWithMode(Level level) {
+        connectTiles = null;
         tilePane.setPrefColumns(level.getWidth() + 2);
         tilePane.setPrefRows(level.getHeight() + 2);
         tilePane.setPrefWidth(50 * (level.getWidth() + 2));
@@ -366,7 +357,6 @@ public class FinalProjectGameSceneController implements Initializable {
                 else {
                     aRectangle.setOpacity(0);
                     aRectangle.setFill(Color.BLUE);
-
                 }
                 tilePane.getChildren().add(aRectangle);
                 row.add(aRectangle);
@@ -401,14 +391,12 @@ public class FinalProjectGameSceneController implements Initializable {
 
             selectedRectangle.setOpacity(1); // set the opacity back in case there is no path between the current one and the next one.
 
-            connectTiles = theModel.findPath(
-                    selectedTile, aTile);
+            connectTiles = theModel.findPath(selectedTile, aTile);
             if (connectTiles != null) {
                 theModel.removeTile(selectedTile, aTile);
                 // make the tiles invisible.
                 selectedRectangle.setFill(Color.BLUE);
                 aRectangle.setFill(Color.BLUE);
-
                 drawLine(connectTiles, 0.2);
                 labelScore.setText(String.format("%d", theModel.getScore()));
                 if (theModel.getTotalSize() == 0) {
@@ -417,7 +405,6 @@ public class FinalProjectGameSceneController implements Initializable {
                     tilePane.getChildren().clear();
                     startGameBoardWithMode(theModel.getLevel());
                     labelLevel.setText(String.format("%d", levelNum));
-                    connectTiles = null;
                     th.interrupt();
                     beginTimer();
                 }
