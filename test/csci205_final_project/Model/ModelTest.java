@@ -19,8 +19,6 @@ import static csci205_final_project.Model.Level.EASY;
 import java.util.ArrayList;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,33 +50,63 @@ public class ModelTest {
         data.get(2).get(5).setImgName("a");
         data.get(3).get(5).setImgName("b");
         md.setData(data);
-        boolean result = md.isTileCancelable(data.get(2).get(5),
-                                             data.get(3).get(5));
-        assertFalse(result);
+        ArrayList<ArrayList<Integer>> result = new ArrayList();
+        result = md.findPath(data.get(2).get(5),
+                             data.get(3).get(5));
+        assertEquals(result, null);
 
         System.out.println("cancelTileNextToEachOther");
         data.get(3).get(5).setImgName("a");
         md.setData(data);
-        result = md.isTileCancelable(data.get(2).get(5),
-                                     data.get(3).get(5));
-        assertTrue(result);
+        result = md.findPath(data.get(2).get(5),
+                             data.get(3).get(5));
+        ArrayList<ArrayList<Integer>> expect = new ArrayList();
+        ArrayList<Integer> pos1 = new ArrayList();
+        pos1.add(5);
+        pos1.add(2);
+        ArrayList<Integer> pos2 = new ArrayList();
+        pos2.add(5);
+        pos2.add(3);
+        expect.add(pos1);
+        expect.add(pos2);
+        assertEquals(result, expect);
 
         System.out.println("cancelTileOneApart");
-        data.get(2).set(5, new Tile(5, 2, "a"));
-        data.get(4).get(5).setImgName("a");
-        data.get(3).set(5, new Tile(5, 3, "b"));
+        // data.get(2).set(5, new Tile(5, 2, "a"));
+        //data.get(4).get(5).setImgName("a");
+        // data.get(3).set(5, new Tile(5, 3, "b"));
         data.get(2).get(5).setImgName("b");
-        data.get(3).get(5).setImgName("b");
+        data.get(3).set(5, null);
         data.get(4).get(5).setImgName("b");
         md.setData(data);
-        result = md.isTileCancelable(data.get(2).get(5),
-                                     data.get(4).get(5));
-        assertFalse(result);
-        data.get(3).set(5, null);
+        result = md.findPath(data.get(2).get(5),
+                             data.get(4).get(5));
+        pos1.add(5);
+        pos1.add(2);
+        pos2.add(5);
+        pos2.add(4);
+        expect.add(pos1);
+        expect.add(pos2);
+        assertEquals(result, expect);
+
+        System.out.println("cancelTileOneTurns");
+        data.get(3).set(5, new Tile(5, 3, "b"));
+        data.get(4).set(5, null);
+        data.get(4).set(4, new Tile(5, 3, "b"));
         md.setData(data);
-        result = md.isTileCancelable(data.get(2).get(5),
-                                     data.get(4).get(5));
-        assertTrue(result);
+        result = md.findPath(data.get(2).get(5),
+                             data.get(4).get(5));
+        ArrayList<Integer> pos3 = new ArrayList();
+        pos1.add(5);
+        pos1.add(3);
+        pos2.add(5);
+        pos2.add(4);
+        pos3.add(4);
+        pos3.add(4);
+        expect.add(pos1);
+        expect.add(pos2);
+        expect.add(pos3);
+        assertEquals(result, expect);
 
         System.out.println("cancelTileTwoTurns");
         data.get(3).set(5, new Tile(5, 3, "b"));
@@ -101,8 +129,8 @@ public class ModelTest {
         data.get(2).get(4).setImgName("b");
         data.get(4).get(6).setImgName("b");
         md.setData(data);
-        result = md.isTileCancelable(data.get(2).get(4),
-                                     data.get(4).get(6));
+        result = md.findPath(data.get(2).get(4),
+                             data.get(4).get(6));
         assertTrue(result);
 
         System.out.println("cancelTileThreeTurns");
@@ -112,26 +140,6 @@ public class ModelTest {
         result = md.isTileCancelable(data.get(1).get(4),
                                      data.get(5).get(6));
         assertFalse(result);
-    }
-
-    /**
-     * Test of isTileCancelable method, of class Model.
-     */
-    @Test
-    public void testIsTileCancelable() {
-        System.out.println("isTileCancelable");
-        Model md = new Model(EASY, "pokeman");
-        ArrayList<ArrayList<Tile>> data = md.getData();
-        data.get(1).get(4).setImgName("b");
-        data.get(1).get(5).setImgName("a");
-        boolean expResult = false;
-        boolean result = md.isTileCancelable(data.get(1).get(4),
-                                             data.get(1).get(5));
-        assertEquals(expResult, result);
-        data.get(1).get(5).setImgName("b");
-        expResult = true;
-        result = md.isTileCancelable(data.get(1).get(4), data.get(1).get(5));
-        assertEquals(expResult, result);
     }
 
     /**
