@@ -121,9 +121,9 @@ public class FinalProjectGameSceneController implements Initializable {
             @Override
             public Void call() {
                 // 2 minutes
-                for (int i = 0; i < 600; i++) {
+                for (int i = 0; i < 150; i++) {
                     try {
-                        th.sleep(500);
+                        th.sleep(200);
                     } catch (InterruptedException e) {
                         gg = true;
                         break;
@@ -132,7 +132,7 @@ public class FinalProjectGameSceneController implements Initializable {
                         drawLine(connectTiles, 0);
                     }
 
-                    updateProgress(i + 1, 600);
+                    updateProgress(i + 1, 150);
                 }
                 return null;
             }
