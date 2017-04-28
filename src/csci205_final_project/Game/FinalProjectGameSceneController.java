@@ -334,12 +334,7 @@ public class FinalProjectGameSceneController implements Initializable {
      */
     public void startGameBoardWithMode(Level level) {
         connectTiles = null;
-        tilePane.setPrefColumns(level.getWidth() + 2);
-        tilePane.setPrefRows(level.getHeight() + 2);
-        tilePane.setPrefWidth(50 * (level.getWidth() + 2));
-        tilePane.setPrefHeight(50 * (level.getHeight() + 2));
-        tilePane.setMaxSize(50 * (level.getWidth() + 2),
-                            50 * (level.getHeight() + 2));
+        setupTilePane(level);
         data = new ArrayList();
         for (int i = 0; i < level.getHeight() + 2; i++) {
             ArrayList<Rectangle> row = new ArrayList();
@@ -363,6 +358,15 @@ public class FinalProjectGameSceneController implements Initializable {
             }
             data.add(row);
         }
+    }
+
+    public void setupTilePane(Level level) {
+        tilePane.setPrefColumns(level.getWidth() + 2);
+        tilePane.setPrefRows(level.getHeight() + 2);
+        tilePane.setPrefWidth(50 * (level.getWidth() + 2));
+        tilePane.setPrefHeight(50 * (level.getHeight() + 2));
+        tilePane.setMaxSize(50 * (level.getWidth() + 2),
+                            50 * (level.getHeight() + 2));
     }
 
     /**
