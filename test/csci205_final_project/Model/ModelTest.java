@@ -70,6 +70,10 @@ public class ModelTest {
         expect.add(pos1);
         expect.add(pos2);
         assertEquals(result, expect);
+        expect.clear();
+        result.clear();
+        pos1.clear();
+        pos2.clear();
 
         System.out.println("cancelTileOneApart");
         // data.get(2).set(5, new Tile(5, 2, "a"));
@@ -88,14 +92,18 @@ public class ModelTest {
         expect.add(pos1);
         expect.add(pos2);
         assertEquals(result, expect);
+        expect.clear();
+        result.clear();
+        pos1.clear();
+        pos2.clear();
 
         System.out.println("cancelTileOneTurns");
         data.get(3).set(5, new Tile(5, 3, "b"));
         data.get(4).set(5, null);
-        data.get(4).set(4, new Tile(5, 3, "b"));
+        data.get(4).set(4, new Tile(4, 4, "b"));
         md.setData(data);
-        result = md.findPath(data.get(2).get(5),
-                             data.get(4).get(5));
+        result = md.findPath(data.get(3).get(5),
+                             data.get(4).get(4));
         ArrayList<Integer> pos3 = new ArrayList();
         pos1.add(5);
         pos1.add(3);
@@ -107,6 +115,11 @@ public class ModelTest {
         expect.add(pos2);
         expect.add(pos3);
         assertEquals(result, expect);
+        expect.clear();
+        result.clear();
+        pos1.clear();
+        pos2.clear();
+        pos3.clear();
 
         System.out.println("cancelTileTwoTurns");
         data.get(3).set(5, new Tile(5, 3, "b"));
@@ -116,9 +129,28 @@ public class ModelTest {
         data.get(3).set(6, null);
         data.get(4).set(6, null);
         md.setData(data);
-        result = md.isTileCancelable(data.get(2).get(5),
-                                     data.get(4).get(5));
-        assertTrue(result);
+        result = md.findPath(data.get(2).get(5),
+                             data.get(4).get(5));
+        ArrayList<Integer> pos4 = new ArrayList();
+        pos1.add(5);
+        pos1.add(2);
+        pos2.add(6);
+        pos2.add(2);
+        pos3.add(6);
+        pos3.add(4);
+        pos4.add(5);
+        pos4.add(4);
+        expect.add(pos1);
+        expect.add(pos2);
+        expect.add(pos3);
+        expect.add(pos4);
+        assertEquals(result, expect);
+        expect.clear();
+        result.clear();
+        pos1.clear();
+        pos2.clear();
+        pos3.clear();
+        pos4.clear();
 
         System.out.println("cancelTileTwoTurnsZ");
         md = new Model(EASY, "pokeman");
@@ -131,15 +163,27 @@ public class ModelTest {
         md.setData(data);
         result = md.findPath(data.get(2).get(4),
                              data.get(4).get(6));
-        assertTrue(result);
+        pos1.add(4);
+        pos1.add(2);
+        pos2.add(5);
+        pos2.add(2);
+        pos3.add(5);
+        pos3.add(4);
+        pos4.add(6);
+        pos4.add(4);
+        expect.add(pos1);
+        expect.add(pos2);
+        expect.add(pos3);
+        expect.add(pos4);
+        assertEquals(result, expect);
 
         System.out.println("cancelTileThreeTurns");
         data.get(1).get(4).setImgName("b");
         data.get(5).get(6).setImgName("b");
         md.setData(data);
-        result = md.isTileCancelable(data.get(1).get(4),
-                                     data.get(5).get(6));
-        assertFalse(result);
+        result = md.findPath(data.get(1).get(4),
+                             data.get(5).get(6));
+        assertEquals(result, null);
     }
 
     /**
