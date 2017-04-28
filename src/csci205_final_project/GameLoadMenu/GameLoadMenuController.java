@@ -115,7 +115,10 @@ public class GameLoadMenuController implements Initializable {
     @FXML
     private void loadSlot1(ActionEvent event) throws IOException, FileNotFoundException, ClassNotFoundException {
 
-        save1 = SaveAndLoadModelUtil.deserializeModel("save1.ser");
+        if (save1 == null) {
+            return;
+        }
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "../Game/finalProjectGameScene.fxml"));
 
@@ -144,7 +147,9 @@ public class GameLoadMenuController implements Initializable {
     @FXML
     private void loadSlot2(ActionEvent event
     ) throws IOException, FileNotFoundException, ClassNotFoundException {
-        save2 = SaveAndLoadModelUtil.deserializeModel("save2.ser");
+        if (save2 == null) {
+            return;
+        }
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "../Game/finalProjectGameScene.fxml"));
 
@@ -154,9 +159,9 @@ public class GameLoadMenuController implements Initializable {
         FinalProjectGameSceneController gameController = loader.<FinalProjectGameSceneController>getController();
 
         Stage stage;
-        stage = (Stage) loadSlot1.getScene().getWindow();
-        gameController.initData(save1.getTheme(), save1.getLevel());
-        gameController.setTheModel(save1);
+        stage = (Stage) loadSlot2.getScene().getWindow();
+        gameController.initData(save2.getTheme(), save2.getLevel());
+        gameController.setTheModel(save2);
         TilePane tilePane = gameController.getTilePane();
         Level level = gameController.getLevel();
         setupTilePane(tilePane, level);
@@ -172,7 +177,10 @@ public class GameLoadMenuController implements Initializable {
     @FXML
     private void loadSlot3(ActionEvent event
     ) throws IOException, FileNotFoundException, ClassNotFoundException {
-        save3 = SaveAndLoadModelUtil.deserializeModel("save3.ser");
+        if (save3 == null) {
+            return;
+        }
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "../Game/finalProjectGameScene.fxml"));
 
@@ -182,9 +190,9 @@ public class GameLoadMenuController implements Initializable {
         FinalProjectGameSceneController gameController = loader.<FinalProjectGameSceneController>getController();
 
         Stage stage;
-        stage = (Stage) loadSlot1.getScene().getWindow();
-        gameController.initData(save1.getTheme(), save1.getLevel());
-        gameController.setTheModel(save1);
+        stage = (Stage) loadSlot3.getScene().getWindow();
+        gameController.initData(save3.getTheme(), save3.getLevel());
+        gameController.setTheModel(save3);
         TilePane tilePane = gameController.getTilePane();
         Level level = gameController.getLevel();
         setupTilePane(tilePane, level);
