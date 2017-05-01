@@ -65,7 +65,7 @@ public class FinalProjectMenuController implements Initializable {
         //Image woodenTexture = new Image(getClass().getResourceAsStream(
         //        "../images/wooden.jpg"));
         //btnStart.setGraphic(new ImageView(woodenTexture));
-        File file = new File("d.png");
+        File file = new File("image/d.png");
         Image img = new Image(file.toURI().toString());
         menuImage.setImage(img);
     }

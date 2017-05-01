@@ -65,15 +65,11 @@ public class SaveAndLoadModelUtil {
      * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public static void serializeModel(Model myModel, String dirName) throws FileNotFoundException, IOException {
-        //try {
         FileOutputStream fileOut = new FileOutputStream(dirName);
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
         out.writeObject(myModel);
         out.close();
         fileOut.close();
-        System.out.printf("Serialized data is saved in " + dirName + "\n");
-        //} catch (IOException i) {
-        //}
     }
 
 }

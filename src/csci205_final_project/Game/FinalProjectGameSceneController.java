@@ -103,7 +103,7 @@ public class FinalProjectGameSceneController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        AudioUtil.playMusic("music.wav");
+        AudioUtil.playMusic("sound/music.wav");
         beginTimer();
         data = new ArrayList<>();
     }
@@ -121,9 +121,9 @@ public class FinalProjectGameSceneController implements Initializable {
             @Override
             public Void call() {
                 // 2 minutes
-                for (int i = 0; i < 200; i++) {
+                for (int i = 0; i < 240; i++) {
                     try {
-                        th.sleep(200);
+                        th.sleep(500);
                     } catch (InterruptedException e) {
                         gg = true;
                         break;
@@ -132,7 +132,7 @@ public class FinalProjectGameSceneController implements Initializable {
                         drawLine(connectTiles, 0);
                     }
 
-                    updateProgress(i + 1, 200);
+                    updateProgress(i + 1, 240);
                 }
                 return null;
             }
@@ -153,7 +153,7 @@ public class FinalProjectGameSceneController implements Initializable {
                     Rectangle gameOver = new Rectangle();
                     gameOver.setWidth(1000);
                     gameOver.setHeight(600);
-                    File file = new File("GG.jpg");
+                    File file = new File("image/GG.jpg");
                     Image img = new Image(file.toURI().toString());
                     gameOver.setFill(new ImagePattern(img));
                     tilePane.getChildren().add(gameOver);
@@ -379,8 +379,6 @@ public class FinalProjectGameSceneController implements Initializable {
      * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
     public void selectRectangle(Rectangle aRectangle, Tile aTile) {
-        //System.out.println(aTile.getPosX());
-        //System.out.println(aTile.getPosY());
         if (aRectangle.getOpacity() == 0) {
             return;
         }

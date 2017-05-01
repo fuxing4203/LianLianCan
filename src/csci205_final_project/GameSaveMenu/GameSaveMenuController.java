@@ -40,7 +40,7 @@ public class GameSaveMenuController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // read saves and change the text on the tiles.
         try {
-            Model save1 = SaveAndLoadModelUtil.deserializeModel("save1.ser");
+            Model save1 = SaveAndLoadModelUtil.deserializeModel("ser/save1.ser");
 
             this.saveSlot1.setText(save1.toString());
         } catch (IOException ex) {
@@ -50,7 +50,7 @@ public class GameSaveMenuController implements Initializable {
         }
 
         try {
-            Model save2 = SaveAndLoadModelUtil.deserializeModel("save2.ser");
+            Model save2 = SaveAndLoadModelUtil.deserializeModel("ser/save2.ser");
 
             this.saveSlot2.setText(save2.toString());
         } catch (IOException ex) {
@@ -61,7 +61,7 @@ public class GameSaveMenuController implements Initializable {
 
         }
         try {
-            Model save3 = SaveAndLoadModelUtil.deserializeModel("save3.ser");
+            Model save3 = SaveAndLoadModelUtil.deserializeModel("ser/save3.ser");
             this.saveSlot3.setText(save3.toString());
         } catch (IOException ex) {
 
@@ -84,7 +84,7 @@ public class GameSaveMenuController implements Initializable {
     @FXML
     private void saveInSlot1(ActionEvent event) {
         try {
-            SaveAndLoadModelUtil.serializeModel(myModel, "save1.ser");
+            SaveAndLoadModelUtil.serializeModel(myModel, "ser/save1.ser");
             this.saveSlot1.setText(myModel.toString());
         } catch (IOException ex) {
             this.saveSlot1.setText("Failed to save");
@@ -96,7 +96,7 @@ public class GameSaveMenuController implements Initializable {
     @FXML
     private void saveInSlot2(ActionEvent event) {
         try {
-            SaveAndLoadModelUtil.serializeModel(myModel, "save2.ser");
+            SaveAndLoadModelUtil.serializeModel(myModel, "ser/save2.ser");
             this.saveSlot2.setText(myModel.toString());
         } catch (IOException ex) {
             this.saveSlot2.setText("Failed to save");
@@ -107,7 +107,7 @@ public class GameSaveMenuController implements Initializable {
     private void saveInSlot3(ActionEvent event) {
         System.out.println("Hehe");
         try {
-            SaveAndLoadModelUtil.serializeModel(myModel, "save3.ser");
+            SaveAndLoadModelUtil.serializeModel(myModel, "ser/save3.ser");
             this.saveSlot3.setText(myModel.toString());
         } catch (IOException ex) {
             this.saveSlot3.setText("Failed to save");

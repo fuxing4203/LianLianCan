@@ -63,15 +63,15 @@ public class RecordsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        File file = new File("1.png");
+        File file = new File("image/1.png");
         Image img = new Image(file.toURI().toString());
         challenger.setImage(img);
 
-        file = new File("2.png");
+        file = new File("image/2.png");
         img = new Image(file.toURI().toString());
         diamond.setImage(img);
 
-        file = new File("3.png");
+        file = new File("image/3.png");
         img = new Image(file.toURI().toString());
         gold.setImage(img);
 
@@ -81,7 +81,7 @@ public class RecordsController implements Initializable {
         records.add(third);
         String content;
 
-        File recordsFile = new File("Records.txt");
+        File recordsFile = new File("record/Records.txt");
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader(recordsFile));

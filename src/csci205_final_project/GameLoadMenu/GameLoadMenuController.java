@@ -68,7 +68,7 @@ public class GameLoadMenuController implements Initializable {
         // if they are, deserialize them and put their information on the buttons.
 
         try {
-            save1 = SaveAndLoadModelUtil.deserializeModel("save1.ser");
+            save1 = SaveAndLoadModelUtil.deserializeModel("ser/save1.ser");
 
             this.loadSlot1.setText(save1.toString());
         } catch (IOException ex) {
@@ -78,7 +78,7 @@ public class GameLoadMenuController implements Initializable {
         }
 
         try {
-            save2 = SaveAndLoadModelUtil.deserializeModel("save2.ser");
+            save2 = SaveAndLoadModelUtil.deserializeModel("ser/save2.ser");
 
             this.loadSlot2.setText(save2.toString());
         } catch (IOException ex) {
@@ -89,7 +89,7 @@ public class GameLoadMenuController implements Initializable {
 
         }
         try {
-            save3 = SaveAndLoadModelUtil.deserializeModel("save3.ser");
+            save3 = SaveAndLoadModelUtil.deserializeModel("ser/save3.ser");
             this.loadSlot3.setText(save3.toString());
         } catch (IOException ex) {
 

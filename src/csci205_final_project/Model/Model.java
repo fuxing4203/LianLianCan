@@ -349,7 +349,7 @@ public class Model implements Serializable {
                 n = rnd.nextInt(numImgs);
                 if (numContained(iResult, n) < 4) {
                     iResult.add(n);
-                    sResult.add(this.theme + "/" + n + ".jpg");
+                    sResult.add("image/" + this.theme + "/" + n + ".jpg");
                     break;
                 }
             }
