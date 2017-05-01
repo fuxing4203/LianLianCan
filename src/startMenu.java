@@ -13,7 +13,6 @@
 *
 * ****************************************
  */
-package csci205_final_project.Menu;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,16 +35,15 @@ public class startMenu extends Application {
         FXMLLoader loader = new FXMLLoader();
         Class thisClass = startMenu.class;
         InputStream in = thisClass.getResourceAsStream(
-                "finalProjectMenu.fxml");
+                "/csci205_final_project/Menu/finalProjectMenu.fxml");
         loader.setBuilderFactory(new JavaFXBuilderFactory());
         loader.setLocation(thisClass.getResource(
-                "finalProjectMenu.fxml"));
+                "/csci205_final_project/Menu/finalProjectMenu.fxml"));
 
         Parent root = loader.load(in);
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(
-                "/csci205_final_project/Menu/menu.css");
+        scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
 
         primaryStage.setTitle("Game");
         primaryStage.setScene(scene);
