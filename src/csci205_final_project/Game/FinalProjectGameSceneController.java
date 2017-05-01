@@ -270,12 +270,13 @@ public class FinalProjectGameSceneController implements Initializable {
 
     @FXML
     private void btnPause(ActionEvent event) throws IOException, InterruptedException {
+        tilePane.getChildren().clear();
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "../PauseMenu/finalProjectPauseMenu.fxml"));
 
         VBox pause = (VBox) loader.load();
         FinalProjectPauseMenuController finalProjectPauseMenuController = loader.<FinalProjectPauseMenuController>getController();
-        finalProjectPauseMenuController.initData(th, theModel);
+        finalProjectPauseMenuController.initData(th, theModel, tilePane, data);
         Scene scene = new Scene(pause);
         scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         Stage stage;
