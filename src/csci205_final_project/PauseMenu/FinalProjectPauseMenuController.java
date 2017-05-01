@@ -20,6 +20,7 @@ import csci205_final_project.GameSaveMenu.GameSaveMenuController;
 import csci205_final_project.Model.Model;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,7 +29,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
@@ -49,6 +52,8 @@ public class FinalProjectPauseMenuController implements Initializable {
 
     private Thread myThread;
     private Model theModel;
+    private TilePane tilePane;
+    private ArrayList<ArrayList<Rectangle>> data;
 
     /**
      * Initializes the controller class.
@@ -69,16 +74,24 @@ public class FinalProjectPauseMenuController implements Initializable {
      * @param theModel
      * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
-    public void initData(Thread t, Model theModel) {
+    public void initData(Thread t, Model theModel, TilePane tilePane,
+                         ArrayList<ArrayList<Rectangle>> data) {
         myThread = t;
 
         this.theModel = theModel;
+        this.tilePane = tilePane;
+        this.data = data;
 
     }
 
     @FXML
     private void resumeGame(ActionEvent event) {
         Stage stage = (Stage) this.resumeBtn.getScene().getWindow();
+        for (ArrayList<Rectangle> alist : data) {
+            for (Rectangle r : alist) {
+                this.tilePane.getChildren().add(r);
+            }
+        }
         //TODO
         myThread.resume();
         stage.close();
