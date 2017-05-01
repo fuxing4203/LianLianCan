@@ -6,6 +6,10 @@
             <name>csci205_final_project</name>
             <source-roots>
                 <root id="src.dir"/>
+                <root id="src.ser.dir"/>
+                <root id="src.record.dir"/>
+                <root id="src.image.dir"/>
+                <root id="src.sound.dir"/>
             </source-roots>
             <test-roots>
                 <root id="test.src.dir"/>

@@ -105,7 +105,6 @@ public class GameSaveMenuController implements Initializable {
 
     @FXML
     private void saveInSlot3(ActionEvent event) {
-        System.out.println("Hehe");
         try {
             SaveAndLoadModelUtil.serializeModel(myModel, "ser/save3.ser");
             this.saveSlot3.setText(myModel.toString());
