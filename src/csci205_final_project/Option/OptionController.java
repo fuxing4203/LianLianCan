@@ -80,7 +80,7 @@ public class OptionController implements Initializable {
         Parent root;
         stage = (Stage) returnBtn.getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource(
-                "../Menu/finalProjectMenu.fxml"));
+                "/csci205_final_project/Menu/finalProjectMenu.fxml"));
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
@@ -95,7 +95,7 @@ public class OptionController implements Initializable {
         themeString = (String) themeBox.getValue();
         levelString = (String) levelBox.getValue();
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                "../Game/finalProjectGameScene.fxml"));
+                "/csci205_final_project/Game/finalProjectGameScene.fxml"));
 
         Parent root;
         BorderPane option = (BorderPane) loader.load();

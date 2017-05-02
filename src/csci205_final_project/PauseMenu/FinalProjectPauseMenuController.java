@@ -101,7 +101,7 @@ public class FinalProjectPauseMenuController implements Initializable {
     @FXML
     private void saveGame(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                "../GameSaveMenu/GameSaveMenu.fxml"));
+                "/csci205_final_project/GameSaveMenu/GameSaveMenu.fxml"));
         Pane save = (Pane) loader.load();
         GameSaveMenuController gameSave = loader.<GameSaveMenuController>getController();
         gameSave.initModel(theModel);
@@ -116,7 +116,7 @@ public class FinalProjectPauseMenuController implements Initializable {
     @FXML
     private void loadGame(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                "../GameLoadMenu/GameLoadMenu.fxml"));
+                "/csci205_final_project/GameLoadMenu/GameLoadMenu.fxml"));
         Pane load = (Pane) loader.load();
         GameLoadMenuController gameLoad = loader.<GameLoadMenuController>getController();
 

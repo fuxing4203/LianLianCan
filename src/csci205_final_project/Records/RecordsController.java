@@ -20,9 +20,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -63,16 +67,16 @@ public class RecordsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        File file = new File("image/1.png");
-        Image img = new Image(file.toURI().toString());
+        Image img = new Image(this.getClass().getClassLoader().getResource(
+                "image/1.png").toString());
         challenger.setImage(img);
 
-        file = new File("image/2.png");
-        img = new Image(file.toURI().toString());
+        img = new Image(this.getClass().getClassLoader().getResource(
+                "image/2.png").toString());
         diamond.setImage(img);
 
-        file = new File("image/3.png");
-        img = new Image(file.toURI().toString());
+        img = new Image(this.getClass().getClassLoader().getResource(
+                "image/3.png").toString());
         gold.setImage(img);
 
         ArrayList<Label> records = new ArrayList<Label>();
@@ -81,11 +85,17 @@ public class RecordsController implements Initializable {
         records.add(third);
         String content;
 
-        File recordsFile = new File("record/Records.txt");
+        File recordsFile = null;
         BufferedReader br = null;
         try {
+            recordsFile = Paths.get(
+                    this.getClass().getClassLoader().getResource(
+                            "record/Records.txt").toURI()).toFile();
             br = new BufferedReader(new FileReader(recordsFile));
         } catch (FileNotFoundException ex) {
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(RecordsController.class.getName()).log(Level.SEVERE,
+                                                                    null, ex);
         }
 
         int i = 0;
@@ -104,7 +114,7 @@ public class RecordsController implements Initializable {
         Parent root;
         stage = (Stage) btnReturn.getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource(
-                "../Menu/finalProjectMenu.fxml"));
+                "/csci205_final_project/Menu/finalProjectMenu.fxml"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         stage.setScene(scene);

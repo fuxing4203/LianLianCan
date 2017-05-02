@@ -3,6 +3,7 @@ package csci205_final_project.GameSaveMenu;
 import Util.SaveAndLoadModelUtil;
 import csci205_final_project.Model.Model;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -40,7 +41,9 @@ public class GameSaveMenuController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // read saves and change the text on the tiles.
         try {
-            Model save1 = SaveAndLoadModelUtil.deserializeModel("ser/save1.ser");
+            Model save1 = SaveAndLoadModelUtil.deserializeModel(
+                    this.getClass().getClassLoader().getResource(
+                            "ser/save1.ser").openConnection().getInputStream());
 
             this.saveSlot1.setText(save1.toString());
         } catch (IOException ex) {
@@ -50,7 +53,9 @@ public class GameSaveMenuController implements Initializable {
         }
 
         try {
-            Model save2 = SaveAndLoadModelUtil.deserializeModel("ser/save2.ser");
+            Model save2 = SaveAndLoadModelUtil.deserializeModel(
+                    this.getClass().getClassLoader().getResource(
+                            "ser/save2.ser").openConnection().getInputStream());
 
             this.saveSlot2.setText(save2.toString());
         } catch (IOException ex) {
@@ -61,7 +66,9 @@ public class GameSaveMenuController implements Initializable {
 
         }
         try {
-            Model save3 = SaveAndLoadModelUtil.deserializeModel("ser/save3.ser");
+            Model save3 = SaveAndLoadModelUtil.deserializeModel(
+                    this.getClass().getClassLoader().getResource(
+                            "ser/save3.ser").openConnection().getInputStream());
             this.saveSlot3.setText(save3.toString());
         } catch (IOException ex) {
 
@@ -82,21 +89,24 @@ public class GameSaveMenuController implements Initializable {
     }
 
     @FXML
-    private void saveInSlot1(ActionEvent event) {
+    private void saveInSlot1(ActionEvent event) throws IOException, URISyntaxException {
         try {
-            SaveAndLoadModelUtil.serializeModel(myModel, "ser/save1.ser");
+            SaveAndLoadModelUtil.serializeModel(myModel,
+                                                this.getClass().getClassLoader().getResource(
+                                                        "ser/save1.ser"));
             this.saveSlot1.setText(myModel.toString());
         } catch (IOException ex) {
             this.saveSlot1.setText("Failed to save");
 
         }
-
     }
 
     @FXML
-    private void saveInSlot2(ActionEvent event) {
+    private void saveInSlot2(ActionEvent event) throws URISyntaxException {
         try {
-            SaveAndLoadModelUtil.serializeModel(myModel, "ser/save2.ser");
+            SaveAndLoadModelUtil.serializeModel(myModel,
+                                                this.getClass().getClassLoader().getResource(
+                                                        "ser/save2.ser"));
             this.saveSlot2.setText(myModel.toString());
         } catch (IOException ex) {
             this.saveSlot2.setText("Failed to save");
@@ -104,9 +114,11 @@ public class GameSaveMenuController implements Initializable {
     }
 
     @FXML
-    private void saveInSlot3(ActionEvent event) {
+    private void saveInSlot3(ActionEvent event) throws URISyntaxException {
         try {
-            SaveAndLoadModelUtil.serializeModel(myModel, "ser/save3.ser");
+            SaveAndLoadModelUtil.serializeModel(myModel,
+                                                this.getClass().getClassLoader().getResource(
+                                                        "ser/save3.ser"));
             this.saveSlot3.setText(myModel.toString());
         } catch (IOException ex) {
             this.saveSlot3.setText("Failed to save");

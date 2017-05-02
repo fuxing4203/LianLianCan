@@ -67,7 +67,9 @@ public class Model implements Serializable {
                     row.add(null);
                 }
                 else {
-                    Tile tile = new Tile(j, i, imgSeq.get(index));
+                    Tile tile = new Tile(j, i,
+                                         this.getClass().getClassLoader().getResource(
+                                                 imgSeq.get(index)).toString());
                     row.add(tile);
                     index += 1;
                 }

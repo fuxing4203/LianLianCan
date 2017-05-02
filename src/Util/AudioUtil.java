@@ -16,8 +16,8 @@
 package Util;
 
 import csci205_final_project.Game.FinalProjectGameSceneController;
-import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
@@ -42,11 +42,10 @@ public class AudioUtil {
      * @param filenameString
      * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
-    public static void playMusic(String filenameString) {
-        File soundFile = new File(filenameString);
+    public static void playMusic(URL url) {
         AudioInputStream sound = null;
         try {
-            sound = AudioSystem.getAudioInputStream(soundFile);
+            sound = AudioSystem.getAudioInputStream(url);
         } catch (UnsupportedAudioFileException ex) {
             Logger.getLogger(FinalProjectGameSceneController.class.getName()).log(
                     Level.SEVERE,

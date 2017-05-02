@@ -68,7 +68,9 @@ public class GameLoadMenuController implements Initializable {
         // if they are, deserialize them and put their information on the buttons.
 
         try {
-            save1 = SaveAndLoadModelUtil.deserializeModel("ser/save1.ser");
+            save1 = SaveAndLoadModelUtil.deserializeModel(
+                    this.getClass().getClassLoader().getResource(
+                            "ser/save1.ser").openConnection().getInputStream());
 
             this.loadSlot1.setText(save1.toString());
         } catch (IOException ex) {
@@ -78,7 +80,9 @@ public class GameLoadMenuController implements Initializable {
         }
 
         try {
-            save2 = SaveAndLoadModelUtil.deserializeModel("ser/save2.ser");
+            save2 = SaveAndLoadModelUtil.deserializeModel(
+                    this.getClass().getClassLoader().getResource(
+                            "ser/save2.ser").openConnection().getInputStream());
 
             this.loadSlot2.setText(save2.toString());
         } catch (IOException ex) {
@@ -89,7 +93,9 @@ public class GameLoadMenuController implements Initializable {
 
         }
         try {
-            save3 = SaveAndLoadModelUtil.deserializeModel("ser/save3.ser");
+            save3 = SaveAndLoadModelUtil.deserializeModel(
+                    this.getClass().getClassLoader().getResource(
+                            "ser/save3.ser").openConnection().getInputStream());
             this.loadSlot3.setText(save3.toString());
         } catch (IOException ex) {
 
@@ -113,7 +119,7 @@ public class GameLoadMenuController implements Initializable {
         }
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                "../Game/finalProjectGameScene.fxml"));
+                "/csci205_final_project/Game/finalProjectGameScene.fxml"));
 
         Parent root;
         BorderPane game = (BorderPane) loader.load();
@@ -141,7 +147,7 @@ public class GameLoadMenuController implements Initializable {
             return;
         }
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                "../Game/finalProjectGameScene.fxml"));
+                "/csci205_final_project/Game/finalProjectGameScene.fxml"));
 
         Parent root;
         BorderPane game = (BorderPane) loader.load();
@@ -169,7 +175,7 @@ public class GameLoadMenuController implements Initializable {
         }
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                "../Game/finalProjectGameScene.fxml"));
+                "/csci205_final_project/Game/finalProjectGameScene.fxml"));
 
         Parent root;
         BorderPane game = (BorderPane) loader.load();

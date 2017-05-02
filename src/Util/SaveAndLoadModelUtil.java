@@ -16,12 +16,15 @@
 package Util;
 
 import csci205_final_project.Model.Model;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 
 /**
  * an utility class for saving and loading
@@ -42,10 +45,8 @@ public class SaveAndLoadModelUtil {
      * <a href="https://www.tutorialspoint.com/java/java_serialization.html">https://www.tutorialspoint.com/java/java_serialization.html</a>
      * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
-    public static Model deserializeModel(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException {
+    public static Model deserializeModel(InputStream fileIn) throws FileNotFoundException, IOException, ClassNotFoundException {
         Model myModel = null;
-        FileInputStream fileIn;
-        fileIn = new FileInputStream(fileName);
         try (final ObjectInputStream in = new ObjectInputStream(fileIn)) {
             myModel = (Model) in.readObject();
         }
@@ -64,12 +65,12 @@ public class SaveAndLoadModelUtil {
      * <a href="https://www.tutorialspoint.com/java/java_serialization.htm">https://www.tutorialspoint.com/java/java_serialization.htm</a>
      * @author Iris Fu, Haipu Sun, Junjie Jiang, Zilin Ma
      */
-    public static void serializeModel(Model myModel, String dirName) throws FileNotFoundException, IOException {
-        FileOutputStream fileOut = new FileOutputStream(dirName);
+    public static void serializeModel(Model myModel, URL url) throws IOException, URISyntaxException {
+        FileOutputStream fileOut = new FileOutputStream(
+                Paths.get(url.toURI()).toFile());
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
         out.writeObject(myModel);
         out.close();
         fileOut.close();
     }
-
 }

@@ -25,9 +25,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
@@ -103,7 +106,8 @@ public class FinalProjectGameSceneController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        AudioUtil.playMusic("sound/music.wav");
+        AudioUtil.playMusic(this.getClass().getClassLoader().getResource(
+                "sound/music.wav"));
         beginTimer();
         data = new ArrayList<>();
     }
@@ -162,11 +166,20 @@ public class FinalProjectGameSceneController implements Initializable {
                     String content;
                     ArrayList<Integer> records = new ArrayList<Integer>();
 
-                    File recordsFile = new File("Records.txt");
+                    File recordsFile = null;
                     BufferedReader br = null;
                     try {
+                        recordsFile = Paths.get(
+                                this.getClass().getClassLoader().getResource(
+                                        "record/Records.txt").toURI()).toFile();
                         br = new BufferedReader(new FileReader(recordsFile));
                     } catch (FileNotFoundException ex) {
+                    } catch (URISyntaxException ex) {
+                        Logger.getLogger(
+                                FinalProjectGameSceneController.class.getName()).log(
+                                java.util.logging.Level.SEVERE,
+                                null,
+                                ex);
                     }
 
                     int i = 0;
@@ -193,12 +206,20 @@ public class FinalProjectGameSceneController implements Initializable {
 
                     try {
                         BufferedWriter out = new BufferedWriter(new FileWriter(
-                                "Records.txt"));
+                                Paths.get(
+                                        this.getClass().getClassLoader().getResource(
+                                                "record/Records.txt").toURI()).toFile()));
                         for (i = 0; i < 3; i++) {
                             out.write(String.format("%d\n", records.get(i)));
                         }
                         out.close();
                     } catch (IOException e) {
+                    } catch (URISyntaxException ex) {
+                        Logger.getLogger(
+                                FinalProjectGameSceneController.class.getName()).log(
+                                java.util.logging.Level.SEVERE,
+                                null,
+                                ex);
                     }
 
                 }
@@ -272,7 +293,7 @@ public class FinalProjectGameSceneController implements Initializable {
     private void btnPause(ActionEvent event) throws IOException, InterruptedException {
         tilePane.getChildren().clear();
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                "../PauseMenu/finalProjectPauseMenu.fxml"));
+                "/csci205_final_project/PauseMenu/finalProjectPauseMenu.fxml"));
 
         VBox pause = (VBox) loader.load();
         FinalProjectPauseMenuController finalProjectPauseMenuController = loader.<FinalProjectPauseMenuController>getController();
@@ -346,8 +367,7 @@ public class FinalProjectGameSceneController implements Initializable {
                     selectRectangle(aRectangle, aTile);
                 });
                 if (aTile != null) {
-                    File file = new File(aTile.getImgName());
-                    Image img = new Image(file.toURI().toString());
+                    Image img = new Image(aTile.getImgName());
                     aRectangle.setFill(new ImagePattern(img));
                 }
                 else {
@@ -474,7 +494,7 @@ public class FinalProjectGameSceneController implements Initializable {
         Parent root;
         stage = (Stage) btnExit.getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource(
-                "../Menu/finalProjectMenu.fxml"));
+                "/csci205_final_project/Menu/finalProjectMenu.fxml"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         stage.setScene(scene);
