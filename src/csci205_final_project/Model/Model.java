@@ -318,6 +318,14 @@ public class Model implements Serializable {
         return score;
     }
 
+    public void setShuffleChance(int shuffleChance) {
+        this.shuffleChance = shuffleChance;
+    }
+
+    public void setHintChance(int hintChance) {
+        this.hintChance = hintChance;
+    }
+
     @Override
     public String toString() {
         return String.format("-- Theme: %5s -- Level: %s-- ", this.getTheme(),
