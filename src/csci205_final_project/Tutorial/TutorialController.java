@@ -20,7 +20,6 @@ import Util.SaveAndLoadModelUtil;
 import csci205_final_project.Model.Level;
 import csci205_final_project.Model.Model;
 import csci205_final_project.Model.Tile;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -89,7 +88,8 @@ public class TutorialController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        AudioUtil.playMusic("sound/music.wav");
+        AudioUtil.playMusic(this.getClass().getClassLoader().getResource(
+                "sound/music.wav"));
         beginTimer();
         data = new ArrayList<>();
     }
@@ -263,8 +263,7 @@ public class TutorialController implements Initializable {
                     }
                 });
                 if (aTile != null) {
-                    File file = new File(aTile.getImgName());
-                    Image img = new Image(file.toURI().toString());
+                    Image img = new Image(aTile.getImgName());
                     aRectangle.setFill(new ImagePattern(img));
                 }
                 else {
@@ -335,10 +334,11 @@ public class TutorialController implements Initializable {
                 }
                 if (theModel.getTotalSize() == 0) {
                     Model tutorial2 = SaveAndLoadModelUtil.deserializeModel(
-                            "tutorials/tutorial2.ser");
+                            this.getClass().getClassLoader().getResource(
+                                    "tutorials/tutorial2.ser").openConnection().getInputStream());
 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                            "../Tutorial/finalProjectTutorial.fxml"));
+                            "/csci205_final_project/Tutorial/finalProjectTutorial.fxml"));
 
                     Parent root;
                     BorderPane game = (BorderPane) loader.load();
@@ -422,7 +422,7 @@ public class TutorialController implements Initializable {
         Parent root;
         stage = (Stage) btnExit.getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource(
-                "../Menu/finalProjectMenu.fxml"));
+                "/csci205_final_project/Menu/finalProjectMenu.fxml"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/csci205_final_project/Menu/menu.css");
         stage.setScene(scene);

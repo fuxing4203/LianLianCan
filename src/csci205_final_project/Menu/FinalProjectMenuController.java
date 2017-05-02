@@ -110,7 +110,7 @@ public class FinalProjectMenuController implements Initializable {
                         "tutorials/tutorial1.ser").openConnection().getInputStream());
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                "/csci205_final_project/Game/finalProjectGameScene.fxml"));
+                "/csci205_final_project/Tutorial/finalProjectTutorial.fxml"));
 
         Parent root;
         BorderPane game = (BorderPane) loader.load();
